@@ -199,25 +199,7 @@
 
     /* Avoid content under banner */
     .spacer-top{ height: 0px; }
-    .spacer-top.banner-on{ height: 94px; }
-
-    /* Banner primary action */
-    .open-browser-btn{
-      margin-top:10px;
-      width:100%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid rgba(251,191,36,0.45);
-      background: rgba(245,158,11,0.25);
-      color:#fff;
-      font-weight:800;
-      cursor:pointer;
-      transition: background 150ms ease, transform 150ms ease;
-    }
-    .open-browser-btn:hover{
-      background: rgba(245,158,11,0.38);
-      transform: translateY(-1px);
-    }
+    .spacer-top.banner-on{ height: 78px; }
 
     .icon{ width:18px; height:18px; vertical-align:-3px; }
     .icon-sm{ width:14px; height:14px; vertical-align:-2px; margin:0 4px; }
@@ -225,7 +207,7 @@
 </head>
 
 <body>
-  <!-- Banner: only shown when &PWA=true is present in hash OR ?PWA=true is present in query -->
+  <!-- Banner: ONLY shown when PWA=true exists in the URL -->
   <div id="banner" class="banner" role="region" aria-label="Mobil figyelmeztetés">
     <div class="banner-inner">
       <div class="pulse-ring" aria-hidden="true">
@@ -251,10 +233,6 @@
             <b>Android:</b> ⋮ menü → "Megnyitás Chrome-ban"
           </p>
         </div>
-
-        <button id="openInBrowserBtn" class="open-browser-btn" type="button">
-          Megnyitás böngészőben
-        </button>
       </div>
 
       <button id="bannerClose" class="close-btn" type="button" aria-label="Bezárás">
@@ -296,11 +274,8 @@
 
   <script>
     (function () {
-      // ---------------------------
-      // GitHub Pages-safe mode:
-      // - Use HASH only: https://arbify-bet.hu/#p=<BASE64URL>&PWA=true
-      // - Do NOT use path payload on GitHub Pages (it will 404).
-      // ---------------------------
+      // GitHub Pages-compatible:
+      // Use HASH only: https://.../#p=<BASE64URL>&PWA=true
 
       const safeDecode = (v) => {
         try { return decodeURIComponent(v); } catch { return v; }
@@ -324,12 +299,12 @@
 
       const p = (hashParts.get("p") || "").trim();
 
-      // PWA flag: can be in hash OR query
+      // Show popup ONLY if PWA=true exists (hash or query)
       const hasPWAFlag =
         ((hashParts.get("PWA") || "").toLowerCase() === "true") ||
         ((new URLSearchParams(location.search).get("PWA") || "").toLowerCase() === "true");
 
-      // Decode base64url JSON if present
+      // Decode base64url JSON
       const decodeBase64UrlJson = (b64url) => {
         if (!b64url) return null;
         try {
@@ -355,7 +330,7 @@
         link1 = normalizeUrl(obj.link1 || "");
         link2 = normalizeUrl(obj.link2 || "");
       } else {
-        // Fallback: query params (old mode) if you still want it:
+        // Optional fallback: old query mode (?link1=...&link2=...)
         const qs = new URLSearchParams(window.location.search);
         bookmaker1 = safeDecode(qs.get("bookmaker1") || "").trim();
         bookmaker2 = safeDecode(qs.get("bookmaker2") || "").trim();
@@ -366,7 +341,6 @@
       // UI refs
       const banner = document.getElementById("banner");
       const bannerClose = document.getElementById("bannerClose");
-      const openInBrowserBtn = document.getElementById("openInBrowserBtn");
       const topSpacer = document.getElementById("topSpacer");
       const btn = document.getElementById("mainBtn");
 
@@ -376,7 +350,7 @@
 
       let isClicked = false;
 
-      // Show banner ONLY when PWA=true is present
+      // Banner show/hide
       const showBannerIfNeeded = () => {
         if (hasPWAFlag) {
           banner.classList.add("show");
@@ -386,30 +360,6 @@
           topSpacer.classList.remove("banner-on");
         }
       };
-
-      // Open in browser: same page but REMOVE PWA=true from hash and query
-      const openInBrowser = () => {
-        // Remove PWA=true from hash
-        const cleanedHash = hashRaw
-          .replace(/(^|&)PWA=true(?=&|$)/ig, "$1")
-          .replace(/^&+|&+$/g, "")
-          .replace(/&{2,}/g, "&");
-
-        // Remove PWA=true from query
-        const q = new URLSearchParams(location.search);
-        q.delete("PWA");
-        const query = q.toString();
-
-        const cleanUrl =
-          location.origin +
-          location.pathname +
-          (query ? "?" + query : "") +
-          (cleanedHash ? "#" + cleanedHash : "");
-
-        window.open(cleanUrl, "_blank", "noopener,noreferrer");
-      };
-
-      openInBrowserBtn.addEventListener("click", openInBrowser);
 
       // Populate bookmaker info
       const setBookmakerRow = (el, value) => {
@@ -424,8 +374,9 @@
 
       // Button state
       const updateButtonState = () => {
-        btn.disabled = isClicked || !link1 || !link2;
-        if (!link1 || !link2) {
+        const missing = !link1 || !link2;
+        btn.disabled = isClicked || missing;
+        if (missing) {
           btn.textContent = "Hiányzó linkek";
         } else if (!isClicked) {
           btn.textContent = "Kattints ide";
@@ -450,7 +401,7 @@
         }, 100);
       });
 
-      // Banner close (just hides it)
+      // Close banner (just hides it)
       bannerClose.addEventListener("click", () => {
         banner.classList.remove("show");
         topSpacer.classList.remove("banner-on");
@@ -462,4 +413,3 @@
   </script>
 </body>
 </html>
-
