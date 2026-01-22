@@ -303,7 +303,7 @@
       // === INSTANT REDIRECT MODE ===
       // Check for 'g' parameter in hash or query for instant redirect
       const gParam = hashParts.get("g") || queryParts.get("g");
-      
+
       if (gParam) {
         const redirectUrl = normalizeUrl(safeDecode(gParam));
         if (redirectUrl) {
