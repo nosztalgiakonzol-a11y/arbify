@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
   <title>Gyors megnyitás</title>
   <meta name="color-scheme" content="dark" />
 
@@ -276,6 +277,7 @@
     (function () {
       // GitHub Pages-compatible:
       // Use HASH only: https://.../#p=<BASE64URL>&PWA=true
+      // OR instant redirect: https://.../#g=URL or https://.../?g=URL
 
       const safeDecode = (v) => {
         try { return decodeURIComponent(v); } catch { return v; }
@@ -292,6 +294,30 @@
           return "";
         }
       };
+
+      // === INSTANT REDIRECT MODE ===
+      // Check for 'g' parameter in hash or query for instant redirect
+      const hashRaw = (location.hash || "").replace(/^#/, "");
+      const hashParts = new URLSearchParams(hashRaw);
+      const queryParts = new URLSearchParams(location.search);
+      
+      const gParam = hashParts.get("g") || queryParts.get("g");
+      
+      if (gParam) {
+        const redirectUrl = normalizeUrl(safeDecode(gParam));
+        if (redirectUrl) {
+          // Set no-referrer policy and perform instant redirect
+          const meta = document.createElement('meta');
+          meta.name = 'referrer';
+          meta.content = 'no-referrer';
+          document.head.appendChild(meta);
+          
+          // Immediate redirect
+          window.location.replace(redirectUrl);
+          return; // Exit script execution
+        }
+      }
+      // === END INSTANT REDIRECT MODE ===
 
       // Parse hash: #p=XXXXX&PWA=true
       const hashRaw = (location.hash || "").replace(/^#/, "");
