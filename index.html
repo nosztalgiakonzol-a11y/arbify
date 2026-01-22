@@ -295,33 +295,24 @@
         }
       };
 
-      // === INSTANT REDIRECT MODE ===
-      // Check for 'g' parameter in hash or query for instant redirect
+      // Parse hash and query parameters
       const hashRaw = (location.hash || "").replace(/^#/, "");
       const hashParts = new URLSearchParams(hashRaw);
       const queryParts = new URLSearchParams(location.search);
-      
+
+      // === INSTANT REDIRECT MODE ===
+      // Check for 'g' parameter in hash or query for instant redirect
       const gParam = hashParts.get("g") || queryParts.get("g");
       
       if (gParam) {
         const redirectUrl = normalizeUrl(safeDecode(gParam));
         if (redirectUrl) {
-          // Set no-referrer policy and perform instant redirect
-          const meta = document.createElement('meta');
-          meta.name = 'referrer';
-          meta.content = 'no-referrer';
-          document.head.appendChild(meta);
-          
-          // Immediate redirect
+          // Immediate redirect (no-referrer policy already set in meta tag)
           window.location.replace(redirectUrl);
           return; // Exit script execution
         }
       }
       // === END INSTANT REDIRECT MODE ===
-
-      // Parse hash: #p=XXXXX&PWA=true
-      const hashRaw = (location.hash || "").replace(/^#/, "");
-      const hashParts = new URLSearchParams(hashRaw);
 
       const p = (hashParts.get("p") || "").trim();
 
