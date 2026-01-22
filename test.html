@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arbify Link Generator - Teszt / Test</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+    h1, h2 { color: #58a6ff; }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #c9d1d9;
+      font-size: 14px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #58a6ff;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #238636;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #2ea043;
+    }
+    .output {
+      margin-top: 24px;
+      padding: 16px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      word-break: break-all;
+    }
+    .output-link {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    .output-link:hover {
+      text-decoration: underline;
+    }
+    .code {
+      background: #0d1117;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      margin-top: 8px;
+      overflow-x: auto;
+    }
+    .test-links {
+      margin-top: 32px;
+      padding: 20px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+    }
+    .test-link {
+      display: block;
+      margin: 12px 0;
+      padding: 12px;
+      background: #0d1117;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #58a6ff;
+    }
+    .test-link:hover {
+      background: #1c2128;
+    }
+    .test-link-desc {
+      color: #8b949e;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔗 Arbify Link Generator - Teszt / Test</h1>
+  
+  <p>Ez egy egyszerű teszt oldal az arbify.hu linkek generálásához.</p>
+  <p>This is a simple test page for generating arbify.hu links.</p>
+
+  <h2>Link Generátor / Link Generator</h2>
+  
+  <div class="form-group">
+    <label>Fogadóiroda 1 neve / Bookmaker 1 Name:</label>
+    <input type="text" id="bookmaker1" value="Tippmix" placeholder="pl. Tippmix">
+  </div>
+
+  <div class="form-group">
+    <label>Fogadóiroda 2 neve / Bookmaker 2 Name:</label>
+    <input type="text" id="bookmaker2" value="BetSafe" placeholder="pl. BetSafe">
+  </div>
+
+  <div class="form-group">
+    <label>Link 1 (teljes URL / full URL):</label>
+    <input type="text" id="link1" value="https://tippmix.hu/fogadas" placeholder="https://...">
+  </div>
+
+  <div class="form-group">
+    <label>Link 2 (teljes URL / full URL):</label>
+    <input type="text" id="link2" value="https://betsafe.com/bet" placeholder="https://...">
+  </div>
+
+  <div class="form-group">
+    <div class="checkbox-group">
+      <input type="checkbox" id="pwa" checked>
+      <label for="pwa" style="margin: 0;">PWA mód / PWA mode</label>
+    </div>
+  </div>
+
+  <button onclick="generateLink()">🚀 Link Generálás / Generate Link</button>
+
+  <div id="output" style="display: none;" class="output">
+    <h3>Generált Link / Generated Link:</h3>
+    <div>
+      <a id="generatedLink" class="output-link" href="#" target="_blank"></a>
+    </div>
+    <div class="code" id="jsonCode"></div>
+    <div class="code" id="base64Code"></div>
+  </div>
+
+  <div class="test-links">
+    <h2>🧪 Előre elkészített teszt linkek / Pre-made Test Links</h2>
+    
+    <a href="index.html#p=eyJib29rbWFrZXIxIjoiVGlwcG1peCIsImJvb2ttYWtlcjIiOiJCZXRTYWZlIiwibGluazEiOiJodHRwczovL3RpcHBtaXguaHUvZm9nYWRhcyIsImxpbmsyIjoiaHR0cHM6Ly9iZXRzYWZlLmNvbS9iZXQifQ" 
+       class="test-link" target="_blank">
+      ✅ Alap link (PWA nélkül) / Basic link (without PWA)
+      <div class="test-link-desc">Tippmix + BetSafe</div>
+    </a>
+
+    <a href="index.html#p=eyJib29rbWFrZXIxIjoiVGlwcG1peCIsImJvb2ttYWtlcjIiOiJCZXRTYWZlIiwibGluazEiOiJodHRwczovL3RpcHBtaXguaHUvZm9nYWRhcyIsImxpbmsyIjoiaHR0cHM6Ly9iZXRzYWZlLmNvbS9iZXQifQ&PWA=true" 
+       class="test-link" target="_blank">
+      📱 PWA link (banner megjelenik) / PWA link (banner shows)
+      <div class="test-link-desc">Tippmix + BetSafe + PWA figyelmeztetés / PWA warning</div>
+    </a>
+
+    <a href="index.html#p=eyJib29rbWFrZXIxIjoiU3plcmVuY3NlasOha3RlayIsImJvb2ttYWtlcjIiOiJUaXBzcG9ydCIsImxpbmsxIjoiaHR0cHM6Ly9zemVyZW5jc2VqYXRlay5odS9zcG9ydGZvZ2FkYXMiLCJsaW5rMiI6Imh0dHBzOi8vdGlwc3BvcnQuaHUvc3BvcnQifQ" 
+       class="test-link" target="_blank">
+      🎲 Magyar ékezetes példa / Hungarian accented example
+      <div class="test-link-desc">Szerencsejáték + Tipsport</div>
+    </a>
+
+    <a href="index.html#p=eyJib29rbWFrZXIxIjoiIiwiYm9va21ha2VyMiI6IiIsImxpbmsxIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSIsImxpbmsyIjoiaHR0cHM6Ly9leGFtcGxlLm9yZyJ9" 
+       class="test-link" target="_blank">
+      🔗 Név nélküli linkek / Links without names
+      <div class="test-link-desc">Csak URL-ek, bookmaker nevek nélkül / Only URLs, no bookmaker names</div>
+    </a>
+
+    <a href="index.html#p=eyJib29rbWFrZXIxIjoiVGVzdCIsImJvb2ttYWtlcjIiOiJUZXN0MiIsImxpbmsxIjoiaHR0cHM6Ly9leGFtcGxlLmNvbSIsImxpbmsyIjoiIn0" 
+       class="test-link" target="_blank">
+      ❌ Hiányos link (második hiányzik) / Incomplete link (second missing)
+      <div class="test-link-desc">Ez letiltva marad / This will stay disabled</div>
+    </a>
+  </div>
+
+  <script>
+    function generateLink() {
+      const bookmaker1 = document.getElementById('bookmaker1').value.trim();
+      const bookmaker2 = document.getElementById('bookmaker2').value.trim();
+      const link1 = document.getElementById('link1').value.trim();
+      const link2 = document.getElementById('link2').value.trim();
+      const pwa = document.getElementById('pwa').checked;
+
+      if (!link1 || !link2) {
+        alert('Mindkét link kötelező! / Both links are required!');
+        return;
+      }
+
+      // Create JSON object
+      const data = {
+        bookmaker1: bookmaker1,
+        bookmaker2: bookmaker2,
+        link1: link1,
+        link2: link2
+      };
+
+      // JSON to string
+      const jsonString = JSON.stringify(data);
+
+      // Base64 encode
+      const base64 = btoa(jsonString);
+
+      // Convert to base64url
+      const base64url = base64
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+      // Build final link
+      const baseUrl = window.location.origin + window.location.pathname.replace('test.html', 'index.html');
+      let finalLink = `${baseUrl}#p=${base64url}`;
+      
+      if (pwa) {
+        finalLink += '&PWA=true';
+      }
+
+      // Display output
+      const output = document.getElementById('output');
+      const linkEl = document.getElementById('generatedLink');
+      const jsonCodeEl = document.getElementById('jsonCode');
+      const base64CodeEl = document.getElementById('base64Code');
+
+      linkEl.href = finalLink;
+      linkEl.textContent = finalLink;
+      jsonCodeEl.textContent = 'JSON: ' + jsonString;
+      base64CodeEl.textContent = 'Base64URL: ' + base64url;
+
+      output.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
