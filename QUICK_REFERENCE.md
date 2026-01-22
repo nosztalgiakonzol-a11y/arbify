@@ -35,7 +35,7 @@ https://arbify.hu/#p=<BASE64URL>&PWA=true
 ## Base64URL Konverzió / Base64URL Conversion
 
 1. JSON → string: `JSON.stringify(data)`
-2. String → base64: `btoa(jsonString)` vagy / or `Buffer.from().toString('base64')`
+2. String → base64: `btoa(jsonString)` vagy / or `Buffer.from(jsonString, 'utf8').toString('base64')`
 3. Base64 → Base64URL:
    - `+` → `-`
    - `/` → `_`

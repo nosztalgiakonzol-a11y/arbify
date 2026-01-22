@@ -212,8 +212,8 @@
       // JSON to string
       const jsonString = JSON.stringify(data);
 
-      // Base64 encode
-      const base64 = btoa(jsonString);
+      // Base64 encode (Note: btoa() works for ASCII. For Unicode, use TextEncoder)
+      const base64 = btoa(unescape(encodeURIComponent(jsonString)));
 
       // Convert to base64url
       const base64url = base64

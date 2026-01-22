@@ -200,6 +200,20 @@ This project is open source.
 
 ## 💡 Tippek / Tips
 
+### Domain konfiguráció / Domain Configuration
+
+A dokumentációban és példákban az `arbify.hu` domain név szerepel. Ha a domain megváltozik, frissíteni kell:
+- README.md példákat
+- test.html fájlban a baseUrl változót
+- AI_PROMPT.md és QUICK_REFERENCE.md példákat
+- LINK_GENERATION_GUIDE.md dokumentációt
+
+The documentation and examples use the `arbify.hu` domain name. If the domain changes, update:
+- README.md examples
+- test.html baseUrl variable
+- AI_PROMPT.md and QUICK_REFERENCE.md examples
+- LINK_GENERATION_GUIDE.md documentation
+
 ### Link tesztelés / Link Testing
 
 Tesztelés előtt ellenőrizd:
