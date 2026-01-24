@@ -95,6 +95,19 @@ if (gParam) {
 }
 ```
 
+## Link Generálás Útmutató
+
+Ha szeretnél linkeket generálni az Arbify alkalmazáshoz (pl. Lovable AI vagy más eszköz használatával), tekintsd meg az alábbi útmutatókat:
+
+- **Magyar verzió**: [LOVABLE_AI_PROMPT.md](LOVABLE_AI_PROMPT.md)
+- **English version**: [LOVABLE_AI_PROMPT_EN.md](LOVABLE_AI_PROMPT_EN.md)
+
+Ezek az útmutatók részletes információkat tartalmaznak a következőkről:
+- Dupla link generálás Base64URL JSON formátumban
+- Instant redirect linkek létrehozása
+- PWA detektálás és használat
+- Példakódok JavaScript-ben
+
 ## GitHub Pages Deployment
 
 Az alkalmazás automatikusan települ GitHub Pages-re amikor változtatásokat pusholsz a `main` branch-be.
