@@ -99,6 +99,7 @@ if (gParam) {
 
 Ha szeretnél linkeket generálni az Arbify alkalmazáshoz (pl. Lovable AI vagy más eszköz használatával), tekintsd meg az alábbi útmutatókat:
 
+### Részletes útmutatók:
 - **Magyar verzió**: [LOVABLE_AI_PROMPT.md](LOVABLE_AI_PROMPT.md)
 - **English version**: [LOVABLE_AI_PROMPT_EN.md](LOVABLE_AI_PROMPT_EN.md)
 
@@ -107,6 +108,16 @@ Ezek az útmutatók részletes információkat tartalmaznak a következőkről:
 - Instant redirect linkek létrehozása
 - PWA detektálás és használat
 - Példakódok JavaScript-ben
+
+### Valódi link példák:
+- **Magyar**: [LINK_EXAMPLES.md](LINK_EXAMPLES.md) - Kész, működő példa linkek Base64URL kódolással
+- **English**: [LINK_EXAMPLES_EN.md](LINK_EXAMPLES_EN.md) - Ready-to-use example links with Base64URL encoding
+
+Ezek a fájlok konkrét, működő példákat tartalmaznak:
+- Dupla link példák Base64URL kódolással
+- Instant redirect példák különböző URL típusokra
+- Komplex URL-ek paraméterekkel
+- JavaScript kódrészletek link generáláshoz
 
 ## GitHub Pages Deployment
 
