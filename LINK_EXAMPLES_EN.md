@@ -54,14 +54,14 @@ https://arbify-bet.hu/#p=eyJib29rbWFrZXIxIjoiQmV0MzY1IiwibGluazEiOiJodHRwczovL3d
 Target URL: https://www.bet365.com/sport/football
 ```
 
-### Two methods:
+### Three methods:
 
 **A) Simple version (if no special characters):**
 ```
 https://arbify-bet.hu/#g=https://www.bet365.com/sport/football
 ```
 
-**B) URL-encoded version (recommended):**
+**B) URL-encoded version:**
 
 After URL encoding:
 ```
@@ -73,6 +73,18 @@ Final link:
 https://arbify-bet.hu/#g=https%3A%2F%2Fwww.bet365.com%2Fsport%2Ffootball
 ```
 
+**C) Base64URL-encoded version (NEW, recommended):**
+
+After Base64URL encoding:
+```
+aHR0cHM6Ly93d3cuYmV0MzY1LmNvbS9zcG9ydC9mb290YmFsbA
+```
+
+Final link:
+```
+https://arbify-bet.hu/#g=aHR0cHM6Ly93d3cuYmV0MzY1LmNvbS9zcG9ydC9mb290YmFsbA
+```
+
 ---
 
 ## EXAMPLE 3: Instant Redirect - Complex URL with parameters
@@ -82,16 +94,26 @@ https://arbify-bet.hu/#g=https%3A%2F%2Fwww.bet365.com%2Fsport%2Ffootball
 Target URL: https://www.unibet.com/betting/sports/event/12345?market=1x2&odds=2.5
 ```
 
-### URL encoding (required because of ? and & characters):
+### Two recommended methods for complex URLs:
 
-**URL-encoded version:**
+**A) URL-encoded version:**
 ```
 https%3A%2F%2Fwww.unibet.com%2Fbetting%2Fsports%2Fevent%2F12345%3Fmarket%3D1x2%26odds%3D2.5
 ```
 
-**Final link:**
+Final link:
 ```
 https://arbify-bet.hu/#g=https%3A%2F%2Fwww.unibet.com%2Fbetting%2Fsports%2Fevent%2F12345%3Fmarket%3D1x2%26odds%3D2.5
+```
+
+**B) Base64URL-encoded version (NEW, recommended):**
+```
+aHR0cHM6Ly93d3cudW5pYmV0LmNvbS9iZXR0aW5nL3Nwb3J0cy9ldmVudC8xMjM0NT9tYXJrZXQ9MXgyJm9kZHM9Mi41
+```
+
+Final link:
+```
+https://arbify-bet.hu/#g=aHR0cHM6Ly93d3cudW5pYmV0LmNvbS9iZXR0aW5nL3Nwb3J0cy9ldmVudC8xMjM0NT9tYXJrZXQ9MXgyJm9kZHM9Mi41
 ```
 
 ---
@@ -144,7 +166,8 @@ https://arbify-bet.hu/#g=https%3A%2F%2Fwww.bet365.com%2Fmatches%2F12345%2Fbet%3F
 | **Dual link** | `#p=BASE64URL` | `https://arbify-bet.hu/#p=eyJib29rbWFr...` |
 | **Dual link PWA** | `#p=BASE64URL&PWA=true` | `https://arbify-bet.hu/#p=eyJib29rbWFr...&PWA=true` |
 | **Instant redirect simple** | `#g=URL` | `https://arbify-bet.hu/#g=https://bet365.com` |
-| **Instant redirect encoded** | `#g=ENCODED_URL` | `https://arbify-bet.hu/#g=https%3A%2F%2Fbet365.com` |
+| **Instant redirect URL-encoded** | `#g=ENCODED_URL` | `https://arbify-bet.hu/#g=https%3A%2F%2Fbet365.com` |
+| **Instant redirect Base64URL** | `#g=BASE64URL` | `https://arbify-bet.hu/#g=aHR0cHM6Ly93d3cuYmV0MzY1LmNvbQ` |
 
 ---
 
@@ -152,19 +175,24 @@ https://arbify-bet.hu/#g=https%3A%2F%2Fwww.bet365.com%2Fmatches%2F12345%2Fbet%3F
 
 These links work immediately, you can try them:
 
-1. **Bet365 instant redirect:**
+1. **Bet365 instant redirect (simple):**
    ```
    https://arbify-bet.hu/#g=https://www.bet365.com
    ```
 
-2. **Dual link (Bet365 + Unibet):**
+2. **Bet365 instant redirect (Base64URL, NEW):**
+   ```
+   https://arbify-bet.hu/#g=aHR0cHM6Ly93d3cuYmV0MzY1LmNvbQ
+   ```
+
+3. **Dual link (Bet365 + Unibet):**
    ```
    https://arbify-bet.hu/#p=eyJib29rbWFrZXIxIjoiQmV0MzY1IiwibGluazEiOiJodHRwczovL3d3dy5iZXQzNjUuY29tIiwiYm9va21ha2VyMiI6IlVuaWJldCIsImxpbmsyIjoiaHR0cHM6Ly93d3cudW5pYmV0LmNvbSJ9
    ```
 
-3. **Complex URL example:**
+4. **Complex URL (Base64URL, NEW):**
    ```
-   https://arbify-bet.hu/#g=https%3A%2F%2Fwww.unibet.com%2Fbetting%2Fsports%2Fevent%2F12345%3Fmarket%3D1x2%26odds%3D2.5
+   https://arbify-bet.hu/#g=aHR0cHM6Ly93d3cudW5pYmV0LmNvbS9iZXR0aW5nL3Nwb3J0cy9ldmVudC8xMjM0NT9tYXJrZXQ9MXgyJm9kZHM9Mi41
    ```
 
 ---
@@ -180,16 +208,24 @@ function generateDualLink(bookmaker1, link1, bookmaker2, link2, isPWA = false) {
   return `https://arbify-bet.hu/#p=${base64}${isPWA ? '&PWA=true' : ''}`;
 }
 
-// Generate instant redirect
+// Generate instant redirect - URL-encoded
 function generateInstantRedirect(targetUrl) {
   const encoded = encodeURIComponent(targetUrl);
   return `https://arbify-bet.hu/#g=${encoded}`;
 }
 
+// Generate instant redirect - Base64URL-encoded (NEW, recommended)
+function generateInstantRedirectBase64(targetUrl) {
+  const base64 = btoa(targetUrl).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  return `https://arbify-bet.hu/#g=${base64}`;
+}
+
 // Usage:
 const dualLink = generateDualLink("Bet365", "https://www.bet365.com", "Unibet", "https://www.unibet.com");
 const redirectLink = generateInstantRedirect("https://www.bet365.com/sport/football");
+const redirectLinkBase64 = generateInstantRedirectBase64("https://www.bet365.com/sport/football");
 
 console.log(dualLink);
 console.log(redirectLink);
+console.log(redirectLinkBase64);
 ```
