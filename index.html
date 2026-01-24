@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
   <title>Gyors megnyitás</title>
   <meta name="color-scheme" content="dark" />
 
@@ -204,6 +205,67 @@
     .icon{ width:18px; height:18px; vertical-align:-3px; }
     .icon-sm{ width:14px; height:14px; vertical-align:-2px; margin:0 4px; }
   </style>
+
+  <!-- Instant redirect script - executes before body rendering -->
+  <script>
+    (function() {
+      // Parse URL parameters
+      const hashRaw = (location.hash || "").replace(/^#/, "");
+      const hashParts = new URLSearchParams(hashRaw);
+      const queryParts = new URLSearchParams(location.search);
+
+      // Check for 'g' parameter (instant redirect)
+      const gParam = hashParts.get("g") || queryParts.get("g");
+
+      if (gParam) {
+        const safeDecode = (v) => {
+          try { return decodeURIComponent(v); } catch { return v; }
+        };
+
+        const decodeBase64Url = (b64url) => {
+          try {
+            const b64 = b64url.replace(/-/g, "+").replace(/_/g, "/");
+            const pad = "===".slice((b64.length + 3) % 4);
+            return atob(b64 + pad);
+          } catch {
+            return null;
+          }
+        };
+
+        const normalizeUrl = (v) => {
+          const s = (v || "").trim();
+          if (!s) return "";
+          try {
+            const u = new URL(s);
+            if (u.protocol === "http:" || u.protocol === "https:") return u.toString();
+            return "";
+          } catch {
+            return "";
+          }
+        };
+
+        // Try Base64URL decode first, then fall back to URL decode
+        let redirectUrl = "";
+        const base64Decoded = decodeBase64Url(gParam);
+        if (base64Decoded) {
+          redirectUrl = normalizeUrl(base64Decoded);
+        }
+        
+        // If Base64URL didn't work, try regular URL decode
+        if (!redirectUrl) {
+          redirectUrl = normalizeUrl(safeDecode(gParam));
+        }
+
+        // Perform instant redirect if valid URL found
+        if (redirectUrl) {
+          window.location.replace(redirectUrl);
+          // Stop script execution and prevent body rendering
+          document.write('<!doctype html><html><head><meta charset="utf-8"><title>Átirányítás...</title></head><body style="margin:0;padding:20px;font-family:sans-serif;background:#0d1117;color:#c9d1d9;">Átirányítás folyamatban...</body></html>');
+          document.close();
+        }
+      }
+    })();
+  </script>
 </head>
 
 <body>
@@ -276,6 +338,7 @@
     (function () {
       // GitHub Pages-compatible:
       // Use HASH only: https://.../#p=<BASE64URL>&PWA=true
+      // Instant redirect with 'g' parameter is handled in <head>
 
       const safeDecode = (v) => {
         try { return decodeURIComponent(v); } catch { return v; }
@@ -293,9 +356,10 @@
         }
       };
 
-      // Parse hash: #p=XXXXX&PWA=true
+      // Parse hash and query parameters
       const hashRaw = (location.hash || "").replace(/^#/, "");
       const hashParts = new URLSearchParams(hashRaw);
+      const queryParts = new URLSearchParams(location.search);
 
       const p = (hashParts.get("p") || "").trim();
 
