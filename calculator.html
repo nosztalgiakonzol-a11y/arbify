@@ -164,6 +164,7 @@
   .modal-backdrop{ position: fixed; inset: 0; background: rgba(0,0,0,.45); opacity: 0; pointer-events: none; transition: opacity .18s ease; z-index: 999; }
   .modal-backdrop.show{ opacity: 1; pointer-events: auto; }
   .modal{ position: fixed; inset: 0; display: grid; place-items: center; z-index: 1000; pointer-events: none; }
+  .modal[hidden], .modal-backdrop[hidden]{ display:none !important; }
   .modal .box{
     width: min(92vw, 420px); background: rgba(34,40,49,.98); border:1px solid rgba(255,255,255,.08);
     border-radius:16px; padding:16px; box-shadow: 0 20px 60px rgba(0,0,0,.45);
@@ -186,6 +187,17 @@
   }
   .settings-btn:hover{ box-shadow: 0 6px 16px rgba(0,0,0,.35); }
   .settings-btn img{ width:22px; height:22px; display:block; }
+  .help-btn{
+    position:absolute; top:12px; right:12px;
+    width:36px; height:36px; border-radius:999px; padding:0;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(34,40,49,.88); color:#fff; font-weight:800; font-size:20px; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    z-index: 3;
+  }
+  .help-btn:hover{ box-shadow: 0 6px 16px rgba(0,0,0,.35); }
+  .help-btn:focus-visible{ outline:2px solid #00ff88; outline-offset:2px; }
 
   .setting-row{ display:flex; align-items:center; gap:12px; padding:10px 0; }
   .setting-row .lbl{ font-weight:700; color:#e6ffe6; }
@@ -210,6 +222,21 @@
   .popup-modal .txt{ color:#e0e0e0; line-height:1.35; margin-top:6px; }
   .modal .btns{ display:flex; gap:10px; justify-content:flex-end; margin-top:14px; flex-wrap:wrap; }
   .inline-link{ border:1px solid #00ff88; background:#173329; color:#bfffdc; border-radius:10px; padding:10px 14px; text-decoration:none; font-weight:700; }
+  .help-modal-panel{ place-items: start end; padding: 58px 14px 0; }
+  .help-modal-panel .box{
+    width:min(92vw, 360px);
+    border-color: rgba(0,255,136,.26);
+    box-shadow: 0 20px 44px rgba(0,0,0,.45), 0 0 0 1px rgba(0,255,136,.08);
+  }
+  .help-menu{ display:grid; gap:10px; margin-top:8px; }
+  .help-row{
+    display:grid; grid-template-columns:1fr auto; align-items:center; gap:10px;
+    background: rgba(0,255,136,.07); border:1px solid rgba(0,255,136,.18); border-radius:12px;
+    padding:10px 12px;
+  }
+  .help-row .lbl{ color:#e6ffe6; font-weight:700; line-height:1.35; }
+  .help-row .lbl.note{ color:#d7dbe0; font-weight:600; font-size:.94rem; }
+  .help-row .inline-link{ min-width:122px; text-align:center; }
 
   .calc-toast{
     position: absolute;
@@ -282,14 +309,18 @@
   .match-pill{ cursor: pointer; user-select: none; outline: none; transition: box-shadow .18s ease, border-color .18s ease, background .18s ease; }
   .match-pill.copied{ border-color: rgba(0,255,204,.38); box-shadow: 0 0 0 3px rgba(0,255,204,.10), 0 4px 18px rgba(0,255,204,.12); }
   .match-pill.copied .text{ background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); padding: 2px 6px; border-radius: 8px; }
+  .url-help{ margin:10px 0 6px; color:#d7dbe0; }
+  .url-help > summary{ cursor:pointer; font-weight:700; }
+  .url-help-body{ margin-top:8px; font-size:.92rem; line-height:1.35; }
   </style>
 </head>
 <body>
   <div class="calculator" role="main" aria-label="Arbitrázs kalkulátor">
     <!-- Beállítások gomb -->
-    <button class="settings-btn" id="settingsBtn" aria-label="Beállítások">
+    <button class="settings-btn" id="settingsBtn" aria-label="Beállítások" style="display: none;">
       <img src="123.png" alt="Beállítások">
     </button>
+    <button class="help-btn" id="helpBtn" aria-label="Segítség">?</button>
 
     <!-- Beállítások -->
     <div class="modal-backdrop" id="settingsBackdrop" hidden></div>
@@ -336,6 +367,25 @@
         </div>
       </div>
     </div>
+    <div class="modal-backdrop" id="helpBackdrop" hidden></div>
+    <div class="modal help-modal-panel" id="helpModal" hidden>
+      <div class="box">
+        <div class="hdr">
+          <div class="title" id="helpTitle">Segítség</div>
+          <span class="close-x" id="helpClose">✕</span>
+        </div>
+        <div class="help-menu">
+          <div class="help-row">
+            <div class="lbl" id="helpNoAccount">Nincs fiókod az irodákhoz?</div>
+            <a id="helpRegisterLink" class="inline-link" href="#" target="_blank" rel="noopener">Regisztrálj itt</a>
+          </div>
+          <div class="help-row">
+            <div class="lbl note" id="helpNote">Elakadtál vagy nem értesz valamit? Nézd meg a rövid útmutatót.</div>
+            <a id="helpGuideLink" class="inline-link" href="#" target="_blank" rel="noopener">Útmutató</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="logo-wrapper">
       <img src="logo21.png" alt="Logó" class="logo" />
@@ -358,7 +408,6 @@
 
     <label for="stake">Teljes tét (Ft)</label>
     <input type="number" id="stake" step="1" min="1" placeholder="pl. 10000" value="10000" />
-
     <div id="quickBetWrap"></div>
     <div id="bookmakerButtons"></div>
 
@@ -379,10 +428,132 @@
   };
   const _getBookVal = key => _getHiddenVal(key) ?? (new URLSearchParams(window.location.search)).get(key);
 
-  const eurRate = 381;
-  const ronRate = 75; // 1 RON ≈ 80 HUF
-  const GUIDE_URL = "https://discord.com/channels/1352389902033096724/1400422649502502953/1420467090929750128";
+  let eurRate = 381;
+  const ronRate = 75; // 1 RON ≈ 75 HUF
+  const rsdRate = 3.3; // 1 RSD ≈ 3.3 HUF
+  const EXCHANGE_RATE_FETCH_TIMEOUT_MS = 4500;
+  const MIN_VALID_EUR_RATE = 200;
+  const MAX_VALID_EUR_RATE = 600;
+  const EUR_RATE_SOURCES = [
+    { url: 'https://api.frankfurter.app/latest?from=EUR&to=HUF', map: d => d?.rates?.HUF },
+    { url: 'https://open.er-api.com/v6/latest/EUR', map: d => d?.rates?.HUF }
+  ];
+  const GUIDE_URL_BY_LANG = {
+    hu: "https://arbify-bet.hu/tutorial-hu",
+    rs: "https://arbify-bet.hu/tutorial-sr",
+    ro: "https://arbify-bet.hu/tutorial-ro"
+  };
+  const REGISTER_URL_BY_LANG = {
+    hu: "https://arbify-bet.hu/register",
+    rs: "https://arbify-bet.hu/register?lang=rs",
+    ro: "https://arbify-bet.hu/register?lang=ro"
+  };
   const POPUP_AUTO_DISMISS_MS = 7500;
+  const getGuideUrl = (lang) => GUIDE_URL_BY_LANG[lang] || GUIDE_URL_BY_LANG[detectLang()] || GUIDE_URL_BY_LANG.hu;
+  const getRegisterUrl = (lang) => REGISTER_URL_BY_LANG[lang] || REGISTER_URL_BY_LANG[detectLang()] || REGISTER_URL_BY_LANG.hu;
+  const I18N = {
+    hu: {
+      pageTitle: 'Arbitrázs Kalkulátor – Dark Mode',
+      appTitle: 'Arbitrázs Kalkulátor',
+      odds1: 'Odds 1',
+      odds2: 'Odds 2',
+      totalStake: 'Teljes tét (Ft)',
+      stakeWord: 'tét',
+      calculate: 'Számolás',
+      calculateAria: 'Számolás indítása',
+      loadError: 'Hiba történt a betöltéskor.',
+      resultIf1: 'Eredmény, ha az 1-es nyer:',
+      resultIf2: 'Eredmény, ha a 2-es nyer:',
+      resultIfBookWins: 'Eredmény, ha a(z) {book} nyer:',
+      guaranteedProfit: 'Garantált profit:',
+      helpTitle: 'Segítség',
+      helpNoAccount: 'Nincs fiókod az irodákhoz?',
+      helpRegister: 'Regisztrálj itt',
+      helpNote: 'Elakadtál vagy nem értesz valamit? Nézd meg a rövid útmutatót.',
+      helpGuide: 'Útmutató',
+      popupBlockedTitle: 'Automatikus nyitás blokkolva',
+      popupBlockedText: 'Ha nem működik az automatikus megnyitás, nézd meg a rövid útmutatót.'
+    },
+    rs: {
+      pageTitle: 'Arbitražni Kalkulator – Dark Mode',
+      appTitle: 'Arbitražni Kalkulator',
+      odds1: 'Kvota 1',
+      odds2: 'Kvota 2',
+      totalStake: 'Ukupan ulog (Ft)',
+      stakeWord: 'ulog',
+      calculate: 'Izračunaj',
+      calculateAria: 'Pokreni računanje',
+      loadError: 'Došlo je do greške pri učitavanju.',
+      resultIf1: 'Rezultat ako pobedi 1:',
+      resultIf2: 'Rezultat ako pobedi 2:',
+      resultIfBookWins: 'Rezultat ako pobedi {book}:',
+      guaranteedProfit: 'Garantovani profit:',
+      helpTitle: 'Pomoć',
+      helpNoAccount: 'Nemaš nalog kod kladionica?',
+      helpRegister: 'Registruj se ovde',
+      helpNote: 'Zapeo si ili ti nešto nije jasno? Pogledaj kratko uputstvo.',
+      helpGuide: 'Uputstvo',
+      popupBlockedTitle: 'Automatsko otvaranje je blokirano',
+      popupBlockedText: 'Ako automatsko otvaranje ne radi, pogledaj kratko uputstvo.'
+    },
+    ro: {
+      pageTitle: 'Calculator Arbitraj – Dark Mode',
+      appTitle: 'Calculator Arbitraj',
+      odds1: 'Cotă 1',
+      odds2: 'Cotă 2',
+      totalStake: 'Miză totală (Ft)',
+      stakeWord: 'miză',
+      calculate: 'Calculează',
+      calculateAria: 'Pornește calculul',
+      loadError: 'A apărut o eroare la încărcare.',
+      resultIf1: 'Rezultat dacă iese 1:',
+      resultIf2: 'Rezultat dacă iese 2:',
+      resultIfBookWins: 'Rezultat dacă câștigă {book}:',
+      guaranteedProfit: 'Profit garantat:',
+      helpTitle: 'Ajutor',
+      helpNoAccount: 'Nu ai cont la casele de pariuri?',
+      helpRegister: 'Înregistrează-te aici',
+      helpNote: 'Te-ai blocat sau nu înțelegi ceva? Vezi ghidul scurt.',
+      helpGuide: 'Ghid',
+      popupBlockedTitle: 'Deschiderea automată este blocată',
+      popupBlockedText: 'Dacă deschiderea automată nu funcționează, vezi ghidul scurt.'
+    }
+  };
+  function detectLang() {
+    const search = new URLSearchParams(window.location.search);
+    const q = (search.get('lang') || '').toLowerCase();
+    if (q === 'rs' || q === 'ro') return q;
+    const path = String(window.location.pathname || '').toLowerCase().replace(/\/+$/, '');
+    if (path.endsWith('/rs')) return 'rs';
+    if (path.endsWith('/ro')) return 'ro';
+    return 'hu';
+  }
+  let currentLang = detectLang();
+  const t = (k) => I18N[currentLang][k] || I18N.hu[k] || k;
+  function applyI18nStatic() {
+    // A HTML lang attribútumában szerbhez az ISO-kód: "sr"
+    document.documentElement.lang = currentLang === 'rs' ? 'sr' : currentLang;
+    document.title = t('pageTitle');
+    const h1 = document.querySelector('h1'); if (h1) h1.textContent = t('appTitle');
+    labelOdds1.textContent = t('odds1');
+    labelOdds2.textContent = t('odds2');
+    const stakeLabel = document.querySelector('label[for="stake"]');
+    if (stakeLabel) stakeLabel.textContent = t('totalStake');
+    calcButton.textContent = t('calculate');
+    calcButton.setAttribute('aria-label', t('calculateAria'));
+    const helpBtn = document.getElementById('helpBtn');
+    const helpTitle = document.getElementById('helpTitle');
+    const helpNoAccount = document.getElementById('helpNoAccount');
+    const helpRegister = document.getElementById('helpRegisterLink');
+    const helpNote = document.getElementById('helpNote');
+    const helpGuide = document.getElementById('helpGuideLink');
+    if (helpBtn) helpBtn.setAttribute('aria-label', t('helpTitle'));
+    if (helpTitle) helpTitle.textContent = t('helpTitle');
+    if (helpNoAccount) helpNoAccount.textContent = t('helpNoAccount');
+    if (helpRegister) helpRegister.textContent = t('helpRegister');
+    if (helpNote) helpNote.textContent = t('helpNote');
+    if (helpGuide) helpGuide.textContent = t('helpGuide');
+  }
 
   // LS kulcsok
   const LS_KEY_AUTO_OPEN = 'autoOpenLinks';           // betöltéskor automatikus nyitás
@@ -478,7 +649,7 @@
     }
   }
 
-  // Deviza módok (HUF/EUR/RON)
+  // Deviza módok (HUF/EUR/RON/RSD)
   let stakeMode1 = 'HUF';
   let stakeMode2 = 'HUF';
 
@@ -501,12 +672,16 @@
   let isFocusedS1 = false;
   let isFocusedS2 = false;
 
-  const labelFor = m => (m === 'EUR' ? 'EUR' : (m === 'RON' ? 'RON' : 'Ft'));
+  const localModeForLang = () => (currentLang === 'ro' ? 'RON' : (currentLang === 'rs' ? 'RSD' : 'HUF')); // hu/default -> HUF
+  const isLocalMode = m => (m === 'RON' || m === 'RSD');
+  const localRateForMode = m => (m === 'RON' ? ronRate : (m === 'RSD' ? rsdRate : 1));
+  const labelFor = m => (m === 'EUR' ? 'EUR' : (m === 'RON' ? 'RON' : (m === 'RSD' ? 'RSD' : 'Ft')));
 
   // BETÖLTÉSKOR
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.calculator')?.classList.add('visible');
     try {
+      applyI18nStatic();
       applyURLParamsToFields();
 
       // Hidden paramok kitöltése (case-insensitive)
@@ -518,6 +693,8 @@
       if (meccsParam) { const el = _hidden('Meccs'); if (el) el.value = meccsParam; }
 
       autoSetCurrencyModesFromBooks();
+      refreshEurRate();
+      setInterval(refreshEurRate, 30 * 60 * 1000);
       renderMatchPill();
 
       const meccsEl = document.getElementById('Meccs');
@@ -528,7 +705,7 @@
       initCalculate();
     } catch (e) {
       console.error(e);
-      errorDiv.textContent = 'Hiba történt a betöltéskor.';
+      errorDiv.textContent = t('loadError');
     }
   });
 
@@ -544,10 +721,51 @@
     const n = Number(valueHuf) || 0;
     return n < 10000 ? 50 : 100;
   }
+  function getLocalCurrencyStep(mode, currentHufValue){
+    if (mode === 'RSD') return 10;
+    if (mode === 'RON') {
+      const rate = localRateForMode(mode) || 1;
+      const currentLocal = (Number(currentHufValue) || 0) / rate;
+      return currentLocal < 200 ? 1 : 5;
+    }
+    return 1;
+  }
+  function localStepInHUF(mode, currentHufValue){
+    return localRateForMode(mode) * getLocalCurrencyStep(mode, currentHufValue);
+  }
   function stepForMode(mode, currentHufValue){
     if (mode === 'EUR') return 0.1;
-    if (mode === 'RON') return 1;
+    if (isLocalMode(mode)) return getLocalCurrencyStep(mode, currentHufValue);
     return stepForHUF(currentHufValue);
+  }
+  async function refreshEurRate(){
+    for (const src of EUR_RATE_SOURCES) {
+      let timeout;
+      try {
+        const controller = new AbortController();
+        timeout = setTimeout(() => controller.abort(), EXCHANGE_RATE_FETCH_TIMEOUT_MS);
+        const res = await fetch(src.url, { signal: controller.signal, cache: 'no-store' });
+        if (!res.ok) continue;
+        const data = await res.json();
+        const raw = src.map(data);
+        if (raw == null) continue;
+        const next = Number(raw);
+        if (Number.isFinite(next) && next > MIN_VALID_EUR_RATE && next < MAX_VALID_EUR_RATE) {
+          eurRate = next;
+          if (stake1Input && stake2Input) {
+            const odds1 = parseFloat(odds1Field.value.replace(',', '.'));
+            const odds2 = parseFloat(odds2Field.value.replace(',', '.'));
+            updateProfits(odds1, odds2);
+            updateStakeAltDisplays();
+          }
+          return;
+        }
+      } catch (err) {
+        console.warn('Failed to refresh EUR rate from source:', src.url, err);
+      } finally {
+        if (timeout) clearTimeout(timeout);
+      }
+    }
   }
   function sanitizeUrl(u) {
     try {
@@ -593,11 +811,11 @@
 
      stakeMode1 = (b1l && ronBooks.has(b1l)) ? 'RON'
                : (b1l && eurBooks.has(b1l)) ? 'EUR'
-               : 'HUF';
+               : localModeForLang();
 
      stakeMode2 = (b2l && ronBooks.has(b2l)) ? 'RON'
                : (b2l && eurBooks.has(b2l)) ? 'EUR'
-               : 'HUF';
+               : localModeForLang();
   }
 
   // Gombok megjelenítése + Gyors megnyitás viselkedése
@@ -624,41 +842,7 @@
         seen.add(key);
       });
 
-      if (books.length && quickWrap) {
-        const quick = document.createElement("a");
-        quick.id = "quickBetBtn";
-        quick.className = "book-link";
-        const quickUrls = collectBookmakerUrls();
-        quick.href = buildQuickBetLink(quickUrls); // fallback /gyors (ha a kapcsoló KI van)
-        quick.target = "_blank";
-        quick.rel = "noopener";
-        quick.textContent = "Gyors megnyitás";
-
-        // BE kapcsolva: CSAK a két iroda linkje nyíljon, a /gyors NE!
-        quick.addEventListener('click', (e) => {
-          const enabled = (localStorage.getItem(LS_KEY_OPEN_ALL_ON_QUICK) || 'false') === 'true';
-          if (!enabled) return; // menjen a /gyors linkre normálisan
-
-          e.preventDefault(); // sose nyissuk meg a /gyors oldalt, ha be van kapcsolva
-          const urls = collectBookmakerUrls();
-          if (!urls.length) return;
-
-          let openedCount = 0;
-          urls.forEach(u => {
-            try {
-              const w = window.open(u, '_blank', 'noopener');
-              if (w) openedCount++;
-            } catch {}
-          });
-
-          if (openedCount === 0) {
-            // popup blokkoló – jelzés (de a /gyors így sem nyílik meg)
-            showPopupHint();
-          }
-        });
-
-        quickWrap.appendChild(quick);
-      }
+      // Gyors megnyitás gomb ideiglenesen kikapcsolva.
 
       // Iroda gombok
       books.forEach(bm => {
@@ -718,18 +902,18 @@
   function displayToHUF(displayValue, mode){
     const n = Number(String(displayValue).replace(',', '.')) || 0;
     if (mode === 'EUR') return n * eurRate;
-    if (mode === 'RON') return n * ronRate;
+    if (isLocalMode(mode)) return n * localRateForMode(mode);
     return n;
   }
   function hufToDisplay(hufValue, mode){
     const n = Number(hufValue) || 0;
     if (mode === 'EUR') return (n / eurRate);
-    if (mode === 'RON') return (n / ronRate);
+    if (isLocalMode(mode)) return (n / localRateForMode(mode));
     return n;
   }
   function formatDisplay(n, mode){
     if (mode === 'EUR') return (Math.round(n * 10) / 10).toFixed(1);
-    return Math.round(n).toString(); // HUF és RON: egész
+    return Math.round(n).toString(); // HUF/RON/RSD: egész
   }
   function roundToTenthEUR(x) {
     const n = Number(x);
@@ -812,7 +996,7 @@
   // ==== Kerekítés és léptetés ====
   function roundedPairFrom(source, s1HUF, s2HUF, o1, o2){
     const stepForHufOrRon = (hufValue, mode) => {
-      if (mode === 'RON') return ronRate; // egész RON HUF-térben
+      if (isLocalMode(mode)) return localStepInHUF(mode, hufValue);
       return stepForHUF(hufValue);
     };
 
@@ -948,6 +1132,7 @@
 
   function updateProfits(odds1, odds2) {
     if (!stake1Input || !stake2Input) return;
+    updateResultLabels();
 
     const [s1HUF, s2HUF] = getDisplayStakesHUF(odds1, odds2);
     const totalInvested = s1HUF + s2HUF;
@@ -962,12 +1147,15 @@
 
     const nfFt = new Intl.NumberFormat('hu-HU');
 
-    const useRON = (stakeMode1 === 'RON' && stakeMode2 === 'RON');
+    const profitMode = currentLang === 'ro'
+      ? 'RON'
+      : (currentLang === 'rs' ? 'RSD' : ((stakeMode1 === stakeMode2 && isLocalMode(stakeMode1)) ? stakeMode1 : null));
+    const localCurrencyLabel = profitMode || 'Ft';
     const formatProfit = (amtHUF) => {
-      if (!Number.isFinite(amtHUF)) return useRON ? '- RON' : '- Ft';
-      if (useRON) {
-        const ron = Math.round(amtHUF / ronRate);
-        return `${ron.toLocaleString('hu-HU')} RON`;
+      if (!Number.isFinite(amtHUF)) return `- ${localCurrencyLabel}`;
+      if (profitMode) {
+        const local = Math.round(amtHUF / localRateForMode(profitMode));
+        return `${local.toLocaleString('hu-HU')} ${localCurrencyLabel}`;
       }
       return `${nfFt.format(Math.round(amtHUF))} Ft`;
     };
@@ -980,7 +1168,7 @@
     p2El.textContent = formatProfit(profit2);
     gv.textContent   = Number.isFinite(guaranteed)
       ? `${formatProfit(guaranteed)} (${guaranteedPercent.toFixed(2)}%)`
-      : (useRON ? '- RON' : '- Ft');
+      : `- ${localCurrencyLabel}`;
 
     const LOW_BAND = 1;
 
@@ -1010,6 +1198,20 @@
     stakeField.value = String(Math.round(totalInvested));
   }
 
+  function resultLabelForBook(bookKey, fallbackKey) {
+    const key = String(bookKey || '').toLowerCase().trim();
+    const bookLabel = (key && bookmakers[key] && bookmakers[key].label) ? bookmakers[key].label : '';
+    if (!bookLabel) return t(fallbackKey);
+    return t('resultIfBookWins').replace('{book}', bookLabel);
+  }
+
+  function updateResultLabels() {
+    const labelP1 = document.querySelector('#profit1Row .label-text');
+    const labelP2 = document.querySelector('#profit2Row .label-text');
+    if (labelP1) labelP1.textContent = resultLabelForBook(_getBookVal('odds1Book'), 'resultIf1');
+    if (labelP2) labelP2.textContent = resultLabelForBook(_getBookVal('odds2Book'), 'resultIf2');
+  }
+
   function updateStakeAltDisplays() {
     if (!stake1Input || !stake2Input) return;
     const odds1 = parseFloat(odds1Field.value.replace(',', '.'));
@@ -1020,7 +1222,17 @@
     const s1AltEl = document.getElementById('stake1Alt');
     const s2AltEl = document.getElementById('stake2Alt');
 
-    if (stakeMode1 === 'EUR' || stakeMode1 === 'RON') {
+    const localMode = localModeForLang();
+    const onlyLocalAndEur = (currentLang === 'ro' || currentLang === 'rs');
+    if (onlyLocalAndEur) {
+      if (stakeMode1 === 'EUR') {
+        const local1 = Number.isFinite(s1HUF) ? Math.round(s1HUF / localRateForMode(localMode)) : null;
+        if (s1AltEl){ s1AltEl.className = 'ft-value'; s1AltEl.textContent = local1 != null ? `= ${local1.toLocaleString('hu-HU')} ${labelFor(localMode)}` : ''; }
+      } else {
+        const eur1 = Number.isFinite(s1HUF) ? roundToTenthEUR(s1HUF / eurRate) : null;
+        if (s1AltEl){ s1AltEl.className = 'eur-value'; s1AltEl.textContent = eur1 != null ? `= ${eur1.toLocaleString('hu-HU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR` : ''; }
+      }
+    } else if (stakeMode1 === 'EUR' || isLocalMode(stakeMode1)) {
       const ft1 = Number.isFinite(s1HUF) ? s1HUF : null;
       if (s1AltEl){ s1AltEl.className = 'ft-value'; s1AltEl.textContent = ft1 != null ? `= ${ft1.toLocaleString('hu-HU')} Ft` : ''; }
     } else {
@@ -1028,7 +1240,15 @@
       if (s1AltEl){ s1AltEl.className = 'eur-value'; s1AltEl.textContent = eur1 != null ? `= ${eur1.toLocaleString('hu-HU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR` : ''; }
     }
 
-    if (stakeMode2 === 'EUR' || stakeMode2 === 'RON') {
+    if (onlyLocalAndEur) {
+      if (stakeMode2 === 'EUR') {
+        const local2 = Number.isFinite(s2HUF) ? Math.round(s2HUF / localRateForMode(localMode)) : null;
+        if (s2AltEl){ s2AltEl.className = 'ft-value'; s2AltEl.textContent = local2 != null ? `= ${local2.toLocaleString('hu-HU')} ${labelFor(localMode)}` : ''; }
+      } else {
+        const eur2 = Number.isFinite(s2HUF) ? roundToTenthEUR(s2HUF / eurRate) : null;
+        if (s2AltEl){ s2AltEl.className = 'eur-value'; s2AltEl.textContent = eur2 != null ? `= ${eur2.toLocaleString('hu-HU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR` : ''; }
+      }
+    } else if (stakeMode2 === 'EUR' || isLocalMode(stakeMode2)) {
       const ft2 = Number.isFinite(s2HUF) ? s2HUF : null;
       if (s2AltEl){ s2AltEl.className = 'ft-value'; s2AltEl.textContent = ft2 != null ? `= ${ft2.toLocaleString('hu-HU')} Ft` : ''; }
     } else {
@@ -1038,8 +1258,8 @@
 
     const s1Label = document.getElementById('stake1Label');
     const s2Label = document.getElementById('stake2Label');
-    if (s1Label) s1Label.textContent = `${labelOdds1.textContent} tét (${labelFor(stakeMode1)}):`;
-    if (s2Label) s2Label.textContent = `${labelOdds2.textContent} tét (${labelFor(stakeMode2)}):`;
+    if (s1Label) s1Label.textContent = `${labelOdds1.textContent} ${t('stakeWord')} (${labelFor(stakeMode1)}):`;
+    if (s2Label) s2Label.textContent = `${labelOdds2.textContent} ${t('stakeWord')} (${labelFor(stakeMode2)}):`;
   }
 
   function toggleStakeMode(which){
@@ -1048,12 +1268,12 @@
 
     if (which === 1 && stake1Input) {
       const currentHUF = displayToHUF(stake1Input.value, stakeMode1);
-      stakeMode1 = (stakeMode1 === 'EUR') ? 'HUF' : 'EUR';
+      stakeMode1 = (stakeMode1 === 'EUR') ? localModeForLang() : 'EUR';
       writeDisplayStake(stake1Input, currentHUF, stakeMode1);
     }
     if (which === 2 && stake2Input) {
       const currentHUF = displayToHUF(stake2Input.value, stakeMode2);
-      stakeMode2 = (stakeMode2 === 'EUR') ? 'HUF' : 'EUR';
+      stakeMode2 = (stakeMode2 === 'EUR') ? localModeForLang() : 'EUR';
       writeDisplayStake(stake2Input, currentHUF, stakeMode2);
     }
 
@@ -1108,7 +1328,7 @@
       setTimeout(()=>{ backdrop.hidden = true; modal.hidden = true; }, 180);
     };
 
-    if (guideLinkEl) guideLinkEl.href = GUIDE_URL;
+    if (guideLinkEl) guideLinkEl.href = getGuideUrl();
 
     // Betöltés: állapotok
     const savedAuto = (localStorage.getItem(LS_KEY_AUTO_OPEN) || 'false') === 'true';
@@ -1127,6 +1347,33 @@
     toggleOpenAll.addEventListener('change', ()=>{ localStorage.setItem(LS_KEY_OPEN_ALL_ON_QUICK, toggleOpenAll.checked ? 'true' : 'false'); });
   })();
 
+  (function initHelpUI(){
+    const btn = document.getElementById('helpBtn');
+    const modal = document.getElementById('helpModal');
+    const backdrop = document.getElementById('helpBackdrop');
+    const closeX = document.getElementById('helpClose');
+    const guide = document.getElementById('helpGuideLink');
+    const register = document.getElementById('helpRegisterLink');
+    if (!btn || !modal || !backdrop || !closeX || !guide || !register) return;
+
+    guide.href = getGuideUrl();
+
+    const openHelp = () => {
+      register.href = getRegisterUrl();
+      backdrop.hidden = false; modal.hidden = false;
+      requestAnimationFrame(()=>{ backdrop.classList.add('show'); modal.classList.add('show'); });
+    };
+    const closeHelp = () => {
+      backdrop.classList.remove('show'); modal.classList.remove('show');
+      setTimeout(()=>{ backdrop.hidden = true; modal.hidden = true; }, 180);
+    };
+
+    btn.addEventListener('click', openHelp);
+    closeX.addEventListener('click', closeHelp);
+    backdrop.addEventListener('click', closeHelp);
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeHelp(); });
+  })();
+
   // Eszköz/nézet detektálás egyszerűsített
   function isMobileView(){
     return window.matchMedia('(max-width: 600px)').matches;
@@ -1134,6 +1381,10 @@
 
   // Popup – mobilon középre modál, PC-n toast
   function showPopupHint(){
+    const guideUrl = getGuideUrl();
+    const popupTitle = t('popupBlockedTitle');
+    const popupText = t('popupBlockedText');
+    const guideLabel = t('helpGuide');
     if (isMobileView()){
       const backdrop = document.createElement('div');
       backdrop.className = 'modal-backdrop show';
@@ -1143,13 +1394,13 @@
       modal.innerHTML = `
         <div class="box">
           <div class="hdr">
-            <div class="title">Automatikus nyitás blokkolva</div>
+            <div class="title">${popupTitle}</div>
           </div>
           <div class="txt">
-            Ha nem működik az automatikus megnyitás: nézd meg az útmutatót a Discord <b>#fogadási-beállítások</b> csatornában.
+            ${popupText}
           </div>
           <div class="btns">
-            <a class="inline-link" href="${GUIDE_URL}" target="_blank" rel="noopener">Útmutató</a>
+            <a class="inline-link" href="${guideUrl}" target="_blank" rel="noopener">${guideLabel}</a>
           </div>
         </div>
       `;
@@ -1165,10 +1416,10 @@
       const toast = document.createElement('div');
       toast.className = 'calc-toast';
       toast.innerHTML = `
-        <div class="title">Automatikus nyitás blokkolva</div>
-        <div class="txt">Ha nem működik az automatikus megnyitás: nézd meg az útmutatót a Discord <b>#fogadási-beállítások</b> csatornában.</div>
+        <div class="title">${popupTitle}</div>
+        <div class="txt">${popupText}</div>
         <div class="btns">
-          <a class="inline-link" href="${GUIDE_URL}" target="_blank" rel="noopener">Útmutató</a>
+          <a class="inline-link" href="${guideUrl}" target="_blank" rel="noopener">${guideLabel}</a>
         </div>
       `;
       calc.appendChild(toast);
@@ -1252,7 +1503,7 @@
     const label1 = document.createElement('span');
     label1.className = 'label-text stake-title';
     label1.id = 'stake1Label';
-    label1.textContent = `${labelOdds1.textContent} tét (${labelFor(stakeMode1)}):`;
+    label1.textContent = `${labelOdds1.textContent} ${t('stakeWord')} (${labelFor(stakeMode1)}):`;
 
     const stake1Box = document.createElement('div');
     stake1Box.style.display = 'flex';
@@ -1347,7 +1598,7 @@
     const label2 = document.createElement('span');
     label2.className = 'label-text stake-title';
     label2.id = 'stake2Label';
-    label2.textContent = `${labelOdds2.textContent} tét (${labelFor(stakeMode2)}):`;
+    label2.textContent = `${labelOdds2.textContent} ${t('stakeWord')} (${labelFor(stakeMode2)}):`;
 
     const stake2Box = document.createElement('div');
     stake2Box.style.display = 'flex';
@@ -1441,7 +1692,7 @@
     rowProfit1.id = 'profit1Row';
     const labelP1 = document.createElement('span');
     labelP1.className = 'label-text';
-    labelP1.textContent = 'Ha az 1-es nyer:';
+    labelP1.textContent = resultLabelForBook(_getBookVal('odds1Book'), 'resultIf1');
     const valueP1 = document.createElement('span');
     valueP1.id = 'profit1Value';
     valueP1.className = 'value-text';
@@ -1453,7 +1704,7 @@
     rowProfit2.id = 'profit2Row';
     const labelP2 = document.createElement('span');
     labelP2.className = 'label-text';
-    labelP2.textContent = 'Ha a 2-es nyer:';
+    labelP2.textContent = resultLabelForBook(_getBookVal('odds2Book'), 'resultIf2');
     const valueP2 = document.createElement('span');
     valueP2.id = 'profit2Value';
     valueP2.className = 'value-text';
@@ -1467,7 +1718,7 @@
     rowGuaranteed.style.marginTop = '12px';
     const labelG = document.createElement('span');
     labelG.className = 'guaranteed-label';
-    labelG.textContent = 'Garantált eredmény:';
+    labelG.textContent = t('guaranteedProfit');
     const valueG = document.createElement('span');
     valueG.id = 'guaranteedValue';
     valueG.className = 'guaranteed-value';
@@ -1489,6 +1740,5 @@
   </script>
 </body>
 </html>
-
 
 
