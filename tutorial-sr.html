@@ -1,0 +1,2269 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>
+@charset "utf-8";
+
+@font-face { font-family: CameraPlainVariable; src: url("https://cdn.gpteng.co/mcp-widgets/v1/fonts/CameraPlainVariable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+
+#lovable-badge { --badge-bg: #1b1b1b; --badge-text: #c5c1b9; --badge-text-hover: #dcdad5; --badge-radius: 6px; --badge-padding: 8px; --badge-gap: 6px; --badge-shadow: 0 0 0 1px rgba(0, 0, 0, 0.88),
+			0 1px 0 0 rgba(0, 0, 0, 0.04),
+			0 2px 2px -1px rgba(0, 0, 0, 0.08),
+			0 4px 4px -2px rgba(0, 0, 0, 0.08),
+			0 8px 8px -4px rgba(0, 0, 0, 0.08),
+			0 16px 16px -8px rgba(0, 0, 0, 0.08); --badge-transition-duration: 0.2s; --badge-transition-easing: cubic-bezier(0.16, 1, 0.32, 1); --focus-color: #575ECF; --focus-offset: 2px; --focus-width: 2px; position: fixed; bottom: 12px; right: 12px; height: 24px; display: flex; align-items: center; z-index: 1000000; background-color: var(--badge-bg); color: var(--badge-text); border-radius: var(--badge-radius); box-shadow: var(--badge-shadow); font-size: 12px; font-family: CameraPlainVariable, "CameraPlainVariable Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transform: translateZ(0px); will-change: transform, opacity; font-weight: 400 !important; text-transform: none !important; font-feature-settings: normal !important; }
+
+#lovable-badge-cta { display: flex; align-items: center; gap: var(--badge-gap); padding: 0 var(--badge-padding); height: 100%; color: inherit; text-decoration: none; white-space: nowrap; border-radius: var(--badge-radius) 0 0 var(--badge-radius); transition: background-color var(--badge-transition-duration) ease,
+			color var(--badge-transition-duration) ease,
+			transform 0.1s ease; }
+
+#lovable-badge-cta:hover { background: rgba(255, 255, 255, 0.04); color: var(--badge-text-hover); }
+
+#lovable-badge-cta:active { transform: scale(0.98); }
+
+#lovable-badge-cta:focus { outline: none; }
+
+#lovable-badge-cta:focus-visible { outline: var(--focus-width) solid var(--focus-color); outline-offset: var(--focus-offset); z-index: 1; }
+
+#lovable-badge-text { line-height: 1; }
+
+#lovable-badge-divider { width: 1px; height: 24px; background-color: rgba(255, 255, 255, 0.04); flex-shrink: 0; }
+
+#lovable-badge-close { width: 24px; height: 24px; min-width: 24px; min-height: 24px; cursor: pointer; background: none; border: none; padding: 0px; display: flex; align-items: center; justify-content: center; border-radius: 0 var(--badge-radius) var(--badge-radius) 0; flex-shrink: 0; transition: background-color var(--badge-transition-duration) ease,
+			transform 0.1s ease; }
+
+#lovable-badge-close:hover { background: rgba(255, 255, 255, 0.04); }
+
+#lovable-badge-close:active { transform: scale(0.92); }
+
+#lovable-badge-close:focus { outline: none; }
+
+#lovable-badge-close:focus-visible { outline: var(--focus-width) solid var(--focus-color); outline-offset: calc(var(--focus-offset) * -1); z-index: 1; }
+
+#lovable-badge-close svg path { fill: var(--badge-text); transition: fill var(--badge-transition-duration) ease; }
+
+#lovable-badge-close:hover svg path { fill: var(--badge-text-hover); }
+
+@media (prefers-reduced-motion: reduce) {
+  #lovable-badge-cta, #lovable-badge-close, #lovable-badge-close svg path { transition: none; }
+  #lovable-badge-cta:active, #lovable-badge-close:active { transform: none; }
+}
+
+@media (prefers-contrast: high) {
+  #lovable-badge { --badge-bg: #000; --badge-text: #fff; --badge-text-hover: #fff; border: 2px solid currentcolor; }
+  #lovable-badge-cta:focus-visible, #lovable-badge-close:focus-visible { outline-width: 3px; }
+}
+</style><style>
+@charset "utf-8";
+
+:where(html[dir="ltr"]), :where([data-sonner-toaster][dir="ltr"]) { --toast-icon-margin-start: -3px; --toast-icon-margin-end: 4px; --toast-svg-margin-start: -1px; --toast-svg-margin-end: 0px; --toast-button-margin-start: auto; --toast-button-margin-end: 0; --toast-close-button-start: 0; --toast-close-button-end: unset; --toast-close-button-transform: translate(-35%, -35%); }
+
+:where(html[dir="rtl"]), :where([data-sonner-toaster][dir="rtl"]) { --toast-icon-margin-start: 4px; --toast-icon-margin-end: -3px; --toast-svg-margin-start: 0px; --toast-svg-margin-end: -1px; --toast-button-margin-start: 0; --toast-button-margin-end: auto; --toast-close-button-start: unset; --toast-close-button-end: 0; --toast-close-button-transform: translate(35%, -35%); }
+
+:where([data-sonner-toaster]) { position: fixed; width: var(--width); font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; --gray1: hsl(0, 0%, 99%); --gray2: hsl(0, 0%, 97.3%); --gray3: hsl(0, 0%, 95.1%); --gray4: hsl(0, 0%, 93%); --gray5: hsl(0, 0%, 90.9%); --gray6: hsl(0, 0%, 88.7%); --gray7: hsl(0, 0%, 85.8%); --gray8: hsl(0, 0%, 78%); --gray9: hsl(0, 0%, 56.1%); --gray10: hsl(0, 0%, 52.3%); --gray11: hsl(0, 0%, 43.5%); --gray12: hsl(0, 0%, 9%); --border-radius: 8px; box-sizing: border-box; padding: 0px; margin: 0px; list-style: none; outline: none; z-index: 999999999; transition: transform 0.4s; }
+
+:where([data-sonner-toaster][data-lifted="true"]) { transform: translateY(-10px); }
+
+@media (hover: none) and (pointer: coarse) {
+  :where([data-sonner-toaster][data-lifted="true"]) { transform: none; }
+}
+
+:where([data-sonner-toaster][data-x-position="right"]) { right: var(--offset-right); }
+
+:where([data-sonner-toaster][data-x-position="left"]) { left: var(--offset-left); }
+
+:where([data-sonner-toaster][data-x-position="center"]) { left: 50%; transform: translate(-50%); }
+
+:where([data-sonner-toaster][data-y-position="top"]) { top: var(--offset-top); }
+
+:where([data-sonner-toaster][data-y-position="bottom"]) { bottom: var(--offset-bottom); }
+
+:where([data-sonner-toast]) { --y: translateY(100%); --lift-amount: calc(var(--lift) * var(--gap)); z-index: var(--z-index); position: absolute; opacity: 0; transform: var(--y); filter: blur(0px); touch-action: none; transition: transform 0.4s, opacity 0.4s, height 0.4s, box-shadow 0.2s; box-sizing: border-box; outline: none; overflow-wrap: anywhere; }
+
+:where([data-sonner-toast][data-styled="true"]) { padding: 16px; background: var(--normal-bg); border: 1px solid var(--normal-border); color: var(--normal-text); border-radius: var(--border-radius); box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; width: var(--width); font-size: 13px; display: flex; align-items: center; gap: 6px; }
+
+:where([data-sonner-toast]:focus-visible) { box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px, rgba(0, 0, 0, 0.2) 0px 0px 0px 2px; }
+
+:where([data-sonner-toast][data-y-position="top"]) { top: 0px; --y: translateY(-100%); --lift: 1; --lift-amount: calc(1 * var(--gap)); }
+
+:where([data-sonner-toast][data-y-position="bottom"]) { bottom: 0px; --y: translateY(100%); --lift: -1; --lift-amount: calc(var(--lift) * var(--gap)); }
+
+:where([data-sonner-toast]) :where([data-description]) { font-weight: 400; line-height: 1.4; color: inherit; }
+
+:where([data-sonner-toast]) :where([data-title]) { font-weight: 500; line-height: 1.5; color: inherit; }
+
+:where([data-sonner-toast]) :where([data-icon]) { display: flex; height: 16px; width: 16px; position: relative; justify-content: flex-start; align-items: center; flex-shrink: 0; margin-left: var(--toast-icon-margin-start); margin-right: var(--toast-icon-margin-end); }
+
+:where([data-sonner-toast][data-promise="true"]) :where([data-icon]) > svg { opacity: 0; transform: scale(0.8); transform-origin: center center; animation: 0.3s ease 0s 1 normal forwards running sonner-fade-in; }
+
+:where([data-sonner-toast]) :where([data-icon]) > * { flex-shrink: 0; }
+
+:where([data-sonner-toast]) :where([data-icon]) svg { margin-left: var(--toast-svg-margin-start); margin-right: var(--toast-svg-margin-end); }
+
+:where([data-sonner-toast]) :where([data-content]) { display: flex; flex-direction: column; gap: 2px; }
+
+[data-sonner-toast][data-styled="true"] [data-button] { border-radius: 4px; padding-left: 8px; padding-right: 8px; height: 24px; font-size: 12px; color: var(--normal-bg); background: var(--normal-text); margin-left: var(--toast-button-margin-start); margin-right: var(--toast-button-margin-end); border: none; cursor: pointer; outline: none; display: flex; align-items: center; flex-shrink: 0; transition: opacity 0.4s, box-shadow 0.2s; }
+
+:where([data-sonner-toast]) :where([data-button]):focus-visible { box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px 2px; }
+
+:where([data-sonner-toast]) :where([data-button]):first-of-type { margin-left: var(--toast-button-margin-start); margin-right: var(--toast-button-margin-end); }
+
+:where([data-sonner-toast]) :where([data-cancel]) { color: var(--normal-text); background: rgba(0, 0, 0, 0.08); }
+
+:where([data-sonner-toast][data-theme="dark"]) :where([data-cancel]) { background: rgba(255, 255, 255, 0.3); }
+
+:where([data-sonner-toast]) :where([data-close-button]) { position: absolute; left: var(--toast-close-button-start); right: var(--toast-close-button-end); top: 0px; height: 20px; width: 20px; display: flex; justify-content: center; align-items: center; padding: 0px; color: var(--gray12); border: 1px solid var(--gray4); transform: var(--toast-close-button-transform); border-radius: 50%; cursor: pointer; z-index: 1; transition: opacity 0.1s, background 0.2s, border-color 0.2s; }
+
+[data-sonner-toast] [data-close-button] { background: var(--gray1); }
+
+:where([data-sonner-toast]) :where([data-close-button]):focus-visible { box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px, rgba(0, 0, 0, 0.2) 0px 0px 0px 2px; }
+
+:where([data-sonner-toast]) :where([data-disabled="true"]) { cursor: not-allowed; }
+
+:where([data-sonner-toast]):hover :where([data-close-button]):hover { background: var(--gray2); border-color: var(--gray5); }
+
+:where([data-sonner-toast][data-swiping="true"])::before { content: ""; position: absolute; left: -50%; right: -50%; height: 100%; z-index: -1; }
+
+:where([data-sonner-toast][data-y-position="top"][data-swiping="true"])::before { bottom: 50%; transform: scaleY(3) translateY(50%); }
+
+:where([data-sonner-toast][data-y-position="bottom"][data-swiping="true"])::before { top: 50%; transform: scaleY(3) translateY(-50%); }
+
+:where([data-sonner-toast][data-swiping="false"][data-removed="true"])::before { content: ""; position: absolute; inset: 0px; transform: scaleY(2); }
+
+:where([data-sonner-toast])::after { content: ""; position: absolute; left: 0px; height: calc(var(--gap) + 1px); bottom: 100%; width: 100%; }
+
+:where([data-sonner-toast][data-mounted="true"]) { --y: translateY(0); opacity: 1; }
+
+:where([data-sonner-toast][data-expanded="false"][data-front="false"]) { --scale: var(--toasts-before) * .05 + 1; --y: translateY(calc(var(--lift-amount) * var(--toasts-before))) scale(calc(-1 * var(--scale))); height: var(--front-toast-height); }
+
+:where([data-sonner-toast]) > * { transition: opacity 0.4s; }
+
+:where([data-sonner-toast][data-expanded="false"][data-front="false"][data-styled="true"]) > * { opacity: 0; }
+
+:where([data-sonner-toast][data-visible="false"]) { opacity: 0; pointer-events: none; }
+
+:where([data-sonner-toast][data-mounted="true"][data-expanded="true"]) { --y: translateY(calc(var(--lift) * var(--offset))); height: var(--initial-height); }
+
+:where([data-sonner-toast][data-removed="true"][data-front="true"][data-swipe-out="false"]) { --y: translateY(calc(var(--lift) * -100%)); opacity: 0; }
+
+:where([data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="true"]) { --y: translateY(calc(var(--lift) * var(--offset) + var(--lift) * -100%)); opacity: 0; }
+
+:where([data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="false"]) { --y: translateY(40%); opacity: 0; transition: transform 0.5s, opacity 0.2s; }
+
+:where([data-sonner-toast][data-removed="true"][data-front="false"])::before { height: calc(var(--initial-height) + 20%); }
+
+[data-sonner-toast][data-swiping="true"] { transform: var(--y) translateY(var(--swipe-amount-y, 0px)) translate(var(--swipe-amount-x, 0px)); transition: none; }
+
+[data-sonner-toast][data-swiped="true"] { user-select: none; }
+
+[data-sonner-toast][data-swipe-out="true"][data-y-position="bottom"], [data-sonner-toast][data-swipe-out="true"][data-y-position="top"] { animation-duration: 0.2s; animation-timing-function: ease-out; animation-fill-mode: forwards; }
+
+[data-sonner-toast][data-swipe-out="true"][data-swipe-direction="left"] { animation-name: swipe-out-left; }
+
+[data-sonner-toast][data-swipe-out="true"][data-swipe-direction="right"] { animation-name: swipe-out-right; }
+
+[data-sonner-toast][data-swipe-out="true"][data-swipe-direction="up"] { animation-name: swipe-out-up; }
+
+[data-sonner-toast][data-swipe-out="true"][data-swipe-direction="down"] { animation-name: swipe-out-down; }
+
+@keyframes swipe-out-left { 
+  0% { transform: var(--y) translate(var(--swipe-amount-x)); opacity: 1; }
+  100% { transform: var(--y) translate(calc(var(--swipe-amount-x) - 100%)); opacity: 0; }
+}
+
+@keyframes swipe-out-right { 
+  0% { transform: var(--y) translate(var(--swipe-amount-x)); opacity: 1; }
+  100% { transform: var(--y) translate(calc(var(--swipe-amount-x) + 100%)); opacity: 0; }
+}
+
+@keyframes swipe-out-up { 
+  0% { transform: var(--y) translateY(var(--swipe-amount-y)); opacity: 1; }
+  100% { transform: var(--y) translateY(calc(var(--swipe-amount-y) - 100%)); opacity: 0; }
+}
+
+@keyframes swipe-out-down { 
+  0% { transform: var(--y) translateY(var(--swipe-amount-y)); opacity: 1; }
+  100% { transform: var(--y) translateY(calc(var(--swipe-amount-y) + 100%)); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  [data-sonner-toaster] { position: fixed; right: var(--mobile-offset-right); left: var(--mobile-offset-left); width: 100%; }
+  [data-sonner-toaster][dir="rtl"] { left: calc(var(--mobile-offset-left) * -1); }
+  [data-sonner-toaster] [data-sonner-toast] { left: 0px; right: 0px; width: calc(100% - var(--mobile-offset-left) * 2); }
+  [data-sonner-toaster][data-x-position="left"] { left: var(--mobile-offset-left); }
+  [data-sonner-toaster][data-y-position="bottom"] { bottom: var(--mobile-offset-bottom); }
+  [data-sonner-toaster][data-y-position="top"] { top: var(--mobile-offset-top); }
+  [data-sonner-toaster][data-x-position="center"] { left: var(--mobile-offset-left); right: var(--mobile-offset-right); transform: none; }
+}
+
+[data-sonner-toaster][data-theme="light"] { --normal-bg: #fff; --normal-border: var(--gray4); --normal-text: var(--gray12); --success-bg: hsl(143, 85%, 96%); --success-border: hsl(145, 92%, 91%); --success-text: hsl(140, 100%, 27%); --info-bg: hsl(208, 100%, 97%); --info-border: hsl(221, 91%, 91%); --info-text: hsl(210, 92%, 45%); --warning-bg: hsl(49, 100%, 97%); --warning-border: hsl(49, 91%, 91%); --warning-text: hsl(31, 92%, 45%); --error-bg: hsl(359, 100%, 97%); --error-border: hsl(359, 100%, 94%); --error-text: hsl(360, 100%, 45%); }
+
+[data-sonner-toaster][data-theme="light"] [data-sonner-toast][data-invert="true"] { --normal-bg: #000; --normal-border: hsl(0, 0%, 20%); --normal-text: var(--gray1); }
+
+[data-sonner-toaster][data-theme="dark"] [data-sonner-toast][data-invert="true"] { --normal-bg: #fff; --normal-border: var(--gray3); --normal-text: var(--gray12); }
+
+[data-sonner-toaster][data-theme="dark"] { --normal-bg: #000; --normal-bg-hover: hsl(0, 0%, 12%); --normal-border: hsl(0, 0%, 20%); --normal-border-hover: hsl(0, 0%, 25%); --normal-text: var(--gray1); --success-bg: hsl(150, 100%, 6%); --success-border: hsl(147, 100%, 12%); --success-text: hsl(150, 86%, 65%); --info-bg: hsl(215, 100%, 6%); --info-border: hsl(223, 100%, 12%); --info-text: hsl(216, 87%, 65%); --warning-bg: hsl(64, 100%, 6%); --warning-border: hsl(60, 100%, 12%); --warning-text: hsl(46, 87%, 65%); --error-bg: hsl(358, 76%, 10%); --error-border: hsl(357, 89%, 16%); --error-text: hsl(358, 100%, 81%); }
+
+[data-sonner-toaster][data-theme="dark"] [data-sonner-toast] [data-close-button] { background: var(--normal-bg); border-color: var(--normal-border); color: var(--normal-text); }
+
+[data-sonner-toaster][data-theme="dark"] [data-sonner-toast] [data-close-button]:hover { background: var(--normal-bg-hover); border-color: var(--normal-border-hover); }
+
+[data-rich-colors="true"][data-sonner-toast][data-type="success"], [data-rich-colors="true"][data-sonner-toast][data-type="success"] [data-close-button] { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+
+[data-rich-colors="true"][data-sonner-toast][data-type="info"], [data-rich-colors="true"][data-sonner-toast][data-type="info"] [data-close-button] { background: var(--info-bg); border-color: var(--info-border); color: var(--info-text); }
+
+[data-rich-colors="true"][data-sonner-toast][data-type="warning"], [data-rich-colors="true"][data-sonner-toast][data-type="warning"] [data-close-button] { background: var(--warning-bg); border-color: var(--warning-border); color: var(--warning-text); }
+
+[data-rich-colors="true"][data-sonner-toast][data-type="error"], [data-rich-colors="true"][data-sonner-toast][data-type="error"] [data-close-button] { background: var(--error-bg); border-color: var(--error-border); color: var(--error-text); }
+
+.sonner-loading-wrapper { --size: 16px; height: var(--size); width: var(--size); position: absolute; inset: 0px; z-index: 10; }
+
+.sonner-loading-wrapper[data-visible="false"] { transform-origin: center center; animation: 0.2s ease 0s 1 normal forwards running sonner-fade-out; }
+
+.sonner-spinner { position: relative; top: 50%; left: 50%; height: var(--size); width: var(--size); }
+
+.sonner-loading-bar { animation: 1.2s linear 0s infinite normal none running sonner-spin; background: var(--gray11); border-radius: 6px; height: 8%; left: -10%; position: absolute; top: -3.9%; width: 24%; }
+
+.sonner-loading-bar:nth-child(1) { animation-delay: -1.2s; transform: rotate(0.0001deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(2) { animation-delay: -1.1s; transform: rotate(30deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(3) { animation-delay: -1s; transform: rotate(60deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(4) { animation-delay: -0.9s; transform: rotate(90deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(5) { animation-delay: -0.8s; transform: rotate(120deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(6) { animation-delay: -0.7s; transform: rotate(150deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(7) { animation-delay: -0.6s; transform: rotate(180deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(8) { animation-delay: -0.5s; transform: rotate(210deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(9) { animation-delay: -0.4s; transform: rotate(240deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(10) { animation-delay: -0.3s; transform: rotate(270deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(11) { animation-delay: -0.2s; transform: rotate(300deg) translate(146%); }
+
+.sonner-loading-bar:nth-child(12) { animation-delay: -0.1s; transform: rotate(330deg) translate(146%); }
+
+@keyframes sonner-fade-in { 
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes sonner-fade-out { 
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.8); }
+}
+
+@keyframes sonner-spin { 
+  0% { opacity: 1; }
+  100% { opacity: 0.15; }
+}
+
+@media (prefers-reduced-motion) {
+  [data-sonner-toast], [data-sonner-toast] > *, .sonner-loading-bar { transition: none !important; animation: auto ease 0s 1 normal none running none !important; }
+}
+
+.sonner-loader { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transform-origin: center center; transition: opacity 0.2s, transform 0.2s; }
+
+.sonner-loader[data-visible="false"] { opacity: 0; transform: scale(0.8) translate(-50%, -50%); }
+</style><style>
+@charset "utf-8";
+
+.ZFfasc5f5NTIdwkMzNMy .zhhsfrubRJBf86cRcjeS { height: 32px; font-size: 16px; font-weight: bold; color: rgba(0, 0, 0, 0.88); line-height: 32px; }
+
+.ZFfasc5f5NTIdwkMzNMy .TiFcRFnjGcRWQCxcglYv { position: relative; }
+
+.ZFfasc5f5NTIdwkMzNMy .TiFcRFnjGcRWQCxcglYv select { width: 100%; height: 32px; border-radius: 6px; opacity: 0.5; border: 1px solid rgb(0, 0, 0); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; appearance: none; padding: 0px 30px 0px 12px; }
+
+.ZFfasc5f5NTIdwkMzNMy .TiFcRFnjGcRWQCxcglYv select:focus-visible { outline: none; border: 1px solid rgb(0, 0, 0); }
+
+.ZFfasc5f5NTIdwkMzNMy .TiFcRFnjGcRWQCxcglYv::after { content: ""; display: block; width: 0px; height: 0px; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid rgba(0, 0, 0, 0.5); position: absolute; top: 50%; right: 15px; transform: translateY(-50%); }
+
+.ZFfasc5f5NTIdwkMzNMy .TiFcRFnjGcRWQCxcglYv:focus-visible { border: none; background: salmon; }
+
+.rxQr7drg0GrqV8vmOncn { display: flex; justify-content: space-between; margin-bottom: 24px; }
+
+.M2gRdCRtGXZfWo_K9lvd { display: flex; flex-direction: column; }
+
+.M2gRdCRtGXZfWo_K9lvd .zhhsfrubRJBf86cRcjeS { font-family: OpenSans-Regular, OpenSans; font-weight: 600; font-size: 14px; color: rgba(0, 0, 0, 0.88); line-height: 16px; }
+</style><style>
+@charset "utf-8";
+
+.IRoWVNnxMESYzrLAb1jW { width: 100%; height: 48px; border-radius: 12px; opacity: 0.5; border: 1px solid rgb(0, 0, 0); padding: 0px 16px; box-sizing: border-box; font-size: 14px; font-family: OpenSans-Regular, OpenSans; font-weight: 400; }
+
+.IRoWVNnxMESYzrLAb1jW:focus-visible { outline: none; }
+</style><style>
+@charset "utf-8";
+
+.Ib6CUk9NvPeuYdBNTyjg { display: flex; align-items: flex-start; }
+
+.Ib6CUk9NvPeuYdBNTyjg input[type="radio"] { appearance: none; width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgb(204, 204, 204); position: relative; }
+
+.Ib6CUk9NvPeuYdBNTyjg input[type="radio"]:checked { border-color: rgb(255, 143, 0); }
+
+.Ib6CUk9NvPeuYdBNTyjg input[type="radio"]:checked::after { content: ""; width: 10px; height: 10px; background: rgb(255, 143, 0); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+.Ib6CUk9NvPeuYdBNTyjg label { flex: 1 1 0%; cursor: pointer; margin-left: 32px; font-size: 14px; font-family: OpenSans-Regular, OpenSans; font-weight: 400; color: rgba(0, 0, 0, 0.88); line-height: 24px; }
+</style><style>
+@charset "utf-8";
+
+.c9sddWo_i7vCT4SyyItq { width: 100%; height: 100%; background: rgb(255, 143, 0); position: relative; box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px -3px, rgba(0, 0, 0, 0.04) 0px 3px 14px 2px, rgba(0, 0, 0, 0.06) 0px 8px 10px 1px; border-radius: 8px; border: none; font-size: 16px; font-family: OpenSans-Bold, OpenSans; font-weight: bold; color: rgb(255, 255, 255); overflow: hidden; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+.c9sddWo_i7vCT4SyyItq:disabled { color: rgb(236, 239, 241); cursor: not-allowed; box-shadow: none; background: rgb(194, 194, 194) !important; }
+</style><style>
+@charset "utf-8";
+
+.EEznAG43zTuQkQq624yy { width: 400px; }
+
+.EEznAG43zTuQkQq624yy .Zt6_7jfC9rAnl4Hvckzs { padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+
+.EEznAG43zTuQkQq624yy .Zt6_7jfC9rAnl4Hvckzs .Je2jFsFrbPjN7Upq5740 { width: 69px; height: 24px; margin: 7px 4px; }
+
+.EEznAG43zTuQkQq624yy .Zt6_7jfC9rAnl4Hvckzs .Je2jFsFrbPjN7Upq5740 svg { width: 100%; height: 100%; }
+
+.EEznAG43zTuQkQq624yy .Zt6_7jfC9rAnl4Hvckzs .c7QEl61sArXCQe0GnzQ5 { width: 24px; height: 24px; cursor: pointer; }
+
+.EEznAG43zTuQkQq624yy .ci0NHoq5VTLikHkgliPO { padding: 8px 16px 16px; }
+
+.EEznAG43zTuQkQq624yy .ci0NHoq5VTLikHkgliPO > a { display: block; padding-top: 8px; text-align: center; color: rgb(61, 90, 254); }
+
+.EEznAG43zTuQkQq624yy .ci0NHoq5VTLikHkgliPO > a:hover { color: rgb(61, 90, 254); }
+</style><style>
+@charset "utf-8";
+
+.BW1QT6wRodElrY9DbAeQ { display: flex; align-items: center; flex-direction: row-reverse; justify-content: space-between; }
+
+.BW1QT6wRodElrY9DbAeQ .U_jFhfpfYNrIrQRSO7_Z { text-wrap: nowrap; }
+
+.BW1QT6wRodElrY9DbAeQ input[type="checkbox"] { height: 0px; width: 0px; visibility: hidden; display: none; }
+
+.BW1QT6wRodElrY9DbAeQ label { cursor: pointer; text-indent: -9999px; width: 56px; height: 28px; background: grey; display: block; border-radius: 100px; position: relative; }
+
+.BW1QT6wRodElrY9DbAeQ label::after { content: ""; position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; background: rgb(255, 255, 255); border-radius: 90px; transition: 0.3s; }
+
+.BW1QT6wRodElrY9DbAeQ input:checked + label { background: rgb(255, 143, 0); box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px -3px, rgba(0, 0, 0, 0.04) 0px 3px 14px 2px, rgba(0, 0, 0, 0.06) 0px 8px 10px 1px; }
+
+.BW1QT6wRodElrY9DbAeQ input:checked + label::after { left: calc(100% - 4px); transform: translateX(-100%); }
+
+.BW1QT6wRodElrY9DbAeQ label:active::after { width: 56px; }
+
+.BW1QT6wRodElrY9DbAeQ body { display: flex; justify-content: center; align-items: center; height: 100vh; }
+</style><style>
+@charset "utf-8";
+
+.av93VnBkT8rC6BfwHXXl { display: flex; align-items: center; cursor: pointer; }
+
+.av93VnBkT8rC6BfwHXXl input { visibility: hidden; position: absolute; }
+
+.av93VnBkT8rC6BfwHXXl .ccHDoQWfCQ0wpKNe51Og { position: relative; height: 20px; width: 20px; background-color: rgb(255, 255, 255); border: 1px solid rgb(217, 217, 217); display: inline-block; border-radius: 4px; transition: background-color 0.3s, border-color 0.3s; }
+
+.av93VnBkT8rC6BfwHXXl input:checked + .ccHDoQWfCQ0wpKNe51Og, .av93VnBkT8rC6BfwHXXl input:indeterminate + .ccHDoQWfCQ0wpKNe51Og { background-color: rgb(255, 193, 7); border-color: rgb(255, 193, 7); }
+
+.av93VnBkT8rC6BfwHXXl .ccHDoQWfCQ0wpKNe51Og::after { content: ""; position: absolute; display: none; }
+
+.av93VnBkT8rC6BfwHXXl input:checked + .ccHDoQWfCQ0wpKNe51Og::after { display: block; left: 50%; top: 50%; width: 6px; height: 10px; border-style: solid; border-color: white; border-image: initial; border-width: 0px 3px 3px 0px; transform: translate(-50%, -50%) rotate(45deg); }
+
+.av93VnBkT8rC6BfwHXXl input:indeterminate + .ccHDoQWfCQ0wpKNe51Og::after { content: ""; position: absolute; display: block; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 10px; height: 5px; background: white; }
+
+.av93VnBkT8rC6BfwHXXl input:disabled + .ccHDoQWfCQ0wpKNe51Og { background-color: rgb(224, 224, 224); border-color: rgb(189, 189, 189); cursor: not-allowed; }
+
+.av93VnBkT8rC6BfwHXXl input:disabled + .ccHDoQWfCQ0wpKNe51Og::after { background: rgb(189, 189, 189); }
+</style><style>
+@charset "utf-8";
+
+.kLB7SXuCbOA1VDEuayQ2 { position: fixed; top: 20px; right: 20px; z-index: 9999; min-height: 244px; width: 400px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px -1px, rgba(0, 0, 0, 0.04) 0px 1px 10px 0px, rgba(0, 0, 0, 0.06) 0px 4px 5px 0px; border-radius: 12px; }
+
+.kLB7SXuCbOA1VDEuayQ2 .zEOKQl0KPtsInhEXQ5Bz .cLVWKu0XCorcERQg9FKl { display: flex; justify-content: center; margin-bottom: 28px; }
+
+.kLB7SXuCbOA1VDEuayQ2 .zEOKQl0KPtsInhEXQ5Bz .cLVWKu0XCorcERQg9FKl .jR9tZOYlGybercDP5RXg { animation: 1s linear 0s infinite normal none running yjWYeSBhppaYr8pyCDGP; }
+
+.kLB7SXuCbOA1VDEuayQ2 .zEOKQl0KPtsInhEXQ5Bz .cyF9d8HEngPs9BJtmRBB { font-size: 16px; font-family: OpenSans-Bold, OpenSans; font-weight: bold; color: rgba(0, 0, 0, 0.88); line-height: 22px; text-align: center; }
+
+.kLB7SXuCbOA1VDEuayQ2 .zEOKQl0KPtsInhEXQ5Bz .Panq7Ykt8Gxb0RQl78BV { font-size: 16px; font-family: OpenSans-Bold, OpenSans; font-weight: bold; color: rgb(71, 158, 37); margin-top: 6px; line-height: 22px; text-decoration: underline; text-align: center; cursor: pointer; }
+
+@keyframes yjWYeSBhppaYr8pyCDGP { 
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+</style><style>
+@charset "utf-8";
+
+.L6ydMcbc4E5EF6EfA6aG .ant-modal-title { font-weight: bold; font-size: 20px; color: rgba(0, 0, 0, 0.88); line-height: 28px; text-align: left; font-style: normal; text-transform: none; }
+
+.hNkYvyrcRaG_kWiy3rkO { margin-top: 16px; }
+
+.hNkYvyrcRaG_kWiy3rkO .ant-alert-message { color: rgb(33, 137, 229); }
+
+.TmOCIHFUEqljERUfq_aY { font-weight: 400; font-size: 14px; color: rgba(0, 0, 0, 0.5); line-height: 24px; text-align: left; font-style: normal; text-transform: none; margin-bottom: 24px; }
+
+.FijT8eY01qZ_10LX68JG { margin-bottom: 24px; }
+
+.FijT8eY01qZ_10LX68JG .lwYJMkm6l65Ew9BB03hg { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; flex-wrap: wrap; }
+</style><style>
+@charset "utf-8";
+
+.YezkX1bsuRLzG32QxqOg { top: 0px; right: 0px; z-index: 1; position: absolute; font-family: OpenSans-Bold, OpenSans; text-wrap: nowrap; }
+
+.YezkX1bsuRLzG32QxqOg .NO7_066UyH5F_wWr_CDK { width: 100%; height: 21px; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; align-items: center; position: relative; color: rgb(255, 255, 255); }
+
+.YezkX1bsuRLzG32QxqOg .NO7_066UyH5F_wWr_CDK .SVkdhKdtfHfJYdb3DeAC { position: absolute; left: 10px; width: 15px; height: 15px; }
+
+.YezkX1bsuRLzG32QxqOg .NO7_066UyH5F_wWr_CDK .SVkdhKdtfHfJYdb3DeAC g { fill: antiquewhite; }
+
+.YezkX1bsuRLzG32QxqOg .NO7_066UyH5F_wWr_CDK .OCxxhXIFkJiVv3OW8Dki { flex: 1 1 0%; text-align: center; }
+
+.YezkX1bsuRLzG32QxqOg .NO7_066UyH5F_wWr_CDK .eCi62QFGWYWFIdMKmoCY { min-width: 45px; height: 21px; position: absolute; right: 0px; display: flex; justify-content: center; align-items: center; background-color: rgb(17, 188, 87); border-top-right-radius: 8px; border-left: 1px solid rgb(0, 176, 80); }
+
+.YezkX1bsuRLzG32QxqOg .jkiqcnRJY9Y07V6l96yO { background: rgb(42, 204, 111); }
+
+.YezkX1bsuRLzG32QxqOg .mUWOwtz1vBHUHo7ESj3H { background: rgb(251, 91, 40); }
+
+.YezkX1bsuRLzG32QxqOg .AJ8PVFZUE_njDcnN2VtU { padding: 0px 20px; background: rgb(255, 143, 0); box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px -3px, rgba(0, 0, 0, 0.04) 0px 3px 14px 2px, rgba(0, 0, 0, 0.06) 0px 8px 10px 1px; border-radius: 22px; font-family: OpenSans-Bold, OpenSans; font-weight: bold; color: rgb(255, 255, 255); font-size: 16px; line-height: 38px; }
+
+.YezkX1bsuRLzG32QxqOg .AJ8PVFZUE_njDcnN2VtU svg { margin-right: 8px; }
+
+.mrHXcmsfueCtCtmrCvhk .UN3gm0MT4HG3PapvB5Es { width: 100%; height: 86px; display: flex; align-items: center; justify-content: center; flex-flow: column; color: rgba(0, 0, 0, 0.24); background: white !important; }
+
+.mrHXcmsfueCtCtmrCvhk .UN3gm0MT4HG3PapvB5Es svg { margin-bottom: 4px; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao { display: flex; align-items: center; flex-direction: column; max-height: 500px; overflow-x: hidden; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao::-webkit-scrollbar { width: 4px; height: 1px; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao::-webkit-scrollbar-thumb { border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px inset; background: rgb(247, 247, 247); }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao::-webkit-scrollbar-track { box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px inset; border-radius: 10px; background: rgb(247, 247, 247); }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div { min-height: auto; background: rgba(0, 0, 0, 0.04); padding: 8px; margin-bottom: 16px; display: flex; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div:last-child { border-bottom: 0px; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div .irbDaxm05L90StDOVuFf { width: 54px; height: 54px; border-radius: 4px; margin-right: 8px; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div .irbDaxm05L90StDOVuFf img { width: 100%; height: 100%; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div .BEeSRQYIPezxiElL7Y1u { min-height: 54px; font-weight: 400; font-size: 14px; display: flex; flex-direction: column; justify-content: center; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div .BEeSRQYIPezxiElL7Y1u .me9J0Ec7gRu7hAXPGzY_ { color: rgb(0, 0, 0); line-height: 16px; text-align: left; text-transform: none; margin-right: 11px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-overflow: ellipsis; height: 34px; width: 268px; }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div .BEeSRQYIPezxiElL7Y1u .w6zpsVlllx6TB6P6tv7T { width: 268px; color: rgb(255, 0, 0); }
+
+.mrHXcmsfueCtCtmrCvhk .MWgMsOT14PgnlhzDhUao > div .h7v9y0cCilg07Xbu3ry8 { display: flex; align-items: center; }
+
+.mrHXcmsfueCtCtmrCvhk .u4k0WEcFhM_UruSqNh2H { width: 100%; display: flex; justify-content: center; flex-direction: column; }
+
+.mrHXcmsfueCtCtmrCvhk .u4k0WEcFhM_UruSqNh2H button { margin-bottom: 8px; height: 36px; }
+
+.mrHXcmsfueCtCtmrCvhk .u4k0WEcFhM_UruSqNh2H ._69nR89KKgxcsjj4aZVg { background: transparent !important; box-shadow: none !important; font-weight: 400 !important; font-size: 14px !important; color: rgba(0, 0, 0, 0.5) !important; }
+
+.mrHXcmsfueCtCtmrCvhk .u4k0WEcFhM_UruSqNh2H ._69nR89KKgxcsjj4aZVg svg { margin-right: 5px; }
+</style><style>
+@charset "utf-8";
+
+.WeMhfmnyjZApMUugIiUr { width: 100%; top: 0px; left: 0px; right: 0px; display: flex; align-items: center; flex-direction: column; position: absolute; z-index: 2; font-family: OpenSans-Bold, OpenSans; }
+
+.WeMhfmnyjZApMUugIiUr .D5xruGoBdBD8fjbDpn0T { width: 100%; height: 21px; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; align-items: center; position: relative; color: rgb(255, 255, 255); }
+
+.WeMhfmnyjZApMUugIiUr .D5xruGoBdBD8fjbDpn0T .z568v0OExVt7aKAe_qwb { position: absolute; left: 10px; width: 15px; height: 15px; }
+
+.WeMhfmnyjZApMUugIiUr .D5xruGoBdBD8fjbDpn0T .z568v0OExVt7aKAe_qwb g { fill: antiquewhite; }
+
+.WeMhfmnyjZApMUugIiUr .D5xruGoBdBD8fjbDpn0T .YvPjV_lQ9LjrwsRvkSAx { flex: 1 1 0%; text-align: center; }
+
+.WeMhfmnyjZApMUugIiUr .D5xruGoBdBD8fjbDpn0T .w9aSxjg6VdZA_08E8a_P { min-width: 45px; height: 21px; position: absolute; right: 0px; display: flex; justify-content: center; align-items: center; background-color: rgb(17, 188, 87); border-top-right-radius: 8px; border-left: 1px solid rgb(0, 176, 80); }
+
+.WeMhfmnyjZApMUugIiUr .p5jxubOfKVHADwdR4sVq { background: rgb(42, 204, 111); }
+
+.WeMhfmnyjZApMUugIiUr .BiGR8PrJwIl3jPvAzTRy { background: rgb(251, 91, 40); }
+
+.WeMhfmnyjZApMUugIiUr .ddn6LFwb35gnBPJ__Ma4 { display: none; width: 98%; height: 32px; box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px -3px, rgba(0, 0, 0, 0.04) 0px 3px 14px 2px, rgba(0, 0, 0, 0.06) 0px 8px 10px 1px; border-radius: 4px; margin-top: 6px; font-size: 12px; font-family: OpenSans-Bold, OpenSans; font-weight: bold; color: rgb(255, 255, 255); line-height: 17px; }
+
+.WeMhfmnyjZApMUugIiUr .ddn6LFwb35gnBPJ__Ma4 svg { margin-right: 8px; }
+</style><style>
+@charset "utf-8";
+
+.vsK1fKu8GYkRlcoudhIh { width: 100%; top: 0px; left: 0px; right: 0px; display: flex; align-items: center; flex-direction: column; position: absolute; z-index: 2; font-family: OpenSans-Bold, OpenSans; }
+
+.vsK1fKu8GYkRlcoudhIh .kNT2mFuNFTBP9Hi7bAC8 { width: 100%; height: 21px; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; align-items: center; position: relative; color: rgb(255, 255, 255); }
+
+.vsK1fKu8GYkRlcoudhIh .kNT2mFuNFTBP9Hi7bAC8 .mZYCnZhor58rYAUqK4ng { position: absolute; left: 10px; width: 15px; height: 15px; }
+
+.vsK1fKu8GYkRlcoudhIh .kNT2mFuNFTBP9Hi7bAC8 .mZYCnZhor58rYAUqK4ng g { fill: antiquewhite; }
+
+.vsK1fKu8GYkRlcoudhIh .kNT2mFuNFTBP9Hi7bAC8 .ngtRvSjrm9yOTPcnJvii { flex: 1 1 0%; text-align: center; }
+
+.vsK1fKu8GYkRlcoudhIh .kNT2mFuNFTBP9Hi7bAC8 .rd0GcjHkbm37tIo1UZkh { min-width: 45px; height: 21px; position: absolute; right: 0px; display: flex; justify-content: center; align-items: center; background-color: rgb(17, 188, 87); border-top-right-radius: 8px; border-left: 1px solid rgb(0, 176, 80); }
+
+.vsK1fKu8GYkRlcoudhIh .xqJbzeH_Z6QRQ9J1z5UV { background: rgb(42, 204, 111); }
+
+.vsK1fKu8GYkRlcoudhIh .mmXPLYRJZx8YRhtuZOzD { background: rgb(251, 91, 40); }
+
+.vsK1fKu8GYkRlcoudhIh .jaTHVmG4yPmCMGNQaqic { display: none; width: 98%; height: 32px; box-shadow: rgba(0, 0, 0, 0.08) 0px 5px 5px -3px, rgba(0, 0, 0, 0.04) 0px 3px 14px 2px, rgba(0, 0, 0, 0.06) 0px 8px 10px 1px; border-radius: 4px; margin-top: 6px; font-size: 12px; font-family: OpenSans-Bold, OpenSans; font-weight: bold; color: rgb(255, 255, 255); line-height: 17px; }
+
+.vsK1fKu8GYkRlcoudhIh .jaTHVmG4yPmCMGNQaqic svg { margin-right: 8px; }
+
+.vsK1fKu8GYkRlcoudhIh .lXitMkUNrxq6Y3RWLqKg { position: absolute; top: 34px; left: 11px; z-index: 99999999; }
+
+.vsK1fKu8GYkRlcoudhIh .lXitMkUNrxq6Y3RWLqKg input { width: 18px; height: 18px; }
+
+.NlPS3pzpp0kyiw7u3qbU { width: 200px; height: 36px; background: rgb(255, 143, 0); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: fixed; left: 50%; transform: translateX(-50%); bottom: 20px; }
+
+.NlPS3pzpp0kyiw7u3qbU > div { margin-right: 15px; }
+
+.NlPS3pzpp0kyiw7u3qbU button { background: rgb(255, 143, 0); color: rgb(255, 255, 255); }
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- TODO: Set the document title to the name of your application -->
+    <title>Lovable App</title>
+    <meta name="description" content="Lovable Generated Project">
+    <meta name="author" content="Lovable">
+
+    <!-- TODO: Update og:title to match your application name -->
+    
+    
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9200b82a-ead0-4049-a879-63785221ec01/id-preview-d3c7fa6b--17c2f90b-cdca-41a9-b879-f55c750e8756.lovable.app-1772272705902.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Lovable">
+    <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9200b82a-ead0-4049-a879-63785221ec01/id-preview-d3c7fa6b--17c2f90b-cdca-41a9-b879-f55c750e8756.lovable.app-1772272705902.png">
+    <meta property="og:title" content="Lovable App">
+  <meta name="twitter:title" content="Lovable App">
+  <meta property="og:description" content="Lovable Generated Project">
+  <meta name="twitter:description" content="Lovable Generated Project">
+  
+  <style>
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
+
+*, ::before, ::after { --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; }
+
+::backdrop { --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; }
+
+*, ::before, ::after { box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235); }
+
+::before, ::after { --tw-content: ""; }
+
+html, :host { line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent; }
+
+body { margin: 0px; line-height: inherit; }
+
+hr { height: 0px; color: inherit; border-top-width: 1px; }
+
+abbr:where([title]) { text-decoration: underline dotted; }
+
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+
+a { color: inherit; text-decoration: inherit; }
+
+b, strong { font-weight: bolder; }
+
+code, kbd, samp, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-feature-settings: normal; font-variation-settings: normal; font-size: 1em; }
+
+small { font-size: 80%; }
+
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+
+sub { bottom: -0.25em; }
+
+sup { top: -0.5em; }
+
+table { text-indent: 0px; border-color: inherit; border-collapse: collapse; }
+
+button, input, optgroup, select, textarea { font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px; }
+
+button, select { text-transform: none; }
+
+button, input:where([type="button"]), input:where([type="reset"]), input:where([type="submit"]) { appearance: button; background-color: transparent; background-image: none; }
+
+progress { vertical-align: baseline; }
+
+::-webkit-inner-spin-button, ::-webkit-outer-spin-button { height: auto; }
+
+[type="search"] { appearance: textfield; outline-offset: -2px; }
+
+::-webkit-search-decoration { appearance: none; }
+
+::-webkit-file-upload-button { appearance: button; font: inherit; }
+
+summary { display: list-item; }
+
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre { margin: 0px; }
+
+fieldset { margin: 0px; padding: 0px; }
+
+legend { padding: 0px; }
+
+ol, ul, menu { list-style: none; margin: 0px; padding: 0px; }
+
+dialog { padding: 0px; }
+
+textarea { resize: vertical; }
+
+input::placeholder, textarea::placeholder { opacity: 1; color: rgb(156, 163, 175); }
+
+button, [role="button"] { cursor: pointer; }
+
+:disabled { cursor: default; }
+
+img, svg, video, canvas, audio, iframe, embed, object { display: block; vertical-align: middle; }
+
+img, video { max-width: 100%; height: auto; }
+
+[hidden]:where(:not([hidden="until-found"])) { display: none; }
+
+:root { --background: 220 20% 7%; --foreground: 210 20% 94%; --card: 220 18% 10%; --card-foreground: 210 20% 92%; --popover: 220 18% 10%; --popover-foreground: 210 20% 92%; --primary: 152 60% 48%; --primary-foreground: 220 20% 7%; --secondary: 220 16% 14%; --secondary-foreground: 210 20% 85%; --muted: 220 14% 16%; --muted-foreground: 215 12% 58%; --accent: 152 60% 48%; --accent-foreground: 220 20% 7%; --destructive: 0 72% 51%; --destructive-foreground: 210 40% 98%; --warning: 38 92% 50%; --warning-foreground: 220 20% 7%; --info: 210 80% 56%; --info-foreground: 220 20% 7%; --tip: 152 60% 48%; --tip-foreground: 220 20% 7%; --note: 270 60% 60%; --note-foreground: 220 20% 7%; --border: 220 14% 16%; --input: 220 14% 16%; --ring: 152 60% 48%; --radius: .75rem; --sidebar-background: 220 20% 5%; --sidebar-foreground: 210 20% 75%; --sidebar-primary: 152 60% 48%; --sidebar-primary-foreground: 220 20% 7%; --sidebar-accent: 220 16% 12%; --sidebar-accent-foreground: 210 20% 92%; --sidebar-border: 220 14% 14%; --sidebar-ring: 152 60% 48%; --glow-primary: 152 60% 48%; --glow-secondary: 210 80% 56%; --glass-bg: 220 18% 10%; --glass-border: 220 14% 20%; --surface-elevated: 220 16% 12%; }
+
+* { border-color: hsl(var(--border)); }
+
+body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); -webkit-font-smoothing: antialiased; font-family: Inter, sans-serif; }
+
+h1, h2, h3, h4, h5, h6 { font-family: "Space Grotesk", sans-serif; }
+
+::-webkit-scrollbar { width: 6px; }
+
+::-webkit-scrollbar-track { background: hsl(var(--background)); }
+
+::-webkit-scrollbar-thumb { background: hsl(var(--muted)); border-radius: 3px; }
+
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+
+.glass-card { position: relative; overflow: hidden; border-radius: 0.75rem; border-width: 1px; border-color: hsl(var(--border) / .5); background: linear-gradient(135deg,hsl(var(--glass-bg) / .8),hsl(var(--glass-bg) / .4)); backdrop-filter: blur(20px); }
+
+.glow-text { color: hsl(var(--primary)); background-image: linear-gradient(90deg,hsl(var(--glow-primary)),hsl(var(--glow-secondary))); -webkit-background-clip: text; background-clip: text; }
+
+@supports (-webkit-background-clip: text) {
+  .glow-text { -webkit-text-fill-color: transparent; color: transparent; }
+}
+
+.glow-border { border-color: hsl(var(--primary) / .3); box-shadow: 0 0 20px -5px hsl(var(--glow-primary) / .15),inset 0 0 20px -5px hsl(var(--glow-primary) / .05); }
+
+.premium-shadow { box-shadow: 0 4px 30px -8px #00000080,0 0 1px hsl(var(--glass-border) / .5); }
+
+.section-divider { height: 1px; width: 100%; background: linear-gradient(90deg,transparent,hsl(var(--primary) / .3),transparent); }
+
+.dot-pattern { background-image: radial-gradient(hsl(var(--muted-foreground) / .12) 1px,transparent 1px); background-size: 24px 24px; }
+
+.hero-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; filter: blur(120px); opacity: 0.15; }
+
+.hero-glow-primary { background: hsl(var(--glow-primary)); }
+
+.hero-glow-secondary { background: hsl(var(--glow-secondary)); }
+
+.nav-link-active { font-weight: 500; color: hsl(var(--foreground)); border-left-color: hsl(var(--primary)); }
+
+.nav-link-inactive { color: hsl(var(--muted-foreground)); border-left-color: transparent; }
+
+.progress-bar-fill { background: linear-gradient(90deg,hsl(var(--primary)),hsl(var(--glow-secondary))); }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px; }
+
+.pointer-events-none { pointer-events: none; }
+
+.pointer-events-auto { pointer-events: auto; }
+
+.visible { visibility: visible; }
+
+.invisible { visibility: hidden; }
+
+.fixed { position: fixed; }
+
+.absolute { position: absolute; }
+
+.relative { position: relative; }
+
+.inset-0 { inset: 0px; }
+
+.inset-x-0 { left: 0px; right: 0px; }
+
+.inset-y-0 { top: 0px; bottom: 0px; }
+
+.-bottom-12 { bottom: -3rem; }
+
+.-bottom-full { bottom: -100%; }
+
+.-left-12 { left: -3rem; }
+
+.-right-12 { right: -3rem; }
+
+.-top-12 { top: -3rem; }
+
+.bottom-0 { bottom: 0px; }
+
+.bottom-6 { bottom: 1.5rem; }
+
+.left-0 { left: 0px; }
+
+.left-1 { left: 0.25rem; }
+
+.left-1\/2 { left: 50%; }
+
+.left-2 { left: 0.5rem; }
+
+.left-\[50\%\] { left: 50%; }
+
+.right-0 { right: 0px; }
+
+.right-1 { right: 0.25rem; }
+
+.right-2 { right: 0.5rem; }
+
+.right-3 { right: 0.75rem; }
+
+.right-4 { right: 1rem; }
+
+.right-6 { right: 1.5rem; }
+
+.top-0 { top: 0px; }
+
+.top-1\.5 { top: 0.375rem; }
+
+.top-1\/2 { top: 50%; }
+
+.top-2 { top: 0.5rem; }
+
+.top-3\.5 { top: 0.875rem; }
+
+.top-4 { top: 1rem; }
+
+.top-\[1px\] { top: 1px; }
+
+.top-\[50\%\] { top: 50%; }
+
+.top-\[60\%\] { top: 60%; }
+
+.top-full { top: 100%; }
+
+.z-10 { z-index: 10; }
+
+.z-20 { z-index: 20; }
+
+.z-40 { z-index: 40; }
+
+.z-50 { z-index: 50; }
+
+.z-\[100\] { z-index: 100; }
+
+.z-\[1\] { z-index: 1; }
+
+.-mx-1 { margin-left: -0.25rem; margin-right: -0.25rem; }
+
+.mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
+
+.mx-3\.5 { margin-left: 0.875rem; margin-right: 0.875rem; }
+
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.my-0\.5 { margin-top: 0.125rem; margin-bottom: 0.125rem; }
+
+.my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+
+.-ml-4 { margin-left: -1rem; }
+
+.-mt-4 { margin-top: -1rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+
+.mb-10 { margin-bottom: 2.5rem; }
+
+.mb-2 { margin-bottom: 0.5rem; }
+
+.mb-2\.5 { margin-bottom: 0.625rem; }
+
+.mb-20 { margin-bottom: 5rem; }
+
+.mb-3 { margin-bottom: 0.75rem; }
+
+.mb-4 { margin-bottom: 1rem; }
+
+.mb-6 { margin-bottom: 1.5rem; }
+
+.mb-8 { margin-bottom: 2rem; }
+
+.ml-1 { margin-left: 0.25rem; }
+
+.ml-auto { margin-left: auto; }
+
+.mr-2 { margin-right: 0.5rem; }
+
+.mt-0\.5 { margin-top: 0.125rem; }
+
+.mt-1 { margin-top: 0.25rem; }
+
+.mt-1\.5 { margin-top: 0.375rem; }
+
+.mt-10 { margin-top: 2.5rem; }
+
+.mt-16 { margin-top: 4rem; }
+
+.mt-2 { margin-top: 0.5rem; }
+
+.mt-20 { margin-top: 5rem; }
+
+.mt-24 { margin-top: 6rem; }
+
+.mt-3 { margin-top: 0.75rem; }
+
+.mt-4 { margin-top: 1rem; }
+
+.mt-5 { margin-top: 1.25rem; }
+
+.mt-auto { margin-top: auto; }
+
+.block { display: block; }
+
+.inline-block { display: inline-block; }
+
+.flex { display: flex; }
+
+.inline-flex { display: inline-flex; }
+
+.table { display: table; }
+
+.grid { display: grid; }
+
+.hidden { display: none; }
+
+.aspect-square { aspect-ratio: 1 / 1; }
+
+.aspect-video { aspect-ratio: 16 / 9; }
+
+.size-4 { width: 1rem; height: 1rem; }
+
+.h-0\.5 { height: 0.125rem; }
+
+.h-1\.5 { height: 0.375rem; }
+
+.h-10 { height: 2.5rem; }
+
+.h-11 { height: 2.75rem; }
+
+.h-12 { height: 3rem; }
+
+.h-2 { height: 0.5rem; }
+
+.h-2\.5 { height: 0.625rem; }
+
+.h-3 { height: 0.75rem; }
+
+.h-3\.5 { height: 0.875rem; }
+
+.h-4 { height: 1rem; }
+
+.h-5 { height: 1.25rem; }
+
+.h-6 { height: 1.5rem; }
+
+.h-7 { height: 1.75rem; }
+
+.h-8 { height: 2rem; }
+
+.h-9 { height: 2.25rem; }
+
+.h-\[1px\] { height: 1px; }
+
+.h-\[var\(--radix-navigation-menu-viewport-height\)\] { height: var(--radix-navigation-menu-viewport-height); }
+
+.h-\[var\(--radix-select-trigger-height\)\] { height: var(--radix-select-trigger-height); }
+
+.h-auto { height: auto; }
+
+.h-full { height: 100%; }
+
+.h-px { height: 1px; }
+
+.h-svh { height: 100svh; }
+
+.max-h-96 { max-height: 24rem; }
+
+.max-h-\[300px\] { max-height: 300px; }
+
+.max-h-screen { max-height: 100vh; }
+
+.min-h-0 { min-height: 0px; }
+
+.min-h-\[24px\] { min-height: 24px; }
+
+.min-h-\[70vh\] { min-height: 70vh; }
+
+.min-h-\[80px\] { min-height: 80px; }
+
+.min-h-screen { min-height: 100vh; }
+
+.min-h-svh { min-height: 100svh; }
+
+.w-0 { width: 0px; }
+
+.w-1 { width: 0.25rem; }
+
+.w-10 { width: 2.5rem; }
+
+.w-11 { width: 2.75rem; }
+
+.w-12 { width: 3rem; }
+
+.w-2 { width: 0.5rem; }
+
+.w-2\.5 { width: 0.625rem; }
+
+.w-3 { width: 0.75rem; }
+
+.w-3\.5 { width: 0.875rem; }
+
+.w-3\/4 { width: 75%; }
+
+.w-4 { width: 1rem; }
+
+.w-5 { width: 1.25rem; }
+
+.w-64 { width: 16rem; }
+
+.w-7 { width: 1.75rem; }
+
+.w-72 { width: 18rem; }
+
+.w-8 { width: 2rem; }
+
+.w-9 { width: 2.25rem; }
+
+.w-\[--sidebar-width\] { width: var(--sidebar-width); }
+
+.w-\[100px\] { width: 100px; }
+
+.w-\[1px\] { width: 1px; }
+
+.w-auto { width: auto; }
+
+.w-full { width: 100%; }
+
+.w-max { width: max-content; }
+
+.w-px { width: 1px; }
+
+.min-w-0 { min-width: 0px; }
+
+.min-w-5 { min-width: 1.25rem; }
+
+.min-w-\[12rem\] { min-width: 12rem; }
+
+.min-w-\[8rem\] { min-width: 8rem; }
+
+.min-w-\[90px\] { min-width: 90px; }
+
+.min-w-\[var\(--radix-select-trigger-width\)\] { min-width: var(--radix-select-trigger-width); }
+
+.max-w-2xl { max-width: 42rem; }
+
+.max-w-3xl { max-width: 48rem; }
+
+.max-w-7xl { max-width: 80rem; }
+
+.max-w-\[--skeleton-width\] { max-width: var(--skeleton-width); }
+
+.max-w-lg { max-width: 32rem; }
+
+.max-w-max { max-width: max-content; }
+
+.flex-1 { flex: 1 1 0%; }
+
+.shrink-0 { flex-shrink: 0; }
+
+.grow { flex-grow: 1; }
+
+.grow-0 { flex-grow: 0; }
+
+.basis-full { flex-basis: 100%; }
+
+.caption-bottom { caption-side: bottom; }
+
+.border-collapse { border-collapse: collapse; }
+
+.origin-left { transform-origin: left center; }
+
+.-translate-x-1\/2 { --tw-translate-x: -50%; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.-translate-x-px { --tw-translate-x: -1px; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.-translate-y-1\/2 { --tw-translate-y: -50%; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.translate-x-\[-50\%\] { --tw-translate-x: -50%; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.translate-x-px { --tw-translate-x: 1px; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.translate-y-\[-50\%\] { --tw-translate-y: -50%; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.rotate-45 { --tw-rotate: 45deg; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.rotate-90 { --tw-rotate: 90deg; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.transform { transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+@keyframes glow-pulse { 
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.25; }
+}
+
+.animate-glow-pulse { animation: 4s ease-in-out 0s infinite normal none running glow-pulse; }
+
+@keyframes pulse { 
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse { animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse; }
+
+.cursor-default { cursor: default; }
+
+.cursor-pointer { cursor: pointer; }
+
+.touch-none { touch-action: none; }
+
+.select-none { user-select: none; }
+
+.scroll-mt-8 { scroll-margin-top: 2rem; }
+
+.list-none { list-style-type: none; }
+
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0px, 1fr)); }
+
+.flex-row { flex-direction: row; }
+
+.flex-col { flex-direction: column; }
+
+.flex-col-reverse { flex-direction: column-reverse; }
+
+.flex-wrap { flex-wrap: wrap; }
+
+.items-start { align-items: flex-start; }
+
+.items-end { align-items: flex-end; }
+
+.items-center { align-items: center; }
+
+.items-stretch { align-items: stretch; }
+
+.justify-center { justify-content: center; }
+
+.justify-between { justify-content: space-between; }
+
+.gap-1 { gap: 0.25rem; }
+
+.gap-1\.5 { gap: 0.375rem; }
+
+.gap-2 { gap: 0.5rem; }
+
+.gap-3 { gap: 0.75rem; }
+
+.gap-4 { gap: 1rem; }
+
+.gap-6 { gap: 1.5rem; }
+
+.space-x-1 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 0; margin-right: calc(.25rem * var(--tw-space-x-reverse)); margin-left: calc(.25rem * calc(1 - var(--tw-space-x-reverse))); }
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 0; margin-right: calc(1rem * var(--tw-space-x-reverse)); margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse))); }
+
+.space-y-0 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0px * var(--tw-space-y-reverse)); }
+
+.space-y-1 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(.25rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(.25rem * var(--tw-space-y-reverse)); }
+
+.space-y-1\.5 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(.375rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(.375rem * var(--tw-space-y-reverse)); }
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(.5rem * var(--tw-space-y-reverse)); }
+
+.space-y-3 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(.75rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(.75rem * var(--tw-space-y-reverse)); }
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse)); }
+
+.space-y-7 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(1.75rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.75rem * var(--tw-space-y-reverse)); }
+
+.divide-y > :not([hidden]) ~ :not([hidden]) { --tw-divide-y-reverse: 0; border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse))); border-bottom-width: calc(1px * var(--tw-divide-y-reverse)); }
+
+.divide-border\/30 > :not([hidden]) ~ :not([hidden]) { border-color: hsl(var(--border) / .3); }
+
+.overflow-auto { overflow: auto; }
+
+.overflow-hidden { overflow: hidden; }
+
+.overflow-y-auto { overflow-y: auto; }
+
+.overflow-x-hidden { overflow-x: hidden; }
+
+.whitespace-nowrap { white-space: nowrap; }
+
+.break-words { overflow-wrap: break-word; }
+
+.rounded-2xl { border-radius: 1rem; }
+
+.rounded-\[2px\] { border-radius: 2px; }
+
+.rounded-\[inherit\] { border-radius: inherit; }
+
+.rounded-full { border-radius: 9999px; }
+
+.rounded-lg { border-radius: var(--radius); }
+
+.rounded-md { border-radius: calc(var(--radius) - 2px); }
+
+.rounded-sm { border-radius: calc(var(--radius) - 4px); }
+
+.rounded-xl { border-radius: 0.75rem; }
+
+.rounded-t-2xl { border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+
+.rounded-t-\[10px\] { border-top-left-radius: 10px; border-top-right-radius: 10px; }
+
+.rounded-tl-sm { border-top-left-radius: calc(var(--radius) - 4px); }
+
+.border { border-width: 1px; }
+
+.border-2 { border-width: 2px; }
+
+.border-\[1\.5px\] { border-width: 1.5px; }
+
+.border-y { border-top-width: 1px; border-bottom-width: 1px; }
+
+.border-b { border-bottom-width: 1px; }
+
+.border-l { border-left-width: 1px; }
+
+.border-l-2 { border-left-width: 2px; }
+
+.border-r { border-right-width: 1px; }
+
+.border-t { border-top-width: 1px; }
+
+.border-t-\[3px\] { border-top-width: 3px; }
+
+.border-dashed { border-style: dashed; }
+
+.border-\[--color-border\] { border-color: var(--color-border); }
+
+.border-border\/30 { border-color: hsl(var(--border) / .3); }
+
+.border-border\/50 { border-color: hsl(var(--border) / .5); }
+
+.border-border\/60 { border-color: hsl(var(--border) / .6); }
+
+.border-destructive { border-color: hsl(var(--destructive)); }
+
+.border-destructive\/50 { border-color: hsl(var(--destructive) / .5); }
+
+.border-input { border-color: hsl(var(--input)); }
+
+.border-primary { border-color: hsl(var(--primary)); }
+
+.border-primary\/20 { border-color: hsl(var(--primary) / .2); }
+
+.border-primary\/30 { border-color: hsl(var(--primary) / .3); }
+
+.border-sidebar-border { border-color: hsl(var(--sidebar-border)); }
+
+.border-transparent { border-color: transparent; }
+
+.border-l-primary { border-left-color: hsl(var(--primary)); }
+
+.border-l-transparent { border-left-color: transparent; }
+
+.border-t-\[hsl\(var\(--destructive\)\)\] { border-top-color: hsl(var(--destructive)); }
+
+.border-t-\[hsl\(var\(--warning\)\)\] { border-top-color: hsl(var(--warning)); }
+
+.border-t-primary { border-top-color: hsl(var(--primary)); }
+
+.border-t-transparent { border-top-color: transparent; }
+
+.bg-\[--color-bg\] { background-color: var(--color-bg); }
+
+.bg-accent { background-color: hsl(var(--accent)); }
+
+.bg-background { background-color: hsl(var(--background)); }
+
+.bg-background\/80 { background-color: hsl(var(--background) / .8); }
+
+.bg-black\/80 { background-color: rgba(0, 0, 0, 0.8); }
+
+.bg-border { background-color: hsl(var(--border)); }
+
+.bg-card { background-color: hsl(var(--card)); }
+
+.bg-card\/95 { background-color: hsl(var(--card) / .95); }
+
+.bg-destructive { background-color: hsl(var(--destructive)); }
+
+.bg-foreground { background-color: hsl(var(--foreground)); }
+
+.bg-muted { background-color: hsl(var(--muted)); }
+
+.bg-muted\/50 { background-color: hsl(var(--muted) / .5); }
+
+.bg-popover { background-color: hsl(var(--popover)); }
+
+.bg-primary { background-color: hsl(var(--primary)); }
+
+.bg-primary\/10 { background-color: hsl(var(--primary) / .1); }
+
+.bg-primary\/15 { background-color: hsl(var(--primary) / .15); }
+
+.bg-primary\/5 { background-color: hsl(var(--primary) / .05); }
+
+.bg-primary\/60 { background-color: hsl(var(--primary) / .6); }
+
+.bg-secondary { background-color: hsl(var(--secondary)); }
+
+.bg-secondary\/20 { background-color: hsl(var(--secondary) / .2); }
+
+.bg-secondary\/30 { background-color: hsl(var(--secondary) / .3); }
+
+.bg-sidebar { background-color: hsl(var(--sidebar-background)); }
+
+.bg-sidebar-border { background-color: hsl(var(--sidebar-border)); }
+
+.bg-transparent { background-color: transparent; }
+
+.bg-gradient-to-b { background-image: linear-gradient(to bottom,var(--tw-gradient-stops)); }
+
+.from-primary\/30 { --tw-gradient-from: hsl(var(--primary) / .3) var(--tw-gradient-from-position); --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+
+.to-border\/30 { --tw-gradient-to: hsl(var(--border) / .3) var(--tw-gradient-to-position); }
+
+.fill-current { fill: currentcolor; }
+
+.p-0 { padding: 0px; }
+
+.p-1 { padding: 0.25rem; }
+
+.p-2 { padding: 0.5rem; }
+
+.p-3 { padding: 0.75rem; }
+
+.p-4 { padding: 1rem; }
+
+.p-5 { padding: 1.25rem; }
+
+.p-6 { padding: 1.5rem; }
+
+.p-8 { padding: 2rem; }
+
+.p-\[1px\] { padding: 1px; }
+
+.px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+.px-2\.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+.px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+
+.px-7 { padding-left: 1.75rem; padding-right: 1.75rem; }
+
+.px-8 { padding-left: 2rem; padding-right: 2rem; }
+
+.py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+
+.py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+
+.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+
+.py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+
+.py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+.py-3\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+
+.pb-3 { padding-bottom: 0.75rem; }
+
+.pb-4 { padding-bottom: 1rem; }
+
+.pb-6 { padding-bottom: 1.5rem; }
+
+.pl-2\.5 { padding-left: 0.625rem; }
+
+.pl-4 { padding-left: 1rem; }
+
+.pl-8 { padding-left: 2rem; }
+
+.pr-2 { padding-right: 0.5rem; }
+
+.pr-2\.5 { padding-right: 0.625rem; }
+
+.pr-8 { padding-right: 2rem; }
+
+.pt-0 { padding-top: 0px; }
+
+.pt-1 { padding-top: 0.25rem; }
+
+.pt-3 { padding-top: 0.75rem; }
+
+.pt-4 { padding-top: 1rem; }
+
+.pt-8 { padding-top: 2rem; }
+
+.text-left { text-align: left; }
+
+.text-center { text-align: center; }
+
+.text-right { text-align: right; }
+
+.align-middle { vertical-align: middle; }
+
+.font-heading { font-family: "Space Grotesk", sans-serif; }
+
+.font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+
+.text-\[0\.8rem\] { font-size: 0.8rem; }
+
+.text-\[10px\] { font-size: 10px; }
+
+.text-\[15\.5px\] { font-size: 15.5px; }
+
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+
+.font-bold { font-weight: 700; }
+
+.font-medium { font-weight: 500; }
+
+.font-normal { font-weight: 400; }
+
+.font-semibold { font-weight: 600; }
+
+.uppercase { text-transform: uppercase; }
+
+.italic { font-style: italic; }
+
+.tabular-nums { --tw-numeric-spacing: tabular-nums; font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction); }
+
+.leading-\[1\.1\] { line-height: 1.1; }
+
+.leading-\[1\.85\] { line-height: 1.85; }
+
+.leading-none { line-height: 1; }
+
+.leading-relaxed { line-height: 1.625; }
+
+.tracking-tight { letter-spacing: -0.025em; }
+
+.tracking-wider { letter-spacing: 0.05em; }
+
+.tracking-widest { letter-spacing: 0.1em; }
+
+.text-accent-foreground { color: hsl(var(--accent-foreground)); }
+
+.text-card-foreground { color: hsl(var(--card-foreground)); }
+
+.text-current { color: currentcolor; }
+
+.text-destructive { color: hsl(var(--destructive)); }
+
+.text-destructive-foreground { color: hsl(var(--destructive-foreground)); }
+
+.text-foreground { color: hsl(var(--foreground)); }
+
+.text-foreground\/50 { color: hsl(var(--foreground) / .5); }
+
+.text-foreground\/60 { color: hsl(var(--foreground) / .6); }
+
+.text-foreground\/80 { color: hsl(var(--foreground) / .8); }
+
+.text-foreground\/90 { color: hsl(var(--foreground) / .9); }
+
+.text-foreground\/95 { color: hsl(var(--foreground) / .95); }
+
+.text-muted-foreground { color: hsl(var(--muted-foreground)); }
+
+.text-popover-foreground { color: hsl(var(--popover-foreground)); }
+
+.text-primary { color: hsl(var(--primary)); }
+
+.text-primary-foreground { color: hsl(var(--primary-foreground)); }
+
+.text-secondary-foreground { color: hsl(var(--secondary-foreground)); }
+
+.text-secondary-foreground\/85 { color: hsl(var(--secondary-foreground) / .85); }
+
+.text-sidebar-foreground { color: hsl(var(--sidebar-foreground)); }
+
+.text-sidebar-foreground\/70 { color: hsl(var(--sidebar-foreground) / .7); }
+
+.underline { text-decoration-line: underline; }
+
+.underline-offset-4 { text-underline-offset: 4px; }
+
+.opacity-0 { opacity: 0; }
+
+.opacity-30 { opacity: 0.3; }
+
+.opacity-50 { opacity: 0.5; }
+
+.opacity-60 { opacity: 0.6; }
+
+.opacity-70 { opacity: 0.7; }
+
+.opacity-90 { opacity: 0.9; }
+
+.shadow-\[0_0_0_1px_hsl\(var\(--sidebar-border\)\)\] { --tw-shadow: 0 0 0 1px hsl(var(--sidebar-border)); --tw-shadow-colored: 0 0 0 1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.shadow-lg { --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1); --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.shadow-md { --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.shadow-none { --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.shadow-sm { --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.shadow-xl { --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1); --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.outline-none { outline: transparent solid 2px; outline-offset: 2px; }
+
+.outline { outline-style: solid; }
+
+.ring-0 { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000); }
+
+.ring-2 { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000); }
+
+.ring-ring { --tw-ring-color: hsl(var(--ring)); }
+
+.ring-sidebar-ring { --tw-ring-color: hsl(var(--sidebar-ring)); }
+
+.ring-offset-background { --tw-ring-offset-color: hsl(var(--background)); }
+
+.filter { filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow); }
+
+.backdrop-blur-sm { --tw-backdrop-blur: blur(4px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia); }
+
+.backdrop-blur-xl { --tw-backdrop-blur: blur(24px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia); }
+
+.transition { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-\[left\,right\,width\] { transition-property: left, right, width; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-\[margin\,opa\] { transition-property: margin, opa; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-\[width\,height\,padding\] { transition-property: width, height, padding; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-\[width\] { transition-property: width; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.15s; }
+
+.duration-1000 { transition-duration: 1s; }
+
+.duration-200 { transition-duration: 0.2s; }
+
+.duration-300 { transition-duration: 0.3s; }
+
+.ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+
+.ease-linear { transition-timing-function: linear; }
+
+.ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+
+@keyframes enter { 
+  0% { opacity: var(--tw-enter-opacity, 1); transform: translate3d(var(--tw-enter-translate-x, 0),var(--tw-enter-translate-y, 0),0) scale3d(var(--tw-enter-scale, 1),var(--tw-enter-scale, 1),var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0)); }
+}
+
+@keyframes exit { 
+  100% { opacity: var(--tw-exit-opacity, 1); transform: translate3d(var(--tw-exit-translate-x, 0),var(--tw-exit-translate-y, 0),0) scale3d(var(--tw-exit-scale, 1),var(--tw-exit-scale, 1),var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0)); }
+}
+
+.animate-in { animation-name: enter; animation-duration: 0.15s; --tw-enter-opacity: initial; --tw-enter-scale: initial; --tw-enter-rotate: initial; --tw-enter-translate-x: initial; --tw-enter-translate-y: initial; }
+
+.fade-in-0 { --tw-enter-opacity: 0; }
+
+.fade-in-80 { --tw-enter-opacity: .8; }
+
+.zoom-in-95 { --tw-enter-scale: .95; }
+
+.duration-1000 { animation-duration: 1s; }
+
+.duration-200 { animation-duration: 0.2s; }
+
+.duration-300 { animation-duration: 0.3s; }
+
+.ease-in-out { animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+
+.ease-linear { animation-timing-function: linear; }
+
+.ease-out { animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+
+html { scroll-behavior: smooth; }
+
+.hover\:glow-border:hover { border-color: hsl(var(--primary) / .3); box-shadow: 0 0 20px -5px hsl(var(--glow-primary) / .15),inset 0 0 20px -5px hsl(var(--glow-primary) / .05); }
+
+.file\:border-0::file-selector-button { border-width: 0px; }
+
+.file\:bg-transparent::file-selector-button { background-color: transparent; }
+
+.file\:text-sm::file-selector-button { font-size: 0.875rem; line-height: 1.25rem; }
+
+.file\:font-medium::file-selector-button { font-weight: 500; }
+
+.file\:text-foreground::file-selector-button { color: hsl(var(--foreground)); }
+
+.placeholder\:text-muted-foreground::placeholder { color: hsl(var(--muted-foreground)); }
+
+.after\:absolute::after { content: var(--tw-content); position: absolute; }
+
+.after\:-inset-2::after { content: var(--tw-content); inset: -0.5rem; }
+
+.after\:inset-y-0::after { content: var(--tw-content); top: 0px; bottom: 0px; }
+
+.after\:left-1\/2::after { content: var(--tw-content); left: 50%; }
+
+.after\:w-1::after { content: var(--tw-content); width: 0.25rem; }
+
+.after\:w-\[2px\]::after { content: var(--tw-content); width: 2px; }
+
+.after\:-translate-x-1\/2::after { content: var(--tw-content); --tw-translate-x: -50%; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.first\:rounded-l-md:first-child { border-top-left-radius: calc(var(--radius) - 2px); border-bottom-left-radius: calc(var(--radius) - 2px); }
+
+.first\:border-l:first-child { border-left-width: 1px; }
+
+.last\:rounded-r-md:last-child { border-top-right-radius: calc(var(--radius) - 2px); border-bottom-right-radius: calc(var(--radius) - 2px); }
+
+.focus-within\:relative:focus-within { position: relative; }
+
+.focus-within\:z-20:focus-within { z-index: 20; }
+
+.hover\:scale-\[1\.02\]:hover { --tw-scale-x: 1.02; --tw-scale-y: 1.02; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.hover\:border-primary\/30:hover { border-color: hsl(var(--primary) / .3); }
+
+.hover\:border-primary\/35:hover { border-color: hsl(var(--primary) / .35); }
+
+.hover\:bg-accent:hover { background-color: hsl(var(--accent)); }
+
+.hover\:bg-destructive\/80:hover { background-color: hsl(var(--destructive) / .8); }
+
+.hover\:bg-destructive\/90:hover { background-color: hsl(var(--destructive) / .9); }
+
+.hover\:bg-muted:hover { background-color: hsl(var(--muted)); }
+
+.hover\:bg-muted\/50:hover { background-color: hsl(var(--muted) / .5); }
+
+.hover\:bg-primary:hover { background-color: hsl(var(--primary)); }
+
+.hover\:bg-primary\/20:hover { background-color: hsl(var(--primary) / .2); }
+
+.hover\:bg-primary\/80:hover { background-color: hsl(var(--primary) / .8); }
+
+.hover\:bg-primary\/90:hover { background-color: hsl(var(--primary) / .9); }
+
+.hover\:bg-secondary:hover { background-color: hsl(var(--secondary)); }
+
+.hover\:bg-secondary\/50:hover { background-color: hsl(var(--secondary) / .5); }
+
+.hover\:bg-secondary\/80:hover { background-color: hsl(var(--secondary) / .8); }
+
+.hover\:bg-sidebar-accent:hover { background-color: hsl(var(--sidebar-accent)); }
+
+.hover\:text-accent-foreground:hover { color: hsl(var(--accent-foreground)); }
+
+.hover\:text-foreground:hover { color: hsl(var(--foreground)); }
+
+.hover\:text-muted-foreground:hover { color: hsl(var(--muted-foreground)); }
+
+.hover\:text-primary-foreground:hover { color: hsl(var(--primary-foreground)); }
+
+.hover\:text-primary\/90:hover { color: hsl(var(--primary) / .9); }
+
+.hover\:text-sidebar-accent-foreground:hover { color: hsl(var(--sidebar-accent-foreground)); }
+
+.hover\:underline:hover { text-decoration-line: underline; }
+
+.hover\:opacity-100:hover { opacity: 1; }
+
+.hover\:shadow-\[0_0_0_1px_hsl\(var\(--sidebar-accent\)\)\]:hover { --tw-shadow: 0 0 0 1px hsl(var(--sidebar-accent)); --tw-shadow-colored: 0 0 0 1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.hover\:shadow-\[0_0_20px_-6px_hsl\(var\(--glow-primary\)\/0\.25\)\]:hover { --tw-shadow: 0 0 20px -6px hsl(var(--glow-primary)/.25); --tw-shadow-colored: 0 0 20px -6px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.hover\:shadow-\[0_0_30px_-6px_hsl\(var\(--glow-primary\)\/0\.4\)\]:hover { --tw-shadow: 0 0 30px -6px hsl(var(--glow-primary)/.4); --tw-shadow-colored: 0 0 30px -6px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.hover\:after\:bg-sidebar-border:hover::after { content: var(--tw-content); background-color: hsl(var(--sidebar-border)); }
+
+.focus\:bg-accent:focus { background-color: hsl(var(--accent)); }
+
+.focus\:bg-primary:focus { background-color: hsl(var(--primary)); }
+
+.focus\:text-accent-foreground:focus { color: hsl(var(--accent-foreground)); }
+
+.focus\:text-primary-foreground:focus { color: hsl(var(--primary-foreground)); }
+
+.focus\:opacity-100:focus { opacity: 1; }
+
+.focus\:outline-none:focus { outline: transparent solid 2px; outline-offset: 2px; }
+
+.focus\:ring-2:focus { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000); }
+
+.focus\:ring-ring:focus { --tw-ring-color: hsl(var(--ring)); }
+
+.focus\:ring-offset-2:focus { --tw-ring-offset-width: 2px; }
+
+.focus-visible\:outline-none:focus-visible { outline: transparent solid 2px; outline-offset: 2px; }
+
+.focus-visible\:ring-1:focus-visible { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000); }
+
+.focus-visible\:ring-2:focus-visible { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000); }
+
+.focus-visible\:ring-ring:focus-visible { --tw-ring-color: hsl(var(--ring)); }
+
+.focus-visible\:ring-sidebar-ring:focus-visible { --tw-ring-color: hsl(var(--sidebar-ring)); }
+
+.focus-visible\:ring-offset-1:focus-visible { --tw-ring-offset-width: 1px; }
+
+.focus-visible\:ring-offset-2:focus-visible { --tw-ring-offset-width: 2px; }
+
+.focus-visible\:ring-offset-background:focus-visible { --tw-ring-offset-color: hsl(var(--background)); }
+
+.active\:bg-sidebar-accent:active { background-color: hsl(var(--sidebar-accent)); }
+
+.active\:text-sidebar-accent-foreground:active { color: hsl(var(--sidebar-accent-foreground)); }
+
+.disabled\:pointer-events-none:disabled { pointer-events: none; }
+
+.disabled\:cursor-not-allowed:disabled { cursor: not-allowed; }
+
+.disabled\:opacity-50:disabled { opacity: 0.5; }
+
+.group\/menu-item:focus-within .group-focus-within\/menu-item\:opacity-100 { opacity: 1; }
+
+.group:hover .group-hover\:bg-primary\/20 { background-color: hsl(var(--primary) / .2); }
+
+.group\/menu-item:hover .group-hover\/menu-item\:opacity-100, .group:hover .group-hover\:opacity-100 { opacity: 1; }
+
+.group.destructive .group-\[\.destructive\]\:border-muted\/40 { border-color: hsl(var(--muted) / .4); }
+
+.group.toaster .group-\[\.toaster\]\:border-border { border-color: hsl(var(--border)); }
+
+.group.toast .group-\[\.toast\]\:bg-muted { background-color: hsl(var(--muted)); }
+
+.group.toast .group-\[\.toast\]\:bg-primary { background-color: hsl(var(--primary)); }
+
+.group.toaster .group-\[\.toaster\]\:bg-background { background-color: hsl(var(--background)); }
+
+.group.destructive .group-\[\.destructive\]\:text-red-300 { --tw-text-opacity: 1; color: rgb(252 165 165 / var(--tw-text-opacity, 1)); }
+
+.group.toast .group-\[\.toast\]\:text-muted-foreground { color: hsl(var(--muted-foreground)); }
+
+.group.toast .group-\[\.toast\]\:text-primary-foreground { color: hsl(var(--primary-foreground)); }
+
+.group.toaster .group-\[\.toaster\]\:text-foreground { color: hsl(var(--foreground)); }
+
+.group.toaster .group-\[\.toaster\]\:shadow-lg { --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1); --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.group.destructive .group-\[\.destructive\]\:hover\:border-destructive\/30:hover { border-color: hsl(var(--destructive) / .3); }
+
+.group.destructive .group-\[\.destructive\]\:hover\:bg-destructive:hover { background-color: hsl(var(--destructive)); }
+
+.group.destructive .group-\[\.destructive\]\:hover\:text-destructive-foreground:hover { color: hsl(var(--destructive-foreground)); }
+
+.group.destructive .group-\[\.destructive\]\:hover\:text-red-50:hover { --tw-text-opacity: 1; color: rgb(254 242 242 / var(--tw-text-opacity, 1)); }
+
+.group.destructive .group-\[\.destructive\]\:focus\:ring-destructive:focus { --tw-ring-color: hsl(var(--destructive)); }
+
+.group.destructive .group-\[\.destructive\]\:focus\:ring-red-400:focus { --tw-ring-opacity: 1; --tw-ring-color: rgb(248 113 113 / var(--tw-ring-opacity, 1)); }
+
+.group.destructive .group-\[\.destructive\]\:focus\:ring-offset-red-600:focus { --tw-ring-offset-color: #dc2626; }
+
+.peer\/menu-button:hover ~ .peer-hover\/menu-button\:text-sidebar-accent-foreground { color: hsl(var(--sidebar-accent-foreground)); }
+
+.peer:disabled ~ .peer-disabled\:cursor-not-allowed { cursor: not-allowed; }
+
+.peer:disabled ~ .peer-disabled\:opacity-70 { opacity: 0.7; }
+
+.has-\[\[data-variant\=inset\]\]\:bg-sidebar:has([data-variant="inset"]) { background-color: hsl(var(--sidebar-background)); }
+
+.has-\[\:disabled\]\:opacity-50:has(:disabled) { opacity: 0.5; }
+
+.group\/menu-item:has([data-sidebar="menu-action"]) .group-has-\[\[data-sidebar\=menu-action\]\]\/menu-item\:pr-8 { padding-right: 2rem; }
+
+.aria-disabled\:pointer-events-none[aria-disabled="true"] { pointer-events: none; }
+
+.aria-disabled\:opacity-50[aria-disabled="true"] { opacity: 0.5; }
+
+.aria-selected\:bg-accent[aria-selected="true"] { background-color: hsl(var(--accent)); }
+
+.aria-selected\:bg-accent\/50[aria-selected="true"] { background-color: hsl(var(--accent) / .5); }
+
+.aria-selected\:text-accent-foreground[aria-selected="true"] { color: hsl(var(--accent-foreground)); }
+
+.aria-selected\:text-muted-foreground[aria-selected="true"] { color: hsl(var(--muted-foreground)); }
+
+.aria-selected\:opacity-100[aria-selected="true"] { opacity: 1; }
+
+.aria-selected\:opacity-30[aria-selected="true"] { opacity: 0.3; }
+
+.data-\[disabled\=true\]\:pointer-events-none[data-disabled="true"], .data-\[disabled\]\:pointer-events-none[data-disabled] { pointer-events: none; }
+
+.data-\[panel-group-direction\=vertical\]\:h-px[data-panel-group-direction="vertical"] { height: 1px; }
+
+.data-\[panel-group-direction\=vertical\]\:w-full[data-panel-group-direction="vertical"] { width: 100%; }
+
+.data-\[side\=bottom\]\:translate-y-1[data-side="bottom"] { --tw-translate-y: .25rem; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[side\=left\]\:-translate-x-1[data-side="left"] { --tw-translate-x: -.25rem; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[side\=right\]\:translate-x-1[data-side="right"] { --tw-translate-x: .25rem; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[side\=top\]\:-translate-y-1[data-side="top"] { --tw-translate-y: -.25rem; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[state\=checked\]\:translate-x-5[data-state="checked"] { --tw-translate-x: 1.25rem; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[state\=unchecked\]\:translate-x-0[data-state="unchecked"], .data-\[swipe\=cancel\]\:translate-x-0[data-swipe="cancel"] { --tw-translate-x: 0px; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[swipe\=end\]\:translate-x-\[var\(--radix-toast-swipe-end-x\)\][data-swipe="end"] { --tw-translate-x: var(--radix-toast-swipe-end-x); transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[swipe\=move\]\:translate-x-\[var\(--radix-toast-swipe-move-x\)\][data-swipe="move"] { --tw-translate-x: var(--radix-toast-swipe-move-x); transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+@keyframes accordion-up { 
+  0% { height: var(--radix-accordion-content-height); }
+  100% { height: 0px; }
+}
+
+.data-\[state\=closed\]\:animate-accordion-up[data-state="closed"] { animation: 0.2s ease-out 0s 1 normal none running accordion-up; }
+
+@keyframes accordion-down { 
+  0% { height: 0px; }
+  100% { height: var(--radix-accordion-content-height); }
+}
+
+.data-\[state\=open\]\:animate-accordion-down[data-state="open"] { animation: 0.2s ease-out 0s 1 normal none running accordion-down; }
+
+.data-\[panel-group-direction\=vertical\]\:flex-col[data-panel-group-direction="vertical"] { flex-direction: column; }
+
+.data-\[active\=true\]\:bg-sidebar-accent[data-active="true"] { background-color: hsl(var(--sidebar-accent)); }
+
+.data-\[active\]\:bg-accent\/50[data-active] { background-color: hsl(var(--accent) / .5); }
+
+.data-\[selected\=\'true\'\]\:bg-accent[data-selected="true"] { background-color: hsl(var(--accent)); }
+
+.data-\[state\=active\]\:bg-background[data-state="active"] { background-color: hsl(var(--background)); }
+
+.data-\[state\=checked\]\:bg-primary[data-state="checked"] { background-color: hsl(var(--primary)); }
+
+.data-\[state\=on\]\:bg-accent[data-state="on"], .data-\[state\=open\]\:bg-accent[data-state="open"] { background-color: hsl(var(--accent)); }
+
+.data-\[state\=open\]\:bg-accent\/50[data-state="open"] { background-color: hsl(var(--accent) / .5); }
+
+.data-\[state\=open\]\:bg-secondary[data-state="open"] { background-color: hsl(var(--secondary)); }
+
+.data-\[state\=selected\]\:bg-muted[data-state="selected"] { background-color: hsl(var(--muted)); }
+
+.data-\[state\=unchecked\]\:bg-input[data-state="unchecked"] { background-color: hsl(var(--input)); }
+
+.data-\[active\=true\]\:font-medium[data-active="true"] { font-weight: 500; }
+
+.data-\[active\=true\]\:text-sidebar-accent-foreground[data-active="true"] { color: hsl(var(--sidebar-accent-foreground)); }
+
+.data-\[selected\=true\]\:text-accent-foreground[data-selected="true"] { color: hsl(var(--accent-foreground)); }
+
+.data-\[state\=active\]\:text-foreground[data-state="active"] { color: hsl(var(--foreground)); }
+
+.data-\[state\=checked\]\:text-primary-foreground[data-state="checked"] { color: hsl(var(--primary-foreground)); }
+
+.data-\[state\=on\]\:text-accent-foreground[data-state="on"], .data-\[state\=open\]\:text-accent-foreground[data-state="open"] { color: hsl(var(--accent-foreground)); }
+
+.data-\[state\=open\]\:text-muted-foreground[data-state="open"] { color: hsl(var(--muted-foreground)); }
+
+.data-\[disabled\=true\]\:opacity-50[data-disabled="true"], .data-\[disabled\]\:opacity-50[data-disabled] { opacity: 0.5; }
+
+.data-\[state\=open\]\:opacity-100[data-state="open"] { opacity: 1; }
+
+.data-\[state\=active\]\:shadow-sm[data-state="active"] { --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.data-\[swipe\=move\]\:transition-none[data-swipe="move"] { transition-property: none; }
+
+.data-\[state\=closed\]\:duration-300[data-state="closed"] { transition-duration: 0.3s; }
+
+.data-\[state\=open\]\:duration-500[data-state="open"] { transition-duration: 0.5s; }
+
+.data-\[motion\^\=from-\]\:animate-in[data-motion^="from-"], .data-\[state\=open\]\:animate-in[data-state="open"], .data-\[state\=visible\]\:animate-in[data-state="visible"] { animation-name: enter; animation-duration: 0.15s; --tw-enter-opacity: initial; --tw-enter-scale: initial; --tw-enter-rotate: initial; --tw-enter-translate-x: initial; --tw-enter-translate-y: initial; }
+
+.data-\[motion\^\=to-\]\:animate-out[data-motion^="to-"], .data-\[state\=closed\]\:animate-out[data-state="closed"], .data-\[state\=hidden\]\:animate-out[data-state="hidden"], .data-\[swipe\=end\]\:animate-out[data-swipe="end"] { animation-name: exit; animation-duration: 0.15s; --tw-exit-opacity: initial; --tw-exit-scale: initial; --tw-exit-rotate: initial; --tw-exit-translate-x: initial; --tw-exit-translate-y: initial; }
+
+.data-\[motion\^\=from-\]\:fade-in[data-motion^="from-"] { --tw-enter-opacity: 0; }
+
+.data-\[motion\^\=to-\]\:fade-out[data-motion^="to-"], .data-\[state\=closed\]\:fade-out-0[data-state="closed"] { --tw-exit-opacity: 0; }
+
+.data-\[state\=closed\]\:fade-out-80[data-state="closed"] { --tw-exit-opacity: .8; }
+
+.data-\[state\=hidden\]\:fade-out[data-state="hidden"] { --tw-exit-opacity: 0; }
+
+.data-\[state\=open\]\:fade-in-0[data-state="open"], .data-\[state\=visible\]\:fade-in[data-state="visible"] { --tw-enter-opacity: 0; }
+
+.data-\[state\=closed\]\:zoom-out-95[data-state="closed"] { --tw-exit-scale: .95; }
+
+.data-\[state\=open\]\:zoom-in-90[data-state="open"] { --tw-enter-scale: .9; }
+
+.data-\[state\=open\]\:zoom-in-95[data-state="open"] { --tw-enter-scale: .95; }
+
+.data-\[motion\=from-end\]\:slide-in-from-right-52[data-motion="from-end"] { --tw-enter-translate-x: 13rem; }
+
+.data-\[motion\=from-start\]\:slide-in-from-left-52[data-motion="from-start"] { --tw-enter-translate-x: -13rem; }
+
+.data-\[motion\=to-end\]\:slide-out-to-right-52[data-motion="to-end"] { --tw-exit-translate-x: 13rem; }
+
+.data-\[motion\=to-start\]\:slide-out-to-left-52[data-motion="to-start"] { --tw-exit-translate-x: -13rem; }
+
+.data-\[side\=bottom\]\:slide-in-from-top-2[data-side="bottom"] { --tw-enter-translate-y: -.5rem; }
+
+.data-\[side\=left\]\:slide-in-from-right-2[data-side="left"] { --tw-enter-translate-x: .5rem; }
+
+.data-\[side\=right\]\:slide-in-from-left-2[data-side="right"] { --tw-enter-translate-x: -.5rem; }
+
+.data-\[side\=top\]\:slide-in-from-bottom-2[data-side="top"] { --tw-enter-translate-y: .5rem; }
+
+.data-\[state\=closed\]\:slide-out-to-bottom[data-state="closed"] { --tw-exit-translate-y: 100%; }
+
+.data-\[state\=closed\]\:slide-out-to-left[data-state="closed"] { --tw-exit-translate-x: -100%; }
+
+.data-\[state\=closed\]\:slide-out-to-left-1\/2[data-state="closed"] { --tw-exit-translate-x: -50%; }
+
+.data-\[state\=closed\]\:slide-out-to-right[data-state="closed"], .data-\[state\=closed\]\:slide-out-to-right-full[data-state="closed"] { --tw-exit-translate-x: 100%; }
+
+.data-\[state\=closed\]\:slide-out-to-top[data-state="closed"] { --tw-exit-translate-y: -100%; }
+
+.data-\[state\=closed\]\:slide-out-to-top-\[48\%\][data-state="closed"] { --tw-exit-translate-y: -48%; }
+
+.data-\[state\=open\]\:slide-in-from-bottom[data-state="open"] { --tw-enter-translate-y: 100%; }
+
+.data-\[state\=open\]\:slide-in-from-left[data-state="open"] { --tw-enter-translate-x: -100%; }
+
+.data-\[state\=open\]\:slide-in-from-left-1\/2[data-state="open"] { --tw-enter-translate-x: -50%; }
+
+.data-\[state\=open\]\:slide-in-from-right[data-state="open"] { --tw-enter-translate-x: 100%; }
+
+.data-\[state\=open\]\:slide-in-from-top[data-state="open"] { --tw-enter-translate-y: -100%; }
+
+.data-\[state\=open\]\:slide-in-from-top-\[48\%\][data-state="open"] { --tw-enter-translate-y: -48%; }
+
+.data-\[state\=open\]\:slide-in-from-top-full[data-state="open"] { --tw-enter-translate-y: -100%; }
+
+.data-\[state\=closed\]\:duration-300[data-state="closed"] { animation-duration: 0.3s; }
+
+.data-\[state\=open\]\:duration-500[data-state="open"] { animation-duration: 0.5s; }
+
+.data-\[panel-group-direction\=vertical\]\:after\:left-0[data-panel-group-direction="vertical"]::after { content: var(--tw-content); left: 0px; }
+
+.data-\[panel-group-direction\=vertical\]\:after\:h-1[data-panel-group-direction="vertical"]::after { content: var(--tw-content); height: 0.25rem; }
+
+.data-\[panel-group-direction\=vertical\]\:after\:w-full[data-panel-group-direction="vertical"]::after { content: var(--tw-content); width: 100%; }
+
+.data-\[panel-group-direction\=vertical\]\:after\:-translate-y-1\/2[data-panel-group-direction="vertical"]::after { content: var(--tw-content); --tw-translate-y: -50%; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[panel-group-direction\=vertical\]\:after\:translate-x-0[data-panel-group-direction="vertical"]::after { content: var(--tw-content); --tw-translate-x: 0px; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.data-\[state\=open\]\:hover\:bg-sidebar-accent:hover[data-state="open"] { background-color: hsl(var(--sidebar-accent)); }
+
+.data-\[state\=open\]\:hover\:text-sidebar-accent-foreground:hover[data-state="open"] { color: hsl(var(--sidebar-accent-foreground)); }
+
+.group[data-collapsible="offcanvas"] .group-data-\[collapsible\=offcanvas\]\:left-\[calc\(var\(--sidebar-width\)\*-1\)\] { left: calc(var(--sidebar-width) * -1); }
+
+.group[data-collapsible="offcanvas"] .group-data-\[collapsible\=offcanvas\]\:right-\[calc\(var\(--sidebar-width\)\*-1\)\] { right: calc(var(--sidebar-width) * -1); }
+
+.group[data-side="left"] .group-data-\[side\=left\]\:-right-4 { right: -1rem; }
+
+.group[data-side="right"] .group-data-\[side\=right\]\:left-0 { left: 0px; }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:-mt-8 { margin-top: -2rem; }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:hidden { display: none; }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:\!size-8 { width: 2rem !important; height: 2rem !important; }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:w-\[--sidebar-width-icon\] { width: var(--sidebar-width-icon); }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:w-\[calc\(var\(--sidebar-width-icon\)_\+_theme\(spacing\.4\)\)\] { width: calc(var(--sidebar-width-icon) + 1rem); }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:w-\[calc\(var\(--sidebar-width-icon\)_\+_theme\(spacing\.4\)_\+2px\)\] { width: calc(var(--sidebar-width-icon) + 1rem + 2px); }
+
+.group[data-collapsible="offcanvas"] .group-data-\[collapsible\=offcanvas\]\:w-0 { width: 0px; }
+
+.group[data-collapsible="offcanvas"] .group-data-\[collapsible\=offcanvas\]\:translate-x-0 { --tw-translate-x: 0px; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.group[data-side="right"] .group-data-\[side\=right\]\:rotate-180, .group[data-state="open"] .group-data-\[state\=open\]\:rotate-180 { --tw-rotate: 180deg; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:overflow-hidden { overflow: hidden; }
+
+.group[data-variant="floating"] .group-data-\[variant\=floating\]\:rounded-lg { border-radius: var(--radius); }
+
+.group[data-variant="floating"] .group-data-\[variant\=floating\]\:border { border-width: 1px; }
+
+.group[data-side="left"] .group-data-\[side\=left\]\:border-r { border-right-width: 1px; }
+
+.group[data-side="right"] .group-data-\[side\=right\]\:border-l { border-left-width: 1px; }
+
+.group[data-variant="floating"] .group-data-\[variant\=floating\]\:border-sidebar-border { border-color: hsl(var(--sidebar-border)); }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:\!p-0 { padding: 0px !important; }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:\!p-2 { padding: 0.5rem !important; }
+
+.group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:opacity-0 { opacity: 0; }
+
+.group[data-variant="floating"] .group-data-\[variant\=floating\]\:shadow { --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1); --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+
+.group[data-collapsible="offcanvas"] .group-data-\[collapsible\=offcanvas\]\:after\:left-full::after { content: var(--tw-content); left: 100%; }
+
+.group[data-collapsible="offcanvas"] .group-data-\[collapsible\=offcanvas\]\:hover\:bg-sidebar:hover { background-color: hsl(var(--sidebar-background)); }
+
+.peer\/menu-button[data-size="default"] ~ .peer-data-\[size\=default\]\/menu-button\:top-1\.5 { top: 0.375rem; }
+
+.peer\/menu-button[data-size="lg"] ~ .peer-data-\[size\=lg\]\/menu-button\:top-2\.5 { top: 0.625rem; }
+
+.peer\/menu-button[data-size="sm"] ~ .peer-data-\[size\=sm\]\/menu-button\:top-1 { top: 0.25rem; }
+
+.peer[data-variant="inset"] ~ .peer-data-\[variant\=inset\]\:min-h-\[calc\(100svh-theme\(spacing\.4\)\)\] { min-height: calc(-1rem + 100svh); }
+
+.peer\/menu-button[data-active="true"] ~ .peer-data-\[active\=true\]\/menu-button\:text-sidebar-accent-foreground { color: hsl(var(--sidebar-accent-foreground)); }
+
+.dark\:border-destructive:is(.dark *) { border-color: hsl(var(--destructive)); }
+
+@media (min-width: 640px) {
+  .sm\:bottom-0 { bottom: 0px; }
+  .sm\:right-0 { right: 0px; }
+  .sm\:top-auto { top: auto; }
+  .sm\:mt-0 { margin-top: 0px; }
+  .sm\:flex { display: flex; }
+  .sm\:max-w-sm { max-width: 24rem; }
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0px, 1fr)); }
+  .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0px, 1fr)); }
+  .sm\:flex-row { flex-direction: row; }
+  .sm\:flex-col { flex-direction: column; }
+  .sm\:justify-end { justify-content: flex-end; }
+  .sm\:gap-2\.5 { gap: 0.625rem; }
+  .sm\:space-x-2 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 0; margin-right: calc(.5rem * var(--tw-space-x-reverse)); margin-left: calc(.5rem * calc(1 - var(--tw-space-x-reverse))); }
+  .sm\:space-x-4 > :not([hidden]) ~ :not([hidden]) { --tw-space-x-reverse: 0; margin-right: calc(1rem * var(--tw-space-x-reverse)); margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse))); }
+  .sm\:space-y-0 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0px * var(--tw-space-y-reverse)); }
+  .sm\:rounded-lg { border-radius: var(--radius); }
+  .sm\:px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+  .sm\:text-left { text-align: left; }
+  .sm\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+  .sm\:text-5xl { font-size: 3rem; line-height: 1; }
+  .sm\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+  .data-\[state\=open\]\:sm\:slide-in-from-bottom-full[data-state="open"] { --tw-enter-translate-y: 100%; }
+}
+
+@media (min-width: 768px) {
+  .md\:absolute { position: absolute; }
+  .md\:block { display: block; }
+  .md\:flex { display: flex; }
+  .md\:w-\[var\(--radix-navigation-menu-viewport-width\)\] { width: var(--radix-navigation-menu-viewport-width); }
+  .md\:w-auto { width: auto; }
+  .md\:max-w-\[420px\] { max-width: 420px; }
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0px, 1fr)); }
+  .md\:divide-x > :not([hidden]) ~ :not([hidden]) { --tw-divide-x-reverse: 0; border-right-width: calc(1px * var(--tw-divide-x-reverse)); border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse))); }
+  .md\:divide-y-0 > :not([hidden]) ~ :not([hidden]) { --tw-divide-y-reverse: 0; border-top-width: calc(0px * calc(1 - var(--tw-divide-y-reverse))); border-bottom-width: calc(0px * var(--tw-divide-y-reverse)); }
+  .md\:text-6xl { font-size: 3.75rem; line-height: 1; }
+  .md\:text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+  .md\:opacity-0 { opacity: 0; }
+  .after\:md\:hidden::after { content: var(--tw-content); display: none; }
+  .peer[data-variant="inset"] ~ .md\:peer-data-\[variant\=inset\]\:m-2 { margin: 0.5rem; }
+  .peer[data-state="collapsed"][data-variant="inset"] ~ .md\:peer-data-\[state\=collapsed\]\:peer-data-\[variant\=inset\]\:ml-2 { margin-left: 0.5rem; }
+  .peer[data-variant="inset"] ~ .md\:peer-data-\[variant\=inset\]\:ml-0 { margin-left: 0px; }
+  .peer[data-variant="inset"] ~ .md\:peer-data-\[variant\=inset\]\:rounded-xl { border-radius: 0.75rem; }
+  .peer[data-variant="inset"] ~ .md\:peer-data-\[variant\=inset\]\:shadow { --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1); --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow); }
+}
+
+@media (min-width: 1024px) {
+  .lg\:sticky { position: sticky; }
+  .lg\:bottom-auto { bottom: auto; }
+  .lg\:left-auto { left: auto; }
+  .lg\:right-auto { right: auto; }
+  .lg\:top-0 { top: 0px; }
+  .lg\:z-10 { z-index: 10; }
+  .lg\:hidden { display: none; }
+  .lg\:h-screen { height: 100vh; }
+  .lg\:w-64 { width: 16rem; }
+  .lg\:shrink-0 { flex-shrink: 0; }
+  .lg\:flex-row { flex-direction: row; }
+  .lg\:rounded-none { border-radius: 0px; }
+  .lg\:border-r { border-right-width: 1px; }
+  .lg\:border-t-0 { border-top-width: 0px; }
+  .lg\:bg-transparent { background-color: transparent; }
+  .lg\:px-16 { padding-left: 4rem; padding-right: 4rem; }
+  .lg\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+  .lg\:py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+  .lg\:pl-6 { padding-left: 1.5rem; }
+  .lg\:pr-8 { padding-right: 2rem; }
+}
+
+.\[\&\:has\(\[aria-selected\]\)\]\:bg-accent:has([aria-selected]) { background-color: hsl(var(--accent)); }
+
+.first\:\[\&\:has\(\[aria-selected\]\)\]\:rounded-l-md:has([aria-selected]):first-child { border-top-left-radius: calc(var(--radius) - 2px); border-bottom-left-radius: calc(var(--radius) - 2px); }
+
+.last\:\[\&\:has\(\[aria-selected\]\)\]\:rounded-r-md:has([aria-selected]):last-child { border-top-right-radius: calc(var(--radius) - 2px); border-bottom-right-radius: calc(var(--radius) - 2px); }
+
+.\[\&\:has\(\[aria-selected\]\.day-outside\)\]\:bg-accent\/50:has([aria-selected].day-outside) { background-color: hsl(var(--accent) / .5); }
+
+.\[\&\:has\(\[aria-selected\]\.day-range-end\)\]\:rounded-r-md:has([aria-selected].day-range-end) { border-top-right-radius: calc(var(--radius) - 2px); border-bottom-right-radius: calc(var(--radius) - 2px); }
+
+.\[\&\:has\(\[role\=checkbox\]\)\]\:pr-0:has([role="checkbox"]) { padding-right: 0px; }
+
+.\[\&\>button\]\:hidden > button { display: none; }
+
+.\[\&\>span\:last-child\]\:truncate > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.\[\&\>span\]\:line-clamp-1 > span { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+
+.\[\&\>svg\+div\]\:translate-y-\[-3px\] > svg + div { --tw-translate-y: -3px; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.\[\&\>svg\]\:absolute > svg { position: absolute; }
+
+.\[\&\>svg\]\:left-4 > svg { left: 1rem; }
+
+.\[\&\>svg\]\:top-4 > svg { top: 1rem; }
+
+.\[\&\>svg\]\:size-3\.5 > svg { width: 0.875rem; height: 0.875rem; }
+
+.\[\&\>svg\]\:size-4 > svg { width: 1rem; height: 1rem; }
+
+.\[\&\>svg\]\:h-2\.5 > svg { height: 0.625rem; }
+
+.\[\&\>svg\]\:h-3 > svg { height: 0.75rem; }
+
+.\[\&\>svg\]\:w-2\.5 > svg { width: 0.625rem; }
+
+.\[\&\>svg\]\:w-3 > svg { width: 0.75rem; }
+
+.\[\&\>svg\]\:shrink-0 > svg { flex-shrink: 0; }
+
+.\[\&\>svg\]\:text-destructive > svg { color: hsl(var(--destructive)); }
+
+.\[\&\>svg\]\:text-foreground > svg { color: hsl(var(--foreground)); }
+
+.\[\&\>svg\]\:text-muted-foreground > svg { color: hsl(var(--muted-foreground)); }
+
+.\[\&\>svg\]\:text-sidebar-accent-foreground > svg { color: hsl(var(--sidebar-accent-foreground)); }
+
+.\[\&\>svg\~\*\]\:pl-7 > svg ~ * { padding-left: 1.75rem; }
+
+.\[\&\>tr\]\:last\:border-b-0:last-child > tr { border-bottom-width: 0px; }
+
+.\[\&\[data-panel-group-direction\=vertical\]\>div\]\:rotate-90[data-panel-group-direction="vertical"] > div { --tw-rotate: 90deg; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.\[\&\[data-state\=open\]\>svg\]\:rotate-180[data-state="open"] > svg { --tw-rotate: 180deg; transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+
+.\[\&_\.recharts-cartesian-axis-tick_text\]\:fill-muted-foreground .recharts-cartesian-axis-tick text { fill: hsl(var(--muted-foreground)); }
+
+.\[\&_\.recharts-cartesian-grid_line\[stroke\=\'\#ccc\'\]\]\:stroke-border\/50 .recharts-cartesian-grid line[stroke="#ccc"] { stroke: hsl(var(--border) / .5); }
+
+.\[\&_\.recharts-curve\.recharts-tooltip-cursor\]\:stroke-border .recharts-curve.recharts-tooltip-cursor { stroke: hsl(var(--border)); }
+
+.\[\&_\.recharts-dot\[stroke\=\'\#fff\'\]\]\:stroke-transparent .recharts-dot[stroke="#fff"] { stroke: transparent; }
+
+.\[\&_\.recharts-layer\]\:outline-none .recharts-layer { outline: transparent solid 2px; outline-offset: 2px; }
+
+.\[\&_\.recharts-polar-grid_\[stroke\=\'\#ccc\'\]\]\:stroke-border .recharts-polar-grid [stroke="#ccc"] { stroke: hsl(var(--border)); }
+
+.\[\&_\.recharts-radial-bar-background-sector\]\:fill-muted .recharts-radial-bar-background-sector, .\[\&_\.recharts-rectangle\.recharts-tooltip-cursor\]\:fill-muted .recharts-rectangle.recharts-tooltip-cursor { fill: hsl(var(--muted)); }
+
+.\[\&_\.recharts-reference-line_\[stroke\=\'\#ccc\'\]\]\:stroke-border .recharts-reference-line [stroke="#ccc"] { stroke: hsl(var(--border)); }
+
+.\[\&_\.recharts-sector\[stroke\=\'\#fff\'\]\]\:stroke-transparent .recharts-sector[stroke="#fff"] { stroke: transparent; }
+
+.\[\&_\.recharts-sector\]\:outline-none .recharts-sector, .\[\&_\.recharts-surface\]\:outline-none .recharts-surface { outline: transparent solid 2px; outline-offset: 2px; }
+
+.\[\&_\[cmdk-group-heading\]\]\:px-2 [cmdk-group-heading] { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+.\[\&_\[cmdk-group-heading\]\]\:py-1\.5 [cmdk-group-heading] { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+
+.\[\&_\[cmdk-group-heading\]\]\:text-xs [cmdk-group-heading] { font-size: 0.75rem; line-height: 1rem; }
+
+.\[\&_\[cmdk-group-heading\]\]\:font-medium [cmdk-group-heading] { font-weight: 500; }
+
+.\[\&_\[cmdk-group-heading\]\]\:text-muted-foreground [cmdk-group-heading] { color: hsl(var(--muted-foreground)); }
+
+.\[\&_\[cmdk-group\]\:not\(\[hidden\]\)_\~\[cmdk-group\]\]\:pt-0 [cmdk-group]:not([hidden]) ~ [cmdk-group] { padding-top: 0px; }
+
+.\[\&_\[cmdk-group\]\]\:px-2 [cmdk-group] { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+.\[\&_\[cmdk-input-wrapper\]_svg\]\:h-5 [cmdk-input-wrapper] svg { height: 1.25rem; }
+
+.\[\&_\[cmdk-input-wrapper\]_svg\]\:w-5 [cmdk-input-wrapper] svg { width: 1.25rem; }
+
+.\[\&_\[cmdk-input\]\]\:h-12 [cmdk-input] { height: 3rem; }
+
+.\[\&_\[cmdk-item\]\]\:px-2 [cmdk-item] { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+.\[\&_\[cmdk-item\]\]\:py-3 [cmdk-item] { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+.\[\&_\[cmdk-item\]_svg\]\:h-5 [cmdk-item] svg { height: 1.25rem; }
+
+.\[\&_\[cmdk-item\]_svg\]\:w-5 [cmdk-item] svg { width: 1.25rem; }
+
+.\[\&_p\]\:leading-relaxed p { line-height: 1.625; }
+
+.\[\&_strong\]\:text-foreground\/90 strong { color: hsl(var(--foreground) / .9); }
+
+.\[\&_svg\]\:pointer-events-none svg { pointer-events: none; }
+
+.\[\&_svg\]\:size-4 svg { width: 1rem; height: 1rem; }
+
+.\[\&_svg\]\:shrink-0 svg { flex-shrink: 0; }
+
+.\[\&_tr\:last-child\]\:border-0 tr:last-child { border-width: 0px; }
+
+.\[\&_tr\]\:border-b tr { border-bottom-width: 1px; }
+
+[data-side="left"][data-collapsible="offcanvas"] .\[\[data-side\=left\]\[data-collapsible\=offcanvas\]_\&\]\:-right-2 { right: -0.5rem; }
+
+[data-side="left"][data-state="collapsed"] .\[\[data-side\=left\]\[data-state\=collapsed\]_\&\]\:cursor-e-resize { cursor: e-resize; }
+
+[data-side="left"] .\[\[data-side\=left\]_\&\]\:cursor-w-resize { cursor: w-resize; }
+
+[data-side="right"][data-collapsible="offcanvas"] .\[\[data-side\=right\]\[data-collapsible\=offcanvas\]_\&\]\:-left-2 { left: -0.5rem; }
+
+[data-side="right"][data-state="collapsed"] .\[\[data-side\=right\]\[data-state\=collapsed\]_\&\]\:cursor-w-resize { cursor: w-resize; }
+
+[data-side="right"] .\[\[data-side\=right\]_\&\]\:cursor-e-resize { cursor: e-resize; }
+</style>
+
+
+</head>
+
+  <body>
+    <div id="root"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"></ol></div><section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false"></section><div class="min-h-screen bg-background"><div class="fixed top-0 left-0 right-0 h-0.5 z-50 origin-left progress-bar-fill" style="transform: none;"></div><section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-6 py-20"><div class="hero-glow hero-glow-primary animate-glow-pulse" style="top: -10%; left: 20%;"></div><div class="hero-glow hero-glow-secondary animate-glow-pulse" style="top: 20%; right: 10%; animation-delay: 2s;"></div><div class="absolute inset-0 dot-pattern opacity-30"></div><div class="relative z-10 max-w-3xl mx-auto text-center"><div class="mb-6" style="opacity: 1; transform: none;"><span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase glass-card border-primary/30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-3.5 h-3.5 text-primary"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-primary">Samo za članove</span></span></div><h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6" style="opacity: 1; transform: none;">Kompletni vodič za <span class="glow-text">arbitražu</span></h1><p class="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed" style="opacity: 1; transform: none;">Sve što ti je potrebno da počneš da zarađuješ sa arbitražnim klađenjem — od osnova do naprednih strategija.</p><div class="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground" style="opacity: 1; transform: none;"><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open w-4 h-4 text-primary"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg><span>Detaljan vodič</span></div><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-4 h-4 text-primary"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg><span>Redovno ažurirano</span></div><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-primary"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span>Ekskluzivni sadržaj</span></div></div></div></section><div class="section-divider"></div><div class="flex flex-col lg:flex-row max-w-7xl mx-auto"><button class="lg:hidden fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center premium-shadow"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><nav class="
+          fixed z-50 lg:sticky lg:top-0 lg:z-10
+          -bottom-full
+          lg:bottom-auto lg:left-auto lg:right-auto lg:rounded-none
+          transition-all duration-300 ease-out
+          lg:h-screen lg:w-64 lg:shrink-0
+          bg-card/95 backdrop-blur-xl lg:bg-transparent
+          border-t lg:border-t-0 lg:border-r border-border/50
+          p-6 lg:py-8 lg:pr-8 lg:pl-6
+          overflow-y-auto
+        "><p class="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-6">Tartalom</p><ul class="space-y-1"><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Brzi start</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Šta je arbitraža?</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Kako funkcioniše?</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Nije kockanje</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Registracija</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Proces klađenja</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Razumevanje opklade</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Različite formulacije</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Kalkulator</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Automatski obračun</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Raspodela kapitala</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Kada NE igrati?</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Nestalo tržište</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-inactive border-l-transparent
+                ">Pogrešan odds</button></li><li style="opacity: 1; transform: none;"><button class="
+                  w-full text-left px-3 py-2 text-sm rounded-md
+                  border-l-2 transition-all duration-200
+                  hover:bg-secondary/50 hover:text-foreground
+                  nav-link-active border-l-primary bg-secondary/30
+                ">Mentalni saveti</button></li></ul></nav><main class="flex-1 min-w-0 px-6 sm:px-10 lg:px-16 py-12 lg:py-16"><section id="brzi-start" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Brzi start</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Počni da ostvaruješ profit u 4 jednostavna koraka.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div class="glass-card p-5 rounded-xl group hover:border-primary/30 transition-all duration-300" style="opacity: 1; transform: none;"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary font-heading font-bold text-lg group-hover:bg-primary/20 transition-colors">1</div><div><h4 class="font-heading font-semibold text-foreground mb-1">Registruj se</h4><p class="text-sm text-muted-foreground leading-relaxed">Napravi nalog u najmanje 3–4 kladionice.</p></div></div></div><div class="glass-card p-5 rounded-xl group hover:border-primary/30 transition-all duration-300" style="opacity: 1; transform: none;"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary font-heading font-bold text-lg group-hover:bg-primary/20 transition-colors">2</div><div><h4 class="font-heading font-semibold text-foreground mb-1">Uplati novac</h4><p class="text-sm text-muted-foreground leading-relaxed">Uplati sredstva na svoje naloge u kladionicama.</p></div></div></div><div class="glass-card p-5 rounded-xl group hover:border-primary/30 transition-all duration-300" style="opacity: 1; transform: none;"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary font-heading font-bold text-lg group-hover:bg-primary/20 transition-colors">3</div><div><h4 class="font-heading font-semibold text-foreground mb-1">Koristi kalkulator</h4><p class="text-sm text-muted-foreground leading-relaxed">Izračunaj optimalne uloge pomoću Arbify kalkulatora.</p></div></div></div><div class="glass-card p-5 rounded-xl group hover:border-primary/30 transition-all duration-300" style="opacity: 1; transform: none;"><div class="flex items-start gap-4"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary font-heading font-bold text-lg group-hover:bg-primary/20 transition-colors">4</div><div><h4 class="font-heading font-semibold text-foreground mb-1">Profitiraj</h4><p class="text-sm text-muted-foreground leading-relaxed">Uživaj u matematički garantovanom profitu.</p></div></div></div></div></div></div></section><section id="sta-je-arbitraza" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Šta je arbitražno klađenje?</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Strategija zasnovana na matematičkoj sigurnosti.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Arbitražno klađenje koristi razlike u kvotama između različitih kladionica. Kladiš se na oba moguća ishoda – ali u različitim kladionicama.</p><div class="glass-card glow-border p-5 rounded-xl"><div class="text-sm leading-relaxed text-foreground/90"><strong>Najvažnije:</strong> Nije bitan ishod meča, već matematika! Ako je razlika u kvotama odgovarajuća, profit je garantovan bez obzira koja strana pobedi.</div></div><h3 class="font-heading text-xl font-semibold tracking-tight mt-10 mb-4 text-foreground/95">Zašto funkcioniše?</h3><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Različite kladionice nude različite kvote za isti događaj. Kada se te kvote „ukrste" tako da obe strane postanu povoljne, nastaje arbitražna prilika. Arbify upravo takve prilike pronalazi za tebe u realnom vremenu.</p><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--tip));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--tip) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb w-4 h-4" style="color: hsl(var(--tip));"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--tip));">Savet</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Arbitražno klađenje nije nikakav tajni trik – to je poznata matematička strategija koju profesionalni kladioničari koriste već decenijama. Jedino pitanje je: da li ćeš na vreme pronaći priliku?</div></div></div></div></div></div></section><section id="praksa" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Kako funkcioniše u praksi?</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Pogledajmo kroz konkretan primer.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><h3 class="font-heading text-xl font-semibold tracking-tight mt-10 mb-4 text-foreground/95">Svaka kladionica računa svoje kvote</h3><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Isti meč, isto tržište – ali svaka kladionica nudi drugačiju kvotu:</p><div class="glass-card rounded-xl overflow-hidden" style="opacity: 1; transform: none;"><div class="px-5 py-4 border-b border-border/50"><p class="text-xs text-primary font-medium uppercase tracking-wider mb-1">Superliga Srbija</p><h4 class="font-heading font-semibold text-foreground">Crvena zvezda vs Partizan</h4><p class="text-xs text-muted-foreground mt-1">Piac: Više/manje 2.5 gola</p></div><div class="divide-y divide-border/30"><div class="flex items-center justify-between px-5 py-3 "><span class="text-sm text-muted-foreground">Maxbet</span><span class="font-heading font-semibold text-sm text-foreground">2.10</span></div><div class="flex items-center justify-between px-5 py-3 "><span class="text-sm text-muted-foreground">Admiralbet</span><span class="font-heading font-semibold text-sm text-foreground">1.95</span></div><div class="flex items-center justify-between px-5 py-3 "><span class="text-sm text-muted-foreground">Mozzartbet</span><span class="font-heading font-semibold text-sm text-foreground">2.05</span></div><div class="flex items-center justify-between px-5 py-3 bg-primary/5"><span class="text-sm text-muted-foreground">Meridian</span><span class="font-heading font-semibold text-sm text-primary">2.15</span></div></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--info));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--info) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info w-4 h-4" style="color: hsl(var(--info));"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--info));">Korisna info</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Ako jedna kladionica daje bolju kvotu na jednu stranu, a druga na suprotnu – možeš da iskoristiš tu razliku.</div></div></div></div><h3 class="font-heading text-xl font-semibold tracking-tight mt-10 mb-4 text-foreground/95">Kladimo se na obe strane</h3><div class="space-y-4"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><p class="text-xs text-primary font-medium uppercase tracking-wider mb-2">Admiralbet</p><p class="font-heading font-semibold text-foreground mb-1">Više od 2.5 (3+ gola)</p><div class="flex items-center justify-between mt-3 pt-3 border-t border-border/30"><span class="text-sm text-muted-foreground">Odds</span><span class="font-heading font-bold text-primary text-lg">2.35</span></div><div class="flex items-center justify-between mt-1"><span class="text-sm text-muted-foreground">Ulog</span><span class="font-heading font-semibold text-foreground">14.700 RSD</span></div></div><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><p class="text-xs text-primary font-medium uppercase tracking-wider mb-2">Maxbet</p><p class="font-heading font-semibold text-foreground mb-1">Manje od 2.5 (0–2 gola)</p><div class="flex items-center justify-between mt-3 pt-3 border-t border-border/30"><span class="text-sm text-muted-foreground">Odds</span><span class="font-heading font-bold text-primary text-lg">2.10</span></div><div class="flex items-center justify-between mt-1"><span class="text-sm text-muted-foreground">Ulog</span><span class="font-heading font-semibold text-foreground">16.450 RSD</span></div></div></div><div class="flex items-center justify-center gap-2 text-sm text-muted-foreground"><span>Ukupan ulog:</span><span class="font-heading font-semibold text-foreground">31.150 RSD</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-5 glow-border" style="opacity: 1; transform: none;"><p class="text-xs text-muted-foreground uppercase tracking-wider mb-1">1. scenario – Malo golova (0–2)</p><p class="text-sm text-muted-foreground mb-3">Maxbet dobija</p><p class="text-xs text-muted-foreground">16.450 × 2.10 = 34.545 RSD | Admiralbet gubi: -14.700 RSD</p><div class="flex items-center gap-2 mt-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-4 h-4 text-primary"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="font-heading font-bold text-primary text-lg">+3.395 RSD</span></div></div><div class="glass-card rounded-xl p-5 glow-border" style="opacity: 1; transform: none;"><p class="text-xs text-muted-foreground uppercase tracking-wider mb-1">2. scenario – Mnogo golova (3+)</p><p class="text-sm text-muted-foreground mb-3">Admiralbet dobija</p><p class="text-xs text-muted-foreground">14.700 × 2.35 = 34.545 RSD | Maxbet gubi: -16.450 RSD</p><div class="flex items-center gap-2 mt-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-4 h-4 text-primary"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="font-heading font-bold text-primary text-lg">+3.395 RSD</span></div></div></div><div class="glass-card glow-border rounded-xl p-5 text-center" style="opacity: 1; transform: none;"><p class="text-sm text-muted-foreground mb-1">Garantovan profit u oba scenarija</p><p class="font-heading font-bold text-primary text-2xl">+3.395 RSD</p></div></div><div class="glass-card glow-border p-5 rounded-xl"><div class="text-sm leading-relaxed text-foreground/90"><strong>Šta god da se desi – ti dobijaš.</strong> Profit nastaje iz razlike u kvotama – ne iz sreće.</div></div></div></div></section><section id="nije-kockanje" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Ovo nije kockanje na sreću</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Razumi razliku između tradicionalnog klađenja i arbitraže.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-6" style="border-top-width: 3px; border-top-color: hsl(var(--destructive)); opacity: 1; transform: none;"><h4 class="font-heading font-semibold mb-4 text-foreground">Tradicionalno klađenje</h4><ul class="space-y-3"><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Moraš da pogađaš ishod meča</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Zarada zavisi od sreće</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Dugoročno kuća pobeđuje</li></ul></div><div class="glass-card rounded-xl p-6 glow-border" style="border-top-width: 3px; border-top-color: hsl(var(--primary)); opacity: 1; transform: none;"><h4 class="font-heading font-semibold mb-4 text-foreground">Arbitražno klađenje</h4><ul class="space-y-3"><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 mt-0.5 shrink-0 text-primary"><path d="M20 6 9 17l-5-5"></path></svg>Kladiš se na obe strane</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 mt-0.5 shrink-0 text-primary"><path d="M20 6 9 17l-5-5"></path></svg>Rezultat je matematički garantovan</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 mt-0.5 shrink-0 text-primary"><path d="M20 6 9 17l-5-5"></path></svg>Ne zavisi od ishoda utakmice</li></ul></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--info));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--info) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info w-4 h-4" style="color: hsl(var(--info));"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--info));">Korisna info</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Arbitražno klađenje je poznata matematička strategija koju profesionalni kladioničari koriste već decenijama. Jedino pitanje je: da li ćeš na vreme pronaći priliku? Tu pomaže Arbify.</div></div></div></div></div></div></section><section id="registracija" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Registracija i verifikacija</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Potrebna dokumenta i važne napomene.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Sve kladionice traže ličnu kartu ili pasoš, kao i dokaz adrese radi verifikacije. To je važno znati tokom registracije.</p><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--warning));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--warning) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-4 h-4" style="color: hsl(var(--warning));"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--warning));">Pažnja</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Pažljivo upiši ime i prezime tačno onako kako piše na dokumentima. Greške u pisanju mogu izazvati kašnjenje u verifikaciji.</div></div></div></div><h3 class="font-heading text-xl font-semibold tracking-tight mt-10 mb-4 text-foreground/95">Potrebna dokumenta</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-5 flex items-start gap-4" style="opacity: 1; transform: none;"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></div><div><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Lična karta ili pasoš</h4><p class="text-xs text-muted-foreground leading-relaxed">Jasna i čitljiva fotografija obe strane.</p></div></div><div class="glass-card rounded-xl p-5 flex items-start gap-4" style="opacity: 1; transform: none;"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house w-5 h-5"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div><div><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Dokaz adrese</h4><p class="text-xs text-muted-foreground leading-relaxed">Račun za komunalije, izvod iz banke ili zvanično pismo (ne starije od 3 meseca).</p></div></div><div class="glass-card rounded-xl p-5 flex items-start gap-4" style="opacity: 1; transform: none;"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-camera w-5 h-5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg></div><div><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Priprema fotografija</h4><p class="text-xs text-muted-foreground leading-relaxed">Pripremi unapred kvalitetne fotografije i sačuvaj ih na telefonu.</p></div></div><div class="glass-card rounded-xl p-5 flex items-start gap-4" style="opacity: 1; transform: none;"><div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card w-5 h-5"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg></div><div><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Način plaćanja</h4><p class="text-xs text-muted-foreground leading-relaxed">Bankovna kartica ili e-wallet za uplatu.</p></div></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--tip));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--tip) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb w-4 h-4" style="color: hsl(var(--tip));"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--tip));">Savet</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Pripremi unapred kvalitetne fotografije svojih dokumenata i sačuvaj ih na telefonu ili računaru – tako će verifikacija biti brža.</div></div></div></div></div></div></section><section id="proces-kladjenja" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Proces klađenja</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Korak po korak od obaveštenja do profita.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="space-y-0"><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">1</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><span class="inline-block text-[10px] uppercase tracking-wider text-primary font-medium bg-primary/10 px-2 py-0.5 rounded-full mb-2">Obaveštenje</span><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Stiže obaveštenje</h4><p class="text-xs text-muted-foreground leading-relaxed">+7.2% arbitražna prilika — Maxbet | Admiralbet – Dostupno sada</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">2</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Pročitaj opkladu</h4><p class="text-xs text-muted-foreground leading-relaxed">Crvena zvezda - Partizan, tržište golova. Admiralbet: manje od 2.5 | Maxbet: više od 2.5</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">3</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Otvori obe kladionice</h4><p class="text-xs text-muted-foreground leading-relaxed">Idi na stranicu odgovarajućeg meča u obe kladionice.</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">4</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Proveri kvote</h4><p class="text-xs text-muted-foreground leading-relaxed">Ako se poklapaju → nastavi. Ako se razlikuju → prilagodi u kalkulatoru.</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">5</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Unesi ulog</h4><p class="text-xs text-muted-foreground leading-relaxed">Ti igraš: 15.500 RSD. Kalkulator računa drugu stranu: 16.250 RSD.</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><span class="inline-block text-[10px] uppercase tracking-wider text-primary font-medium bg-primary/10 px-2 py-0.5 rounded-full mb-2">Gotovo</span><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Odigraj i profitiraj</h4><p class="text-xs text-muted-foreground leading-relaxed">Obe opklade su postavljene — tvoj profit je osiguran. +7.2% prinos garantovan.</p></div></div></div></div></div></div></div></section><section id="razumevanje" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Kako da razumeš opkladu</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Kako pravilno da čitaš prilike za klađenje.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Kada stigne prilika za opkladu, važno je da pravilno razumeš tržište.</p><div class="grid grid-cols-1 sm:grid-cols-3 gap-4"><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><div class="mb-3 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search w-5 h-5"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></div><h4 class="font-heading font-semibold text-foreground text-sm mb-2">Naziv meča</h4><p class="text-xs text-muted-foreground leading-relaxed">Imena dva tima – levi tim je uvek domaćin.</p></div><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><div class="mb-3 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap w-5 h-5"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg></div><h4 class="font-heading font-semibold text-foreground text-sm mb-2">Tip tržišta</h4><p class="text-xs text-muted-foreground leading-relaxed">Na kom tržištu se kladiš: golovi, korneri, pobeda itd.</p></div><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><div class="mb-3 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-5 h-5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div><h4 class="font-heading font-semibold text-foreground text-sm mb-2">Na koju stranu se kladiš</h4><p class="text-xs text-muted-foreground leading-relaxed">Više/Manje, Domaćin/Gost – tačno koji ishod.</p></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--tip));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--tip) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb w-4 h-4" style="color: hsl(var(--tip));"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--tip));">Savet</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Dugme „KLAĐENJE" vodi direktno na stranicu meča u kladionici. Ne moraš da tražiš ručno, samo dodaj odgovarajuće tržište na tiket.</div></div></div></div></div></div></section><section id="formulacije" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Različite formulacije kod kladionica</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Isto tržište – drugačije formulisano.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Različite kladionice mogu koristiti drugačije formulacije za isto tržište. To je normalno – najvažnije je da razumeš šta tražiš.</p><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-6" style="border-top-width: 3px; border-top-color: hsl(var(--muted-foreground)); opacity: 1; transform: none;"><h4 class="font-heading font-semibold mb-4 text-foreground">Jedna kladionica</h4><ul class="space-y-3"><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>„Šutevi”</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>„Pobeda domaćina”</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>„Víše od 2.5 – Golovi”</li></ul></div><div class="glass-card rounded-xl p-6 glow-border" style="border-top-width: 3px; border-top-color: hsl(var(--primary)); opacity: 1; transform: none;"><h4 class="font-heading font-semibold mb-4 text-foreground">Druga kladionica</h4><ul class="space-y-3"><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 mt-0.5 shrink-0 text-primary"><path d="M20 6 9 17l-5-5"></path></svg>„Udarci u okvir gola”</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 mt-0.5 shrink-0 text-primary"><path d="M20 6 9 17l-5-5"></path></svg>„1”</li><li class="flex items-start gap-3 text-sm text-muted-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 mt-0.5 shrink-0 text-primary"><path d="M20 6 9 17l-5-5"></path></svg>„Víše od 10.5 – Korneri”</li></ul></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--warning));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--warning) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-4 h-4" style="color: hsl(var(--warning));"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--warning));">Pažnja</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Uvek proveri oznaku tržišta! „Pobeda – Golovi” i „Pobeda – Korneri” su potpuno različita tržišta.</div></div></div></div><h3 class="font-heading text-xl font-semibold tracking-tight mt-10 mb-4 text-foreground/95">1X2 sistem</h3><div class="grid grid-cols-1 sm:grid-cols-3 gap-4"><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><h4 class="font-heading font-semibold text-foreground text-sm mb-2">1 = Domaćin</h4><p class="text-xs text-muted-foreground leading-relaxed">Pobeda levog tima.</p></div><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><h4 class="font-heading font-semibold text-foreground text-sm mb-2">X = Nerešeno</h4><p class="text-xs text-muted-foreground leading-relaxed">Meč se završava nerešenim rezultatom.</p></div><div class="glass-card rounded-xl p-5" style="opacity: 1; transform: none;"><h4 class="font-heading font-semibold text-foreground text-sm mb-2">2 = Gost</h4><p class="text-xs text-muted-foreground leading-relaxed">Pobeda desnog tima.</p></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--note));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--note) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sticky-note w-4 h-4" style="color: hsl(var(--note));"><path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z"></path><path d="M15 3v4a2 2 0 0 0 2 2h4"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--note));">Napomena</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90"><strong>Primer:</strong> Crvena zvezda - Partizan → 1 = Crvena zvezda, X = nerešeno, 2 = Partizan. „1. tim više od 2.5 gola" se uvek odnosi na levi tim.</div></div></div></div></div></div></section><section id="kalkulator" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Pregled kalkulatora</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Tvoj najvažniji alat za arbitražno klađenje.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--info));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--info) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info w-4 h-4" style="color: hsl(var(--info));"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--info));">Korisna info</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90"><strong>Redosled klađenja:</strong> Prvo odigraj stranu sa većim ulogom! Na strani sa višom kvotom često postoji niži maksimalni limit. Ako prvo odigraš tamo i kladionica ograniči iznos, drugu stranu još možeš prilagoditi.</div></div></div></div><div class="glass-card rounded-xl overflow-hidden glow-border" style="opacity: 1; transform: none;"><div class="px-6 py-4 border-b border-border/30 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calculator w-5 h-5 text-primary"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg><div><p class="text-xs text-primary font-medium uppercase tracking-wider">Superliga Srbija</p><p class="font-heading font-semibold text-foreground">Crvena zvezda vs Partizan</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/30"><div class="p-5 space-y-3"><p class="text-xs text-muted-foreground uppercase tracking-wider">Admiralbet</p><p class="font-heading font-semibold text-foreground text-sm">Više od 2.5 - Golovi</p><div class="space-y-2"><div class="flex justify-between text-sm"><span class="text-muted-foreground">Odds</span><span class="font-heading font-bold text-primary">2.35</span></div><div class="flex justify-between text-sm"><span class="text-muted-foreground">Ulog</span><span class="font-heading font-semibold text-foreground">14.700 RSD</span></div></div></div><div class="p-5 space-y-3"><p class="text-xs text-muted-foreground uppercase tracking-wider">Maxbet</p><p class="font-heading font-semibold text-foreground text-sm">Manje od 2.5 - Golovi</p><div class="space-y-2"><div class="flex justify-between text-sm"><span class="text-muted-foreground">Odds</span><span class="font-heading font-bold text-primary">2.10</span></div><div class="flex justify-between text-sm"><span class="text-muted-foreground">Ulog</span><span class="font-heading font-semibold text-foreground">16.450 RSD</span></div></div></div></div><div class="px-6 py-4 border-t border-border/30 bg-primary/5 flex items-center justify-between"><div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-4 h-4 text-primary"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg><span class="text-sm text-muted-foreground">Garantált profit</span></div><div class="flex items-center gap-3"><span class="font-heading font-bold text-primary text-lg">+2.780 RSD</span><span class="text-xs bg-primary/15 text-primary px-2 py-0.5 rounded-full font-medium">11%</span></div></div></div><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Kalkulator automatski raspoređuje uloge tako da, bez obzira koja strana pobedi, profit bude isti.</p></div></div></section><section id="automatski-obracun" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Automatski obračun uloga</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Promena jednog uloga automatski prilagođava drugi.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-5"><p class="text-xs text-primary font-medium uppercase tracking-wider mb-2">Ulog 1. strane</p><p class="font-heading font-bold text-foreground text-2xl">4.200 RSD</p><p class="text-xs text-muted-foreground mt-1">Ti unosiš</p></div><div class="glass-card rounded-xl p-5 glow-border"><p class="text-xs text-primary font-medium uppercase tracking-wider mb-2">Ulog 2. strane</p><p class="font-heading font-bold text-foreground text-2xl">16.250 RSD</p><div class="flex items-center gap-1 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw w-3 h-3 text-primary"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg><p class="text-xs text-primary">Automatski</p></div></div></div><p class="text-secondary-foreground/85 leading-[1.85] text-[15.5px]">Kalkulator računa drugi ulog tako da, bez obzira koja strana pobedi, dobiješ isti profit.</p><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--tip));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--tip) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb w-4 h-4" style="color: hsl(var(--tip));"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--tip));">Savet</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Kalkulator automatski zaokružuje uloge na prirodnije iznose, kako bi klađenje izgledalo realnije i praktičnije.</div></div></div></div></div></div></section><section id="raspodela-kapitala" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Preporučena raspodela kapitala</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Primer raspodele bankrola od 93.000 RSD.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="glass-card rounded-xl overflow-hidden" style="opacity: 1; transform: none;"><div class="divide-y divide-border/30"><div class="flex items-center justify-between px-5 py-3.5"><div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary/60"></div><span class="text-sm text-foreground font-medium">Maxbet</span></div><div class="flex items-center gap-4"><span class="text-xs text-muted-foreground">Klađenje</span><span class="font-heading font-semibold text-foreground text-sm min-w-[90px] text-right">18.600 RSD</span></div></div><div class="flex items-center justify-between px-5 py-3.5"><div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary/60"></div><span class="text-sm text-foreground font-medium">Admiralbet</span></div><div class="flex items-center gap-4"><span class="text-xs text-muted-foreground">Klađenje</span><span class="font-heading font-semibold text-foreground text-sm min-w-[90px] text-right">18.600 RSD</span></div></div><div class="flex items-center justify-between px-5 py-3.5"><div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary/60"></div><span class="text-sm text-foreground font-medium">Mozzartbet</span></div><div class="flex items-center gap-4"><span class="text-xs text-muted-foreground">Klađenje</span><span class="font-heading font-semibold text-foreground text-sm min-w-[90px] text-right">18.600 RSD</span></div></div><div class="flex items-center justify-between px-5 py-3.5"><div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary/60"></div><span class="text-sm text-foreground font-medium">Meridian</span></div><div class="flex items-center gap-4"><span class="text-xs text-muted-foreground">Klađenje</span><span class="font-heading font-semibold text-foreground text-sm min-w-[90px] text-right">18.600 RSD</span></div></div><div class="flex items-center justify-between px-5 py-3.5"><div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary/60"></div><span class="text-sm text-foreground font-medium">Bankovni račun</span></div><div class="flex items-center gap-4"><span class="text-xs text-muted-foreground">Prebacivanje</span><span class="font-heading font-semibold text-foreground text-sm min-w-[90px] text-right">18.600 RSD</span></div></div></div><div class="px-5 py-4 border-t border-border/50 bg-primary/5 flex items-center justify-between"><span class="text-sm font-semibold text-foreground">Ukupno</span><span class="font-heading font-bold text-primary text-lg">93.000 RSD</span></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--info));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--info) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info w-4 h-4" style="color: hsl(var(--info));"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--info));">Korisna info</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90"><strong>Zašto je potreban kapital za prebacivanje?</strong> Da bi mogao brzo da premeštaš novac kada ti u jednoj kladionici ponestane sredstava. Tada je korisno povući deo novca iz one kladionice u kojoj imaš najveći balans.</div></div></div></div></div></div></section><section id="kada-ne" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Kada NE treba igrati?</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Preskoči ove situacije.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="space-y-4"><div class="glass-card rounded-xl p-5" style="border-left-width: 3px; border-left-color: hsl(var(--destructive));"><div class="space-y-3"><div class="flex items-start gap-3" style="opacity: 1; transform: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="m15 9-6 6"></path><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"></path><path d="m9 9 6 6"></path></svg><span class="text-sm text-muted-foreground">Žuriš i pod stresom si</span></div><div class="flex items-start gap-3" style="opacity: 1; transform: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="m15 9-6 6"></path><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"></path><path d="m9 9 6 6"></path></svg><span class="text-sm text-muted-foreground">Nisi siguran u tržište</span></div><div class="flex items-start gap-3" style="opacity: 1; transform: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="m15 9-6 6"></path><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"></path><path d="m9 9 6 6"></path></svg><span class="text-sm text-muted-foreground">Tržište nije isto na obe strane</span></div><div class="flex items-start gap-3" style="opacity: 1; transform: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="m15 9-6 6"></path><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"></path><path d="m9 9 6 6"></path></svg><span class="text-sm text-muted-foreground">Profit je manji od 2%</span></div><div class="flex items-start gap-3" style="opacity: 1; transform: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-x w-4 h-4 mt-0.5 shrink-0 text-destructive"><path d="m15 9-6 6"></path><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"></path><path d="m9 9 6 6"></path></svg><span class="text-sm text-muted-foreground">Kvote su nestabilne i stalno skaču gore-dole</span></div></div></div><div class="glass-card glow-border rounded-xl p-6 text-center" style="opacity: 1; transform: none;"><div class="flex items-center justify-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-5 h-5 text-primary"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg><p class="font-heading font-bold text-primary uppercase tracking-wider text-sm">zlatno pravilo</p></div><p class="text-muted-foreground text-sm leading-relaxed">Ako nisi siguran, preskoči. Uvek će doći nova prilika.</p></div></div></div></div></section><section id="nestalo-trziste" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Kako postupiti kada tržište nestane?</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Šta uraditi kada prilika nestane?</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="space-y-4"><div class="glass-card rounded-xl p-5 text-center" style="opacity: 1; transform: none;"><p class="font-heading font-semibold text-foreground">Da li si već odigrao jednu stranu?</p></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="glass-card rounded-xl p-5 border-t-[3px] border-t-primary bg-primary/5" style="opacity: 1; transform: none;"><h4 class="font-heading font-semibold text-foreground mb-2">Još nisi odigrao</h4><p class="text-sm text-muted-foreground leading-relaxed">Jednostavno pređi na sledeću opkladu. Nema gubitka.</p></div><div class="glass-card rounded-xl p-5 border-t-[3px] border-t-[hsl(var(--warning))]" style="opacity: 1; transform: none;"><h4 class="font-heading font-semibold text-foreground mb-2">Već si odigrao</h4><p class="text-sm text-muted-foreground leading-relaxed">Pokušaj da obrišeš opkladu ako je moguće. Ako ne, tretiraj je kao value bet – kvota i dalje može biti dobra.</p></div></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--note));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--note) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sticky-note w-4 h-4" style="color: hsl(var(--note));"><path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z"></path><path d="M15 3v4a2 2 0 0 0 2 2h4"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--note));">Napomena</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90">Nekada se ne promeni samo kvota, već cela prilika nestane iz kladionice. To je deo procesa – zato je važno ostati brz i fleksibilan.</div></div></div></div></div></div></section><section id="pogresan-odds" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Šta ako si odigrao pogrešnu kvotu?</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Vodič za brzu korekciju.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="space-y-0"><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">1</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><span class="inline-block text-[10px] uppercase tracking-wider text-primary font-medium bg-primary/10 px-2 py-0.5 rounded-full mb-2">1. korak</span><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Upiši stvarnu kvotu</h4><p class="text-xs text-muted-foreground leading-relaxed">U kalkulator unesi stvarnu kvotu i ulog koji si odigrao.</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><span class="text-xs font-heading font-bold">2</span></div><div class="w-px flex-1 bg-gradient-to-b from-primary/30 to-border/30 min-h-[24px]"></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><span class="inline-block text-[10px] uppercase tracking-wider text-primary font-medium bg-primary/10 px-2 py-0.5 rounded-full mb-2">2. korak</span><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Proveri profit</h4><p class="text-xs text-muted-foreground leading-relaxed">Pogledaj da li sa novim kvotama i dalje postoji pozitivan rezultat.</p></div></div></div></div><div style="opacity: 1; transform: none;"><div class="flex gap-4"><div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center shrink-0 text-primary border border-primary/30"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div class="pb-6 flex-1"><div class="glass-card rounded-xl p-4"><span class="inline-block text-[10px] uppercase tracking-wider text-primary font-medium bg-primary/10 px-2 py-0.5 rounded-full mb-2">3. korak</span><h4 class="font-heading font-semibold text-foreground text-sm mb-1">Prilagodi drugu stranu</h4><p class="text-xs text-muted-foreground leading-relaxed">Ako postoji profit, prilagodi drugi ulog prema novom proračunu.</p></div></div></div></div></div><div class="glass-card p-5 rounded-xl" style="border-left-width: 3px; border-left-color: hsl(var(--warning));"><div class="flex items-start gap-3"><div class="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background-color: hsl(var(--warning) / 0.12);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-4 h-4" style="color: hsl(var(--warning));"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div><div class="min-w-0"><p class="text-sm font-semibold mb-1" style="color: hsl(var(--warning));">Pažnja</p><div class="text-sm text-muted-foreground leading-relaxed [&amp;_strong]:text-foreground/90"><strong>Uspeo si da odigraš samo jednu stranu?</strong> Pokušaj da zatvoriš ili poništiš opkladu. Neke kladionice dopuštaju izlaz uz minimalan gubitak.</div></div></div></div></div></div></section><section id="mentalni-saveti" class="scroll-mt-8 mb-20"><div style="opacity: 1; transform: none;"><div class="mb-10"><h2 class="font-heading text-2xl sm:text-3xl font-bold tracking-tight mb-2.5 text-foreground">Mentalni saveti</h2><p class="text-muted-foreground text-base leading-relaxed max-w-2xl">Pravi mindset je ključ uspeha.</p><div class="section-divider mt-5"></div></div><div class="space-y-7"><div class="grid grid-cols-1 sm:grid-cols-3 gap-4"><div class="glass-card rounded-xl p-6 text-center group hover:glow-border transition-all duration-300" style="opacity: 1; transform: none;"><div class="text-3xl mb-3">❄️</div><h4 class="font-heading font-semibold text-foreground mb-2">Hladna glava</h4><p class="text-sm text-muted-foreground leading-relaxed">Ostani miran, ne žuri. Strpljenje i disciplina su tvoji najbolji prijatelji.</p></div><div class="glass-card rounded-xl p-6 text-center group hover:glow-border transition-all duration-300" style="opacity: 1; transform: none;"><div class="text-3xl mb-3">✅</div><h4 class="font-heading font-semibold text-foreground mb-2">Selekcija</h4><p class="text-sm text-muted-foreground leading-relaxed">Ne pokušavaj da odigraš svaki tip. Biraj pametno, preskoči nesigurne.</p></div><div class="glass-card rounded-xl p-6 text-center group hover:glow-border transition-all duration-300" style="opacity: 1; transform: none;"><div class="text-3xl mb-3">⏱️</div><h4 class="font-heading font-semibold text-foreground mb-2">Kvalitet</h4><p class="text-sm text-muted-foreground leading-relaxed">Bolje manje tipova, ali precizno odigranih. Preciznost donosi profit.</p></div></div><div class="glass-card glow-border p-5 rounded-xl"><div class="text-sm leading-relaxed text-foreground/90"><strong>Završna misao:</strong> Radimo sa istim informacijama – ako funkcioniše meni i drugima, funkcionisaće i tebi. Ako zapneš, slobodno pitaj i nemoj odustati.</div></div></div></div></section><div class="mt-16 mb-8" style="opacity: 1; transform: none;"><div class="glass-card glow-border rounded-2xl p-8 text-center"><div class="space-y-3 mb-6"><p class="font-heading text-lg font-semibold text-foreground">Spreman si da profitiraš? Hajde da počnemo.</p></div><a href="https://premium-guide-shell.lovable.app/sr#register" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-7 py-3 rounded-xl text-sm font-semibold transition-all duration-300
+          bg-primary text-primary-foreground
+          hover:shadow-[0_0_30px_-6px_hsl(var(--glow-primary)/0.4)] hover:scale-[1.02]">Registracija na kladionice<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a></div></div></main></div></div></div>
+  
+<div class="tp-extension"></div><script>
+(function () {
+  const bar = document.querySelector('.progress-bar-fill');
+  if (!bar) return;
+
+  const updateProgress = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollHeight > 0 ? Math.min(scrollTop / scrollHeight, 1) : 0;
+    bar.style.transform = `scaleX(${progress})`;
+  };
+
+  updateProgress();
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+})();
+</script>
+</body></html>
